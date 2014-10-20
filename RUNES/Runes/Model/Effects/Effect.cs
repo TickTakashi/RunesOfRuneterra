@@ -40,7 +40,7 @@ namespace RUNES.Runes.Model.Effects {
     public override string ToString() {
       string extend = "";
       if (next != null) {
-        extend = " and then " + next.ToString(); 
+        extend = ", then " + next.ToString(); 
       }
       return extend;
     }

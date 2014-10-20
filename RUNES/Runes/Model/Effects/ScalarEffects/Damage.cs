@@ -8,7 +8,7 @@
     }
 
     public override string ToString() {
-      return "deals " + value + " damage to " + target + base.ToString();
+      return TargetName() + " takes " + ivalue + " damage" + base.ToString();
     }
   }
 

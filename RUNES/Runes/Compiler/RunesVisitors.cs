@@ -210,7 +210,7 @@ namespace RUNES.Runes.Compiler {
     public override IValue VisitValue(RunesParser.ValueContext context) {
       // TODO(ticktakashi): Once other types of values have been added, add them here.
       int value = Int32.Parse(context.NUMBER().GetText());
-      return new IntValue(value);
+      return new LiteralIntValue(value);
     }
   }
 }

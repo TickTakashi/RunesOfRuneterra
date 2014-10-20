@@ -8,9 +8,9 @@ namespace RUNES.Runes.Model.Effects {
     int GetValue(); 
   }
 
-  public class IntValue : IValue {
+  public class LiteralIntValue : IValue {
     int value = 0;
-    public IntValue(int value) {
+    public LiteralIntValue(int value) {
       this.value = value;
     }
 
@@ -18,15 +18,8 @@ namespace RUNES.Runes.Model.Effects {
       return value;
     }
 
-    public override bool Equals(object obj) {
-      if (obj == null)
-        return false;
-
-      IntValue iv = obj as IntValue;
-      if ((Object)iv == null)
-        return false;
-
-      return iv.value == value;
+    public override string ToString() {
+      return "" + value; 
     }
   }
 

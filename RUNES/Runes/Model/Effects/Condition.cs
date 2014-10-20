@@ -91,8 +91,7 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return "Activates this effect: '" + callback + "' when " +
-        "this condition is met: " + listening_for;
+      return "the next time " + listening_for + ", " + callback;
     }
   }
 
@@ -114,7 +113,7 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return "The next three times this condition is met " + listening_for + ", do this " + callback;
+      return "the next " + count + " times " + listening_for + ", " + callback;
     }
   }
 

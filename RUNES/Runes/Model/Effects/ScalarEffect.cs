@@ -20,5 +20,9 @@ namespace RUNES.Runes.Model.Effects {
     public int value {
       get { return _ivalue.GetValue(); }
     }
+
+    public string TargetName() {
+      return target == user ? "the user" : "your opponent";
+    }
   }
 }

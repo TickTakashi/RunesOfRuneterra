@@ -8,7 +8,7 @@
     }
 
     public override string ToString() {
-      return  target + " heals " + value + " health" + base.ToString();
+      return TargetName() + " heals " + ivalue + " health" + base.ToString();
     }
   }
 }

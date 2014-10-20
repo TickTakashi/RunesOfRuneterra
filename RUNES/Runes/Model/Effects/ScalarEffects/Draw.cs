@@ -7,5 +7,9 @@
         target.Draw();
       return base.Activate();
     }
+
+    public override string ToString() {
+      return TargetName() + " draws " + ivalue + " cards" + base.ToString();
+    }
   }
 }
