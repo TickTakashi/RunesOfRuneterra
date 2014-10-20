@@ -1,0 +1,52 @@
+﻿using Antlr4.Runtime;
+using RUNES.Runes.Compiler;
+using RUNES.Runes.Model;
+using RUNES.Runes.Model.Effects;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+
+namespace RUNES.Runes {
+  class RunesLanguageBuilder {
+    public static void Main() {
+      string input = "" +
+        "ACTIVATE AUTOMATICALLY WHEN USER HEALS 5 ORMORE" + '\n' +
+        "WHEN ENEMY SHIELDS < 3 {" + '\n' +
+        "  3 {" + '\n' +
+        "    WHEN USER PLAYS MELEE {" + '\n' +
+        "      USER PIERCES 3" + '\n' +
+        "    }" + '\n' +
+        "  }" +'\n' +
+        "}";
+
+      input = "WHEN (USER SHIELDS > 1 OR USER TAKES > 1) AND USER SHIELDS > 3 {\n" +
+              "  3 {\n" +
+              "    USER HEALS 3\n" + 
+              "    ENEMY TAKES 3\n" +
+              "  }\n" +
+              "}";
+
+      Console.WriteLine("Compiling this:");
+      Console.WriteLine(input);
+      Console.WriteLine();
+      Effect compiled = Compile(input);
+      Console.WriteLine("Compiled object: " + compiled);
+
+      Console.WriteLine();
+      Console.WriteLine("Testing ScheduleEffect");
+      compiled.Activate();
+    }
+
+    public static Effect Compile(string input) {
+      AntlrInputStream input_stream = new AntlrInputStream(input);
+      RunesLexer lexer = new RunesLexer(input_stream);
+      CommonTokenStream tokens = new CommonTokenStream(lexer);
+      RunesParser parser = new RunesParser(tokens);
+      EffectVisitor visitor = new EffectVisitor(new Player(), new Player(), new Card());
+      RunesParser.EffectContext effect = parser.effect();
+      return effect.Accept<Effect>(visitor);
+    }
+  }
+}
