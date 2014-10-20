@@ -4,41 +4,47 @@ options {
 	tokenVocab=RunesLexer;
 }
 
-effect		: (preCond)? stat;
+effect		  : (preCond)? stat;
 
-preCond		: ACTIVATE option WHEN condition;
+preCond		  : ACTIVATE option WHEN condition;
 
-option		: OPTION | AUTO ;
+option		  : OPTION | AUTO ;
 
 // TODO(ticktakashi): Rethink the grammar to allow for repeating the #
 // same actions at one time (e.g. Magic Missle)
 // and also allow for checking a condition multiple times
 // (e.g. the next 3 times your opponent does blah)
-stat		: value LBRACE stat RBRACE				# statRepeat
-			| WHEN condition LBRACE stat RBRACE		# statWhen
-			| player scalarEffect value				# statScalar
-			| player cardEffect value card			# statCard
-			| stat stat								# statList
-			;
+stat		    : when                              # statWhen
+            | action                            # statAction
+			      | action value TIMES				        # actionRepeat
+			      | stat stat								          # statList
+			      ;
 
-			// In the future, add a (WITH card)? extension to these scalar
-condition	: player scalarEffect ineq value		# condScalar
-			| player cardEffect card ineq value		# condCard
-			| condition binopBool condition			# condExpr
-			| NOT condition							# condNot
-			| LPAREN condition RPAREN				# condParen
-			;
+when        : WHEN condition LBRACE stat RBRACE (value CHARGES)? ;
 
-player		: USER | ENEMY ;
+action      : player scalarEffect value         # actionScalar
+            | player cardEffect value card      # actionCard
+            ;
+
+// In the future, add a (WITH card)? extension to these scalar to check
+// if, for example, they did 2 damage with a MELEE attack
+condition	  : player scalarEffect ineq value		# condScalar
+			      | player cardEffect card ineq value	# condCard
+			      | condition binopBool condition			# condExpr
+			      | NOT condition							        # condNot
+			      | LPAREN condition RPAREN				    # condParen
+			      ;
+
+player		  : USER | ENEMY ;
 
 scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
 
 cardEffect	: DISCARDS | FINDS;
 
-card		: ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE | NUMBER | THIS  ;
+card		    : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE | NUMBER | THIS  ;
 
-value		: NUMBER ; // In future, this might be a value from the card like shield etc.
+value		    : NUMBER ; // In future, this might be a value from the card like shield etc.
 
-binopBool	: OR | AND ;
+binopBool	  : OR | AND ;
 
-ineq		: GT | LT | EQ ;
+ineq		    : GT | LT | EQ ;

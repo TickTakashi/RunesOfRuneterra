@@ -19,14 +19,11 @@ namespace RUNES.Runes {
         "      USER PIERCES 3" + '\n' +
         "    }" + '\n' +
         "  }" +'\n' +
-        "}";
+        "}"; // No longer syntactically correct
 
-      input = "WHEN (USER SHIELDS > 1 OR USER TAKES > 1) AND USER SHIELDS > 3 {\n" +
-              "  3 {\n" +
-              "    USER HEALS 3\n" + 
-              "    ENEMY TAKES 3\n" +
-              "  }\n" +
-              "}";
+      input = "WHEN USER SHIELDS > 3 {\n" +
+              "  ENEMY TAKES 1 3 TIMES \n" +
+              "} 3 CHARGES";
 
       Console.WriteLine("Compiling this:");
       Console.WriteLine(input);

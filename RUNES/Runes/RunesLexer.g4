@@ -4,6 +4,8 @@ WS : [' \n\t'] -> channel(HIDDEN);
 
 // Conditionals
 WHEN		: 'WHEN';
+CHARGES : 'CHARGES';
+TIMES   : 'TIMES';
 
 // Targets
 USER		: 'USER';

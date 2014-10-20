@@ -20,7 +20,7 @@ namespace RUNES.Runes.Compiler {
     ScalarEffectVisitor scalar_effect_visitor;
     ConditionVisitor condition_visitor;
     PlayerVisitor player_visitor;
-    IntValueVisitor value_visitor;
+    IValueVisitor value_visitor;
     Player user;
     Card source;
 
@@ -28,7 +28,7 @@ namespace RUNES.Runes.Compiler {
       this.source = source;
       this.player_visitor = new PlayerVisitor(user, opponent);
       this.user = user;
-      this.value_visitor = new IntValueVisitor();
+      this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
       this.condition_visitor = new ConditionVisitor(value_visitor);
     }
@@ -44,17 +44,8 @@ namespace RUNES.Runes.Compiler {
       return e;
     }
 
-    public override Effect VisitStatRepeat(RunesParser.StatRepeatContext context) {
-      IntValue times_to_repeat = context.value().Accept<IntValue>(value_visitor);
-      Effect effect = context.stat().Accept<Effect>(this);
-      RepeatEffect repeated = new RepeatEffect(times_to_repeat, effect);
-      repeated.user = user;
-      repeated.source = source;
-      return repeated;
-    }
-
-    public override Effect VisitStatScalar(RunesParser.StatScalarContext context) {
-      IntValue value = context.value().Accept<IntValue>(new IntValueVisitor());
+    public override Effect VisitActionScalar(RunesParser.ActionScalarContext context) {
+      IValue value = context.value().Accept<IValue>(value_visitor);
       Player target = context.player().Accept<Player>(player_visitor);
       ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(scalar_effect_visitor);
       scalar.target = target;
@@ -71,29 +62,44 @@ namespace RUNES.Runes.Compiler {
       return first;
     }
     
-    public override Effect VisitStatWhen(RunesParser.StatWhenContext context) {
+    public override Effect VisitWhen(RunesParser.WhenContext context) {
       Effect triggered_effect = context.stat().Accept<Effect>(this);
       EventMatcher trigger_condition = context.condition().Accept<EventMatcher>(condition_visitor);
-      Effect scheduled_effect = new ScheduleEffect(trigger_condition, triggered_effect);
+      Effect scheduled_effect;
+      
+      if (context.CHARGES() != null) {
+        IValue value = context.value().Accept<IValue>(value_visitor);
+        Console.WriteLine("Value is: " + value);
+        scheduled_effect = new ScheduleEffect(new RepeatGameEventListener(value,trigger_condition, triggered_effect));
+      } else {
+        scheduled_effect = new ScheduleEffect(new GameEventListener(trigger_condition, triggered_effect));
+      }
       scheduled_effect.user = user;
       scheduled_effect.source = source;
       return scheduled_effect;
     }
 
-    // TODD(ticktakashi): statCard (requires condCard)
+    public override Effect VisitActionRepeat(RunesParser.ActionRepeatContext context) {
+      Effect action = context.action().Accept<Effect>(this);
+      IValue value = context.action().Accept<IValue>(value_visitor);
+      RepeatEffect repeat = new RepeatEffect(value, action);
+      return repeat;
+    }
+
+    // TODD(ticktakashi): actionCard (requires condCard)
   }
 
   class ConditionVisitor : RunesParserBaseVisitor<EventMatcher> {
-    public IntValueVisitor value_visitor;
+    public IValueVisitor value_visitor;
 
-    public ConditionVisitor(IntValueVisitor value_visitor) {
+    public ConditionVisitor(IValueVisitor value_visitor) {
       this.value_visitor = value_visitor;
     }
 
     // TODO(ticktakashi): condCard (for statCard)
 
     public override EventMatcher VisitCondScalar(RunesParser.CondScalarContext context) {
-      IntValue value = context.value().Accept<IntValue>(value_visitor);
+      IValue value = context.value().Accept<IValue>(value_visitor);
       int op = context.ineq().start.Type;
       EventMatcher condition = null;
 
@@ -220,8 +226,8 @@ namespace RUNES.Runes.Compiler {
     }
   }
 
-  class IntValueVisitor : RunesParserBaseVisitor<IntValue> {
-    public override IntValue VisitValue(RunesParser.ValueContext context) {
+  class IValueVisitor : RunesParserBaseVisitor<IValue> {
+    public override IValue VisitValue(RunesParser.ValueContext context) {
       // TODO(ticktakashi): Once other types of values have been added, add them here.
       int value = Int32.Parse(context.NUMBER().GetText());
       return new IntValue(value);

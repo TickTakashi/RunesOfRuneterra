@@ -6,10 +6,10 @@ using RUNES.Runes.Model.Effects;
  * the effect_to_schedule in the correct list. 
   */
 public class ScheduleEffect : Effect {
-  GameEventListener listener;
+  protected GameEventListener listener;
 
-  public ScheduleEffect(EventMatcher cond, Effect effect) {
-    this.listener = new GameEventListener(cond, effect);
+  public ScheduleEffect(GameEventListener listener) {
+    this.listener = listener;
   }
 
   public override bool Activate() {
@@ -28,10 +28,20 @@ public class ScheduleEffect : Effect {
     GameEvent still_incorrect = new GameEvent();
     still_incorrect.event_type = RUNES.Runes.RunesParser.SHIELDS;
     still_incorrect.scalar_value = 2;
+    Console.WriteLine("Checking Trigger result: " + listener.ListeningFor(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
 
+    Console.WriteLine("Triggering the listener 3 times with event type SHIELDS and scalar value 5");
+    GameEvent correct = new GameEvent();
+    correct.event_type = RUNES.Runes.RunesParser.SHIELDS;
+    correct.scalar_value = 5;
+    Console.WriteLine("Checking Trigger result: " + listener.ListeningFor(correct));
+    Console.WriteLine(listener.Trigger(correct));
+    Console.WriteLine(listener.Trigger(correct));
+    Console.WriteLine(listener.Trigger(correct));
+    
     return base.Activate();
   }
 

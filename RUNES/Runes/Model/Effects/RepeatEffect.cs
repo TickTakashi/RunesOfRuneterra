@@ -5,23 +5,24 @@ using System.Text;
 
 namespace RUNES.Runes.Model.Effects {
   class RepeatEffect : Effect {
-    int count;
+    IValue count;
     Effect repeated_effect;
 
     public RepeatEffect(IValue count, Effect to_repeat) {
       repeated_effect = to_repeat;
-      this.count = count.GetValue();
+      this.count = count;
     }
 
-    // TODO(ticktakashi): Fix. This doesn't make sense in most cases.
     public override bool Activate() {
-      base.Activate();
-      return --count <= 0;
+      for (int i = 0; count.GetValue() - i > 0; i++)
+        repeated_effect.Activate();
+
+      return true;
     }
 
     // TODO(ticktakashi): Remove Debug ToString method.
     public override string ToString() {
-      return repeated_effect.ToString() + ". This effect activates " + count + " times.";
+      return repeated_effect.ToString() + ". This effect activates " + count.GetValue() + " times in a row.";
     }
   }
 }
