@@ -69,7 +69,6 @@ namespace RUNES.Runes.Compiler {
       
       if (context.CHARGES() != null) {
         IValue value = context.value().Accept<IValue>(value_visitor);
-        Console.WriteLine("Value is: " + value);
         scheduled_effect = new ScheduleEffect(new RepeatGameEventListener(value,trigger_condition, triggered_effect));
       } else {
         scheduled_effect = new ScheduleEffect(new GameEventListener(trigger_condition, triggered_effect));
@@ -81,7 +80,7 @@ namespace RUNES.Runes.Compiler {
 
     public override Effect VisitActionRepeat(RunesParser.ActionRepeatContext context) {
       Effect action = context.action().Accept<Effect>(this);
-      IValue value = context.action().Accept<IValue>(value_visitor);
+      IValue value = context.value().Accept<IValue>(value_visitor);
       RepeatEffect repeat = new RepeatEffect(value, action);
       return repeat;
     }

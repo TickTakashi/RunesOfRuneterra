@@ -47,6 +47,6 @@ public class ScheduleEffect : Effect {
 
   // TODO(ticktakashi): Remove Debug ToString Method.
   public override string ToString() {
-    return "ScheduleEffect, contains this: " + listener;
+    return listener.ToString();
   }
 }

@@ -11,19 +11,9 @@ using System.Text;
 namespace RUNES.Runes {
   class RunesLanguageBuilder {
     public static void Main() {
-      string input = "" +
-        "ACTIVATE AUTOMATICALLY WHEN USER HEALS 5 ORMORE" + '\n' +
-        "WHEN ENEMY SHIELDS < 3 {" + '\n' +
-        "  3 {" + '\n' +
-        "    WHEN USER PLAYS MELEE {" + '\n' +
-        "      USER PIERCES 3" + '\n' +
-        "    }" + '\n' +
-        "  }" +'\n' +
-        "}"; // No longer syntactically correct
-
-      input = "WHEN USER SHIELDS > 3 {\n" +
-              "  ENEMY TAKES 1 3 TIMES \n" +
-              "} 3 CHARGES";
+      string input =  "WHEN USER SHIELDS > 1 {\n" +
+                      "  ENEMY TAKES 1 3 TIMES \n" +
+                      "} 3 CHARGES";
 
       Console.WriteLine("Compiling this:");
       Console.WriteLine(input);
