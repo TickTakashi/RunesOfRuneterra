@@ -22,7 +22,11 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public string TargetName() {
-      return target == user ? "the user" : "your opponent";
+      return TargetName(user, target); 
+    }
+
+    public static string TargetName(Player user, Player target) {
+      return target == user ? "the activator of this card" : "your opponent";
     }
   }
 }

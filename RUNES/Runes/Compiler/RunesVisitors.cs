@@ -30,7 +30,7 @@ namespace RUNES.Runes.Compiler {
       this.user = user;
       this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
-      this.condition_visitor = new ConditionVisitor(value_visitor);
+      this.condition_visitor = new ConditionVisitor(value_visitor, player_visitor);
     }
 
     public override Effect VisitEffect(RunesParser.EffectContext context) {
@@ -90,17 +90,20 @@ namespace RUNES.Runes.Compiler {
 
   class ConditionVisitor : RunesParserBaseVisitor<EventMatcher> {
     public IValueVisitor value_visitor;
+    public PlayerVisitor player_visitor; 
 
-    public ConditionVisitor(IValueVisitor value_visitor) {
+    public ConditionVisitor(IValueVisitor value_visitor, PlayerVisitor player_visitor) {
       this.value_visitor = value_visitor;
+      this.player_visitor = player_visitor;
     }
 
     // TODO(ticktakashi): condCard (for statCard)
 
     public override EventMatcher VisitCondScalar(RunesParser.CondScalarContext context) {
+      Player target = context.player().Accept<Player>(player_visitor);
       IValue value = context.value().Accept<IValue>(value_visitor);
       int op = context.ineq().start.Type;
-      EventMatcher condition = null;
+      UnaryMatcher<IValue> condition = null;
 
       switch (op) {
         case RunesParser.GT:
@@ -117,8 +120,8 @@ namespace RUNES.Runes.Compiler {
           break;
       }
       
-      EventMatcher checkType = new EventTypeMatcher(context.scalarEffect().start.Type);
-      EventMatcher combined = new AndMatcher(checkType, condition);
+      EventTypeMatcher checkType = new EventTypeMatcher(context.scalarEffect().start.Type);
+      EventMatcher combined = new ScalarMatcher(player_visitor.GetUser(), target, checkType, condition);
 
       return combined;
     }
@@ -202,6 +205,10 @@ namespace RUNES.Runes.Compiler {
         return opponent;
       else
         return user;
+    }
+
+    public Player GetUser() {
+      return user;
     }
   }
 

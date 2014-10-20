@@ -43,12 +43,20 @@ namespace RUNES.Runes.Model.Effects {
     public override bool Match(GameEvent e) {
       return !l.Match(e);
     }
+
+    public override string ToString() {
+      return "not " + l;
+    }
   }
 
   public class GTMatcher : UnaryMatcher<IValue> {
     public GTMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
       return l.GetValue() < e.scalar_value;
+    }
+
+    public override string ToString() {
+      return "more than " + l;
     }
   }
 
@@ -57,12 +65,20 @@ namespace RUNES.Runes.Model.Effects {
     public override bool Match(GameEvent e) {
       return l.GetValue() > e.scalar_value;
     }
+
+    public override string ToString() {
+      return "less than " + l;
+    }
   }
 
   public class EQMatcher : UnaryMatcher<IValue> {
     public EQMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
       return l.GetValue() == e.scalar_value;
+    }
+
+    public override string ToString() {
+      return "exactly " + l;
     }
   }
 
@@ -71,6 +87,41 @@ namespace RUNES.Runes.Model.Effects {
     public override bool Match(GameEvent e) {
       return e.event_type == l;
     }
+
+    public string TypeName() {
+      String action = RunesParser.tokenNames[l].ToLower();
+      return action.Substring(1, action.Length - 2);
+    }
+
+    // TODO(ticktakashi): Make this more sophisticated.
+    public string Suffix() {
+      return "damage";
+    }
+  }
+
+  // TODO(ticktakashi): Reconsider this usage of user, passing it around like this doesn't seem smart.
+  public class ScalarMatcher : EventMatcher {
+    private Player user;
+    private Player target;
+    private EventTypeMatcher typecheck;
+    private UnaryMatcher<IValue> condition;
+    public ScalarMatcher(Player user, Player target, EventTypeMatcher typecheck, UnaryMatcher<IValue> condition) {
+      this.user = user;
+      this.target = target;
+      this.typecheck = typecheck;
+      this.condition = condition;
+    }
+
+    public override bool Match(GameEvent e) {
+      return typecheck.Match(e) && condition.Match(e);
+    }
+
+    public override string ToString() {
+      return ScalarEffect.TargetName(user, target) + " " + typecheck.TypeName() + " " + condition +
+        " " + typecheck.Suffix();
+    }
+
+
   }
 
   public class GameEventListener {

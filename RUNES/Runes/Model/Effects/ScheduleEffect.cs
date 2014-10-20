@@ -45,7 +45,6 @@ public class ScheduleEffect : Effect {
     return base.Activate();
   }
 
-  // TODO(ticktakashi): Remove Debug ToString Method.
   public override string ToString() {
     return listener.ToString();
   }

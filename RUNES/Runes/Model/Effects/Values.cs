@@ -23,10 +23,8 @@ namespace RUNES.Runes.Model.Effects {
     }
   }
 
-  // TODO(ticktakashi): Implement a CardValue type that
-  // can extract values from the stats of a set card. E.g.
-  // another cards damage. Also implement modifiers for this
-  // such as "double" or "triple"
+  // TODO(ticktakashi): Implement a CardValue type that can extract values from the stats of a set card
+  // E.g. another cards damage. Also implement modifiers for this such as "double" or "triple"
   public class CardValue : IValue {
     public int GetValue() {
       throw new NotImplementedException();

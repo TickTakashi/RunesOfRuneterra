@@ -20,7 +20,6 @@ namespace RUNES.Runes.Model.Effects {
       return true;
     }
 
-    // TODO(ticktakashi): Remove Debug ToString method.
     public override string ToString() {
       return repeated_effect.ToString() + " " + count.GetValue() + " times in a row.";
     }
