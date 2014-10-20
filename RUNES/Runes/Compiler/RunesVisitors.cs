@@ -105,30 +105,21 @@ namespace RUNES.Runes.Compiler {
 
       switch (op) {
         case RunesParser.GT:
-          condition = delegate(GameEvent e) {
-            return e.scalar_value > value.GetValue();
-          };
+          condition = new GTMatcher(value);
           break;
         case RunesParser.LT:
-          condition = delegate(GameEvent e) {
-            return e.scalar_value < value.GetValue();
-          };
+          condition = new LTMatcher(value);
           break;
         case RunesParser.EQ:
-          condition = delegate(GameEvent e) {
-            return e.scalar_value == value.GetValue();
-          };
+          condition = new EQMatcher(value);
           break;
         default:
           Console.WriteLine("You have no yet implemented this binop: " + context.ineq().GetText());
           break;
       }
       
-      EventMatcher checkType = CheckType(context.scalarEffect().start.Type);
-      
-      EventMatcher combined = delegate(GameEvent e) {
-        return checkType(e) && condition(e);
-      };
+      EventMatcher checkType = new EventTypeMatcher(context.scalarEffect().start.Type);
+      EventMatcher combined = new AndMatcher(checkType, condition);
 
       return combined;
     }
@@ -141,38 +132,27 @@ namespace RUNES.Runes.Compiler {
 
       switch (op) {
         case RunesParser.OR:
-          condition = delegate(GameEvent e) {
-            return left(e) || right(e);
-          };
+          condition = new OrMatcher(left, right);
           break;
         case RunesParser.AND:
-          condition = delegate(GameEvent e) {
-            return left(e) && right(e);
-          };
+          condition = new AndMatcher(left, right);
           break;
         default:
           Console.WriteLine("You have no yet implemented this binop: " + context.binopBool().GetText());
           break;
       }
-
+      
       return condition;
     }
 
     public override EventMatcher VisitCondNot(RunesParser.CondNotContext context) {
       EventMatcher cond = context.condition().Accept<EventMatcher>(this);
-      return delegate(GameEvent e) { return !cond(e); };
+      return new NotMatcher(cond);
     }
 
     public override EventMatcher VisitCondParen(RunesParser.CondParenContext context) {
       EventMatcher cond = context.condition().Accept<EventMatcher>(this);
       return cond;
-    }
-
-    // Creates a function which matches the event type.
-    public EventMatcher CheckType(int token_index) {
-      return delegate(GameEvent e) {
-        return e.event_type == token_index;
-      };
     }
   }
 

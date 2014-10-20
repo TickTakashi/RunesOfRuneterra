@@ -28,7 +28,7 @@ public class ScheduleEffect : Effect {
     GameEvent still_incorrect = new GameEvent();
     still_incorrect.event_type = RUNES.Runes.RunesParser.SHIELDS;
     still_incorrect.scalar_value = 2;
-    Console.WriteLine("Checking Trigger result: " + listener.ListeningFor(still_incorrect));
+    Console.WriteLine("Checking Trigger result: " + listener.listening_for.Match(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
@@ -37,7 +37,7 @@ public class ScheduleEffect : Effect {
     GameEvent correct = new GameEvent();
     correct.event_type = RUNES.Runes.RunesParser.SHIELDS;
     correct.scalar_value = 5;
-    Console.WriteLine("Checking Trigger result: " + listener.ListeningFor(correct));
+    Console.WriteLine("Checking Trigger result: " + listener.listening_for.Match(correct));
     Console.WriteLine(listener.Trigger(correct));
     Console.WriteLine(listener.Trigger(correct));
     Console.WriteLine(listener.Trigger(correct));
