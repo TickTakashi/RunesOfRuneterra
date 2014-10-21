@@ -21,7 +21,7 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return repeated_effect.ToString() + " " + count.GetValue() + " times in a row.";
+      return repeated_effect.ToString() + count.GetValue() + " times in a row" + base.ToString();
     }
   }
 }

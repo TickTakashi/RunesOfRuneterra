@@ -30,7 +30,7 @@ namespace RUNES.Runes.Compiler {
       this.user = user;
       this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
-      this.condition_visitor = new ConditionVisitor(value_visitor, player_visitor);
+      this.condition_visitor = new ConditionVisitor(value_visitor, player_visitor, scalar_effect_visitor);
     }
 
     public override Effect VisitEffect(RunesParser.EffectContext context) {
@@ -90,11 +90,13 @@ namespace RUNES.Runes.Compiler {
 
   class ConditionVisitor : RunesParserBaseVisitor<EventMatcher> {
     public IValueVisitor value_visitor;
-    public PlayerVisitor player_visitor; 
+    public PlayerVisitor player_visitor;
+    public ScalarEffectVisitor scalar_effect_visitor;
 
-    public ConditionVisitor(IValueVisitor value_visitor, PlayerVisitor player_visitor) {
+    public ConditionVisitor(IValueVisitor value_visitor, PlayerVisitor player_visitor, ScalarEffectVisitor scalar_effect_visitor) {
       this.value_visitor = value_visitor;
       this.player_visitor = player_visitor;
+      this.scalar_effect_visitor = scalar_effect_visitor;
     }
 
     // TODO(ticktakashi): condCard (for statCard)
@@ -102,6 +104,12 @@ namespace RUNES.Runes.Compiler {
     public override EventMatcher VisitCondScalar(RunesParser.CondScalarContext context) {
       Player target = context.player().Accept<Player>(player_visitor);
       IValue value = context.value().Accept<IValue>(value_visitor);
+      ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(scalar_effect_visitor);
+      effect.ivalue = value;
+      effect.target = target;
+      effect.user = player_visitor.GetUser();
+      effect.target = target;
+
       int op = context.ineq().start.Type;
       UnaryMatcher<IValue> condition = null;
 
@@ -119,9 +127,8 @@ namespace RUNES.Runes.Compiler {
           Console.WriteLine("You have no yet implemented this binop: " + context.ineq().GetText());
           break;
       }
-      
-      EventTypeMatcher checkType = new EventTypeMatcher(context.scalarEffect().start.Type);
-      EventMatcher combined = new ScalarMatcher(player_visitor.GetUser(), target, checkType, condition);
+     
+      EventMatcher combined = new ScalarMatcher(effect, condition);
 
       return combined;
     }
@@ -176,10 +183,12 @@ namespace RUNES.Runes.Compiler {
         case RunesParser.SHIELDS:
           // TODO(ticktakashi): Implement Shields.
           // effect = new Shields();
+          goto case RunesParser.TAKES;
           break;
         case RunesParser.PIERCES:
           // TODO(ticktakashi): Implement Pierces.
           // effect = new Pierces();
+          goto case RunesParser.TAKES;
           break;
         default:
           Console.WriteLine("Could not match Scalar Effect. Index was: " + effectType + 
@@ -187,6 +196,7 @@ namespace RUNES.Runes.Compiler {
           goto case RunesParser.TAKES;
       }
 
+      effect.effect_id = effectType;
       return effect;
     }
   }

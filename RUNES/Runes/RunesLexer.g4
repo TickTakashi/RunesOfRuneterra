@@ -48,9 +48,9 @@ PLAYS		: 'PLAYS';
 // ...
 
 // Equality operators
-GT			: '>'  | 'MORETHAN';
-LT			: '<'  | 'LESSTHAN';
-EQ			: '==' | 'EXACTLY';
+GT			: '>=';
+LT			: '<=';
+EQ			: '==';
 
 // Boolean operators
 AND			: 'AND' | '&&';

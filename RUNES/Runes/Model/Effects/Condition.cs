@@ -52,22 +52,22 @@ namespace RUNES.Runes.Model.Effects {
   public class GTMatcher : UnaryMatcher<IValue> {
     public GTMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
-      return l.GetValue() < e.scalar_value;
+      return l.GetValue() <= e.scalar_value;
     }
 
     public override string ToString() {
-      return "more than " + l;
+      return "or more";
     }
   }
 
   public class LTMatcher : UnaryMatcher<IValue> {
     public LTMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
-      return l.GetValue() > e.scalar_value;
+      return l.GetValue() >= e.scalar_value;
     }
 
     public override string ToString() {
-      return "less than " + l;
+      return "or less";
     }
   }
 
@@ -78,50 +78,25 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return "exactly " + l;
+      return "exactly";
     }
   }
 
-  public class EventTypeMatcher : UnaryMatcher<int> {
-    public EventTypeMatcher(int i) : base(i) { }
-    public override bool Match(GameEvent e) {
-      return e.event_type == l;
-    }
-
-    public string TypeName() {
-      String action = RunesParser.tokenNames[l].ToLower();
-      return action.Substring(1, action.Length - 2);
-    }
-
-    // TODO(ticktakashi): Make this more sophisticated.
-    public string Suffix() {
-      return "damage";
-    }
-  }
-
-  // TODO(ticktakashi): Reconsider this usage of user, passing it around like this doesn't seem smart.
   public class ScalarMatcher : EventMatcher {
-    private Player user;
-    private Player target;
-    private EventTypeMatcher typecheck;
+    private ScalarEffect effect;
     private UnaryMatcher<IValue> condition;
-    public ScalarMatcher(Player user, Player target, EventTypeMatcher typecheck, UnaryMatcher<IValue> condition) {
-      this.user = user;
-      this.target = target;
-      this.typecheck = typecheck;
+    public ScalarMatcher(ScalarEffect effect, UnaryMatcher<IValue> condition) {
+      this.effect = effect;
       this.condition = condition;
     }
 
     public override bool Match(GameEvent e) {
-      return typecheck.Match(e) && condition.Match(e);
+      return effect.effect_id == e.event_type && condition.Match(e);
     }
 
     public override string ToString() {
-      return ScalarEffect.TargetName(user, target) + " " + typecheck.TypeName() + " " + condition +
-        " " + typecheck.Suffix();
+      return effect.ToString()  + condition.ToString() ;
     }
-
-
   }
 
   public class GameEventListener {
@@ -142,7 +117,7 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return "the next time " + listening_for + ", " + callback;
+      return "the next time " + listening_for + ": " + callback;
     }
   }
 
@@ -164,7 +139,7 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return "the next " + count + " times " + listening_for + ", " + callback;
+      return "the next " + count + " times " + listening_for + ": " + callback;
     }
   }
 

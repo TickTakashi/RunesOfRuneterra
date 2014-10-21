@@ -11,8 +11,9 @@ using System.Text;
 namespace RUNES.Runes {
   class RunesLanguageBuilder {
     public static void Main() {
-      string input =  "WHEN USER SHIELDS > 1 {\n" +
+      string input =  "WHEN ENEMY HEALS >= 1 {\n" +
                       "  ENEMY TAKES 1 3 TIMES \n" +
+                      "  USER HEALS 3\n" +
                       "} 3 CHARGES";
 
       Console.WriteLine("Compiling this:");

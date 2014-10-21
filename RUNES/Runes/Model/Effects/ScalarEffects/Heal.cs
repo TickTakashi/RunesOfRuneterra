@@ -7,8 +7,6 @@
       return base.Activate();
     }
 
-    public override string ToString() {
-      return TargetName() + " heals " + ivalue + " health" + base.ToString();
-    }
+    protected override string Noun() { return "health"; }
   }
 }

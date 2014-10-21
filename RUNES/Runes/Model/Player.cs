@@ -11,5 +11,9 @@ namespace RUNES.Runes.Model {
     public virtual void Draw() {}
 
     public virtual void Discard(int index) {}
+
+    public static string TargetName(Player user, Player target) {
+      return target == user ? "you" : "your opponent";
+    }
   }
 }

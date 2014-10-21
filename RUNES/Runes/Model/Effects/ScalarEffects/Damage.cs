@@ -7,9 +7,7 @@
       return base.Activate();
     }
 
-    public override string ToString() {
-      return TargetName() + " takes " + ivalue + " damage" + base.ToString();
-    }
+    protected override string Noun() { return "damage"; }
   }
 
 

@@ -8,8 +8,6 @@
       return base.Activate();
     }
 
-    public override string ToString() {
-      return TargetName() + " draws " + ivalue + " cards" + base.ToString();
-    }
+    protected override string Noun() { return value > 1 ? "cards" : "card" ; }
   }
 }
