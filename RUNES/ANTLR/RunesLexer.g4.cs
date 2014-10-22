@@ -1,4 +1,4 @@
-﻿namespace RUNES.Runes {
+﻿namespace CARDScript.Runes {
   partial class RunesLexer {
   }
 }

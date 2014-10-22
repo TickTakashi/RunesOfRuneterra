@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RUNES.Runes.CARDScriptCompiler {
+namespace CARDScript.Compiler {
   public interface IValue {
     int GetValue(); 
   }

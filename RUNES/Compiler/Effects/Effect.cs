@@ -1,11 +1,11 @@
-﻿using RUNES.Runes.CARDScriptCompiler;
+﻿using CARDScript.Compiler;
 using System.Collections;
 
-namespace RUNES.Runes.CARDScriptCompiler.Effects {
+namespace CARDScript.Compiler.Effects {
   public abstract class Effect {
-    private Card _source;
+    private ICard _source;
 
-    public Card source {
+    public ICard source {
       get { return _source; }
       set { _source = value; }
     }

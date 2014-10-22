@@ -1,5 +1,5 @@
-﻿using RUNES.Runes.CARDScriptCompiler.Effects;
-namespace RUNES.Runes.CARDScriptCompiler.Effects.ScalarEffects {
+﻿using CARDScript.Compiler.Effects;
+namespace CARDScript.Compiler.Effects.ScalarEffects {
   public class Damage : ScalarEffect {
 
     public override bool Activate() {

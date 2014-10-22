@@ -1,10 +1,10 @@
-﻿using RUNES.Runes.CARDScriptCompiler;
+﻿using CARDScript.Compiler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RUNES.Runes.CARDScriptCompiler.Effects {
+namespace CARDScript.Compiler.Effects {
   class RepeatEffect : Effect {
     IValue count;
     Effect repeated_effect;

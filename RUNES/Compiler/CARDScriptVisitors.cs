@@ -1,32 +1,32 @@
-﻿using RUNES.Runes.CARDScriptCompiler.Effects;
-using RUNES.Runes.CARDScriptCompiler.Effects.ScalarEffects;
-using RUNES.Runes.CARDScriptCompiler.Events;
-using RUNES.Runes.CARDScriptCompiler.EventMatchers;
-using RUNES.Runes.CARDScriptCompiler;
+﻿using CARDScript.Compiler.Effects;
+using CARDScript.Compiler.Effects.ScalarEffects;
+using CARDScript.Compiler.Events;
+using CARDScript.Compiler.EventMatchers;
+using CARDScript.Compiler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-/* A Collection of Visitors for parsing RUNES 
+/* A Collection of Visitors for parsing CARDScript 
  *
  * A Set of visitors that each handle a subset of all visitor methods necessary
  * to parse effect descriptions, to use these you should first create an effect
- * listener, and then call Accept on a EffectContext parsed via a RunesParser.
- * 
+ * listener, and then call Accept on a EffectContext parsed via a 
+ * CARDScriptParser.
  * TODO(ticktakashi): This class does not implement all of the grammar.
  */
-namespace RUNES.Runes.CARDScriptCompiler {
-  class EffectVisitor : RunesParserBaseVisitor<Effect> {
+namespace CARDScript.Compiler {
+  class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
 
     ScalarEffectVisitor scalar_effect_visitor;
     ConditionVisitor condition_visitor;
     PlayerVisitor player_visitor;
     IValueVisitor value_visitor;
     Player user;
-    Card source;
+    ICard source;
 
-    public EffectVisitor(Player user, Player opponent, Card source) {
+    public EffectVisitor(Player user, Player opponent, ICard source) {
       this.source = source;
       this.player_visitor = new PlayerVisitor(user, opponent);
       this.user = user;
@@ -37,7 +37,8 @@ namespace RUNES.Runes.CARDScriptCompiler {
                                                     scalar_effect_visitor);
     }
 
-    public override Effect VisitEffect(RunesParser.EffectContext context) {
+    public override Effect VisitEffect(
+        CARDScriptParser.EffectContext context) {
       if (context.preCond() != null) {
         // TODO(ticktakashi): Implement conditional activation.
         // context.preCond().Accept<Precondition>(precond_visitor);
@@ -49,7 +50,7 @@ namespace RUNES.Runes.CARDScriptCompiler {
     }
 
     public override Effect VisitActionScalar(
-        RunesParser.ActionScalarContext context) {
+        CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Player target = context.player().Accept<Player>(player_visitor);
       ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(
@@ -61,14 +62,15 @@ namespace RUNES.Runes.CARDScriptCompiler {
       return scalar;
     }
 
-    public override Effect VisitStatList(RunesParser.StatListContext context) {
+    public override Effect VisitStatList(
+        CARDScriptParser.StatListContext context) {
       Effect first = context.stat(0).Accept<Effect>(this);
       Effect second = context.stat(1).Accept<Effect>(this);
       first.next = second;
       return first;
     }
     
-    public override Effect VisitWhen(RunesParser.WhenContext context) {
+    public override Effect VisitWhen(CARDScriptParser.WhenContext context) {
       Effect triggered_effect = context.stat().Accept<Effect>(this);
       EventMatcher trigger_condition =
           context.condition().Accept<EventMatcher>(condition_visitor);
@@ -88,7 +90,7 @@ namespace RUNES.Runes.CARDScriptCompiler {
     }
 
     public override Effect VisitActionRepeat(
-        RunesParser.ActionRepeatContext context) {
+        CARDScriptParser.ActionRepeatContext context) {
       Effect action = context.action().Accept<Effect>(this);
       IValue value = context.value().Accept<IValue>(value_visitor);
       RepeatEffect repeat = new RepeatEffect(value, action);
@@ -98,7 +100,7 @@ namespace RUNES.Runes.CARDScriptCompiler {
     // TODD(ticktakashi): actionCard (requires condCard)
   }
 
-  class ConditionVisitor : RunesParserBaseVisitor<EventMatcher> {
+  class ConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {
     public IValueVisitor value_visitor;
     public PlayerVisitor player_visitor;
     public ScalarEffectVisitor scalar_effect_visitor;
@@ -114,7 +116,7 @@ namespace RUNES.Runes.CARDScriptCompiler {
     // TODO(ticktakashi): condCard (for statCard)
 
     public override EventMatcher VisitCondScalar(
-        RunesParser.CondScalarContext context) {
+        CARDScriptParser.CondScalarContext context) {
       Player target = context.player().Accept<Player>(player_visitor);
       IValue value = context.value().Accept<IValue>(value_visitor);
       ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(
@@ -128,13 +130,13 @@ namespace RUNES.Runes.CARDScriptCompiler {
       UnaryMatcher<IValue> condition = null;
 
       switch (op) {
-        case RunesParser.GT:
+        case CARDScriptParser.GT:
           condition = new GTMatcher(value);
           break;
-        case RunesParser.LT:
+        case CARDScriptParser.LT:
           condition = new LTMatcher(value);
           break;
-        case RunesParser.EQ:
+        case CARDScriptParser.EQ:
           condition = new EQMatcher(value);
           break;
         default:
@@ -149,17 +151,17 @@ namespace RUNES.Runes.CARDScriptCompiler {
     }
 
     public override EventMatcher VisitCondExpr(
-        RunesParser.CondExprContext context) {
+        CARDScriptParser.CondExprContext context) {
       int op = context.binopBool().start.Type;
       EventMatcher condition = null;
       EventMatcher left = context.condition(0).Accept<EventMatcher>(this);
       EventMatcher right = context.condition(0).Accept<EventMatcher>(this);
 
       switch (op) {
-        case RunesParser.OR:
+        case CARDScriptParser.OR:
           condition = new OrMatcher(left, right);
           break;
-        case RunesParser.AND:
+        case CARDScriptParser.AND:
           condition = new AndMatcher(left, right);
           break;
         default:
@@ -172,46 +174,46 @@ namespace RUNES.Runes.CARDScriptCompiler {
     }
 
     public override EventMatcher VisitCondNot(
-        RunesParser.CondNotContext context) {
+        CARDScriptParser.CondNotContext context) {
       EventMatcher cond = context.condition().Accept<EventMatcher>(this);
       return new NotMatcher(cond);
     }
 
     public override EventMatcher VisitCondParen(
-        RunesParser.CondParenContext context) {
+        CARDScriptParser.CondParenContext context) {
       EventMatcher cond = context.condition().Accept<EventMatcher>(this);
       return cond;
     }
   }
 
-  class ScalarEffectVisitor : RunesParserBaseVisitor<ScalarEffect> {
+  class ScalarEffectVisitor : CARDScriptParserBaseVisitor<ScalarEffect> {
     public override ScalarEffect VisitScalarEffect(
-        RunesParser.ScalarEffectContext context) {
+        CARDScriptParser.ScalarEffectContext context) {
       ScalarEffect effect = null;
 
       int effectType = context.start.Type;
       switch (effectType) {
-        case RunesParser.DRAWS:
+        case CARDScriptParser.DRAWS:
           effect = new Draw();
           break;
-        case RunesParser.HEALS:
+        case CARDScriptParser.HEALS:
           effect = new Heal();
           break;
-        case RunesParser.TAKES:
+        case CARDScriptParser.TAKES:
           effect = new Damage();
           break;
-        case RunesParser.SHIELDS:
+        case CARDScriptParser.SHIELDS:
           // TODO(ticktakashi): Implement Shields.
           // effect = new Shields();
-          goto case RunesParser.TAKES;
-        case RunesParser.PIERCES:
+          goto case CARDScriptParser.TAKES;
+        case CARDScriptParser.PIERCES:
           // TODO(ticktakashi): Implement Pierces.
           // effect = new Pierces();
-          goto case RunesParser.TAKES;
+          goto case CARDScriptParser.TAKES;
         default:
           Console.WriteLine("Could not match Scalar Effect. Index was: " +
                             effectType + "Defaulting to TAKES");
-          goto case RunesParser.TAKES;
+          goto case CARDScriptParser.TAKES;
       }
 
       effect.effect_id = effectType;
@@ -219,7 +221,7 @@ namespace RUNES.Runes.CARDScriptCompiler {
     }
   }
 
-  class PlayerVisitor : RunesParserBaseVisitor<Player> {
+  class PlayerVisitor : CARDScriptParserBaseVisitor<Player> {
     Player user;
     Player opponent;
 
@@ -228,7 +230,8 @@ namespace RUNES.Runes.CARDScriptCompiler {
       this.opponent = opponent;
     }
     
-    public override Player VisitPlayer(RunesParser.PlayerContext context) {
+    public override Player VisitPlayer(
+        CARDScriptParser.PlayerContext context) {
       if (context.ENEMY() != null)
         return opponent;
       else
@@ -240,8 +243,8 @@ namespace RUNES.Runes.CARDScriptCompiler {
     }
   }
 
-  class IValueVisitor : RunesParserBaseVisitor<IValue> {
-    public override IValue VisitValue(RunesParser.ValueContext context) {
+  class IValueVisitor : CARDScriptParserBaseVisitor<IValue> {
+    public override IValue VisitValue(CARDScriptParser.ValueContext context) {
       // TODO(ticktakashi): Add new value types here.
       int value = Int32.Parse(context.NUMBER().GetText());
       return new LiteralIntValue(value);

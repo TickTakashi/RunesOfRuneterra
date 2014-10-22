@@ -1,4 +1,4 @@
-lexer grammar RunesLexer;
+lexer grammar CARDScriptLexer;
 
 WS : [' \n\t'] -> channel(HIDDEN);
 

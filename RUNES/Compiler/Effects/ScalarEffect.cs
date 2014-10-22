@@ -1,8 +1,8 @@
-﻿using RUNES.Runes.CARDScriptCompiler;
-using RUNES.Runes.CARDScriptCompiler;
+﻿using CARDScript.Compiler;
+using CARDScript.Compiler;
 using System.Collections;
 
-namespace RUNES.Runes.CARDScriptCompiler.Effects {
+namespace CARDScript.Compiler.Effects {
 
   public abstract class ScalarEffect : Effect {
     private Player _target;
@@ -35,7 +35,7 @@ namespace RUNES.Runes.CARDScriptCompiler.Effects {
     protected abstract string Noun();
 
     public override string ToString()  {
-      string verb = RunesParser.tokenNames[effect_id].ToLower();
+      string verb = CARDScriptParser.tokenNames[effect_id].ToLower();
       verb = verb.Substring(1, verb.Length - 2);
       return string.Format("{0} {1} {2} {3} {4}",
         Player.TargetName(user, target),

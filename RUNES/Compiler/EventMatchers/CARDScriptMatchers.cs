@@ -1,11 +1,11 @@
-﻿using RUNES.Runes.CARDScriptCompiler.Effects;
-using RUNES.Runes.CARDScriptCompiler.Events;
+﻿using CARDScript.Compiler.Effects;
+using CARDScript.Compiler.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RUNES.Runes.CARDScriptCompiler.EventMatchers {
+namespace CARDScript.Compiler.EventMatchers {
   public abstract class EventMatcher {
     public abstract bool Match(GameEvent e);
   }

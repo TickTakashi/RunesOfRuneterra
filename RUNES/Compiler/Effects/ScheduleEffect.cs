@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System;
-using RUNES.Runes.CARDScriptCompiler.Events;
-using RUNES.Runes.CARDScriptCompiler.Effects;
+using CARDScript.Compiler.Events;
+using CARDScript.Compiler.Effects;
+using CARDScript;
 
 /* Based on the WHEN statement, schedule a trigger condition
  * the effect_to_schedule in the correct list. 
@@ -28,7 +29,7 @@ public class ScheduleEffect : Effect {
     Console.WriteLine("Triggering the listener 3 times with event type " + 
                       "SHIELDS and scalar value 2");
     GameEvent still_incorrect = new GameEvent();
-    still_incorrect.event_type = RUNES.Runes.RunesParser.SHIELDS;
+    still_incorrect.event_type = CARDScriptParser.SHIELDS;
     still_incorrect.scalar_value = 2;
     Console.WriteLine("Checking Trigger result: " +
                       listener.listening_for.Match(still_incorrect));
@@ -39,7 +40,7 @@ public class ScheduleEffect : Effect {
     Console.WriteLine("Triggering the listener 3 times with event type" +
                       " SHIELDS and scalar value 5");
     GameEvent correct = new GameEvent();
-    correct.event_type = RUNES.Runes.RunesParser.SHIELDS;
+    correct.event_type = CARDScriptParser.SHIELDS;
     correct.scalar_value = 5;
     Console.WriteLine("Checking Trigger result: " +
                       listener.listening_for.Match(correct));

@@ -1,7 +1,7 @@
-parser grammar RunesParser;
+parser grammar CARDScriptParser;
 
 options {
-	tokenVocab=RunesLexer;
+	tokenVocab=CARDScriptLexer;
 }
 
 effect		  : (preCond)? stat;
@@ -42,11 +42,11 @@ scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
 cardEffect	: DISCARDS | FINDS;
 
 card		    : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE 
-            | NUMBER | THIS  ;
+            | NUMBER | THIS ;
 
 // In future, this might be a value from the card like shield etc.
 value		    : NUMBER ;
 
-binopBool	  : OR | AND ;
+binopBool	  : OR | AND  ;
 
 ineq		    : GT | LT | EQ ;
