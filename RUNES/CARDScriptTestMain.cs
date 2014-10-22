@@ -11,9 +11,6 @@ using System.Text;
 namespace CARDScript {
   class CARDScriptTestMain {
     public static void Main() {
-
-
-      Console.WriteLine("Compiling this:");
       DummyCard d = new DummyCard("WHEN ENEMY HEALS >= 1 {\n" +
                                   "  ENEMY TAKES 1 3 TIMES \n" +
                                   "  USER HEALS 3\n" +
@@ -24,10 +21,6 @@ namespace CARDScript {
       Effect compiled = EffectCompiler.Compile(g, a, d);
 
       Console.WriteLine("Compiled object: " + compiled);
-
-      Console.WriteLine();
-      Console.WriteLine("Testing ScheduleEffect");
-      compiled.Activate();
     }
   }
 
