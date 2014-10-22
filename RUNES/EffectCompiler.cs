@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript {
-  class EffectCompiler {
+  public class EffectCompiler {
     public static Effect Compile(IGameController controller, Player user,
       ICard source) {
       AntlrInputStream input_stream = new AntlrInputStream(
