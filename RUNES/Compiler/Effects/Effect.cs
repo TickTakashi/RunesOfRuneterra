@@ -10,9 +10,9 @@ namespace CARDScript.Compiler.Effects {
       set { _source = value; }
     }
 
-    private Player _user;
+    private IPlayer _user;
 
-    public Player user {
+    public IPlayer user {
       get { return _user; }
       set { _user = value; }
     }

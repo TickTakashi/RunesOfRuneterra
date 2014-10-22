@@ -26,10 +26,10 @@ namespace CARDScript.Compiler {
     ConditionVisitor condition_visitor;
     PlayerVisitor player_visitor;
     IValueVisitor value_visitor;
-    Player user;
+    IPlayer user;
     ICard source;
 
-    public EffectVisitor(Player user, Player opponent, ICard source) {
+    public EffectVisitor(IPlayer user, IPlayer opponent, ICard source) {
       this.source = source;
       this.player_visitor = new PlayerVisitor(user, opponent);
       this.user = user;
@@ -55,7 +55,7 @@ namespace CARDScript.Compiler {
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
-      Player target = context.player().Accept<Player>(player_visitor);
+      IPlayer target = context.player().Accept<IPlayer>(player_visitor);
       ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(
           scalar_effect_visitor);
       scalar.target = target;
@@ -120,7 +120,7 @@ namespace CARDScript.Compiler {
 
     public override EventMatcher VisitCondScalar(
         CARDScriptParser.CondScalarContext context) {
-      Player target = context.player().Accept<Player>(player_visitor);
+      IPlayer target = context.player().Accept<IPlayer>(player_visitor);
       IValue value = context.value().Accept<IValue>(value_visitor);
       ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(
           scalar_effect_visitor);
@@ -224,16 +224,16 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class PlayerVisitor : CARDScriptParserBaseVisitor<Player> {
-    Player user;
-    Player opponent;
+  class PlayerVisitor : CARDScriptParserBaseVisitor<IPlayer> {
+    IPlayer user;
+    IPlayer opponent;
 
-    public PlayerVisitor(Player user, Player opponent) {
+    public PlayerVisitor(IPlayer user, IPlayer opponent) {
       this.user = user;
       this.opponent = opponent;
     }
     
-    public override Player VisitPlayer(
+    public override IPlayer VisitPlayer(
         CARDScriptParser.PlayerContext context) {
       if (context.ENEMY() != null)
         return opponent;
@@ -241,7 +241,7 @@ namespace CARDScript.Compiler {
         return user;
     }
 
-    public Player GetUser() {
+    public IPlayer GetUser() {
       return user;
     }
   }

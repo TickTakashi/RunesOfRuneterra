@@ -37,10 +37,10 @@ namespace CARDScript {
   }
 
   class DummyGameController : IGameController {
-    Player user;
-    Player enemy;
+    IPlayer user;
+    IPlayer enemy;
 
-    public DummyGameController(Player user, Player enemy) {
+    public DummyGameController(IPlayer user, IPlayer enemy) {
       this.user = user;
       this.enemy = enemy;
     }
@@ -49,12 +49,12 @@ namespace CARDScript {
       throw new NotImplementedException();
     }
 
-    public Player Opponent(Player p) {
+    public IPlayer Opponent(IPlayer p) {
       return p == user ? enemy : user;
     }
   }
 
-  class DummyPlayer : Player {
+  class DummyPlayer : IPlayer {
 
     public override void Damage(int value) {
       throw new NotImplementedException();

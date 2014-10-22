@@ -9,7 +9,7 @@ using System.Text;
 
 namespace CARDScript {
   public class EffectCompiler {
-    public static Effect Compile(IGameController controller, Player user,
+    public static Effect Compile(IGameController controller, IPlayer user,
       ICard source) {
       AntlrInputStream input_stream = new AntlrInputStream(
         source.GetCARDScript());

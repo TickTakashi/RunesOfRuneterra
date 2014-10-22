@@ -8,6 +8,6 @@ using System.Text;
 namespace CARDScript.Model {
   public interface IGameController {
     void Schedule(GameEventListener listener);
-    Player Opponent(Player p);
+    IPlayer Opponent(IPlayer p);
   }
 }

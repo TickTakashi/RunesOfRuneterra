@@ -5,9 +5,9 @@ using System.Collections;
 namespace CARDScript.Compiler.Effects {
 
   public abstract class ScalarEffect : Effect {
-    private Player _target;
+    private IPlayer _target;
    
-    public Player target {
+    public IPlayer target {
       get { return _target; }
       set { _target = value; }
     }
@@ -38,7 +38,7 @@ namespace CARDScript.Compiler.Effects {
       string verb = CARDScriptParser.tokenNames[effect_id].ToLower();
       verb = verb.Substring(1, verb.Length - 2);
       return string.Format("{0} {1} {2} {3} {4}",
-        Player.TargetName(user, target),
+        target == user ? "you" : "your opponent",
         (user == target ? verb.Substring(0, verb.Length - 1) : verb),
         ivalue, Noun(), base.ToString());
     }
