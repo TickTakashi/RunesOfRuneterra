@@ -15,10 +15,11 @@ namespace CARDScript {
                                   "  ENEMY TAKES 1 3 TIMES \n" +
                                   "  USER HEALS 3\n" +
                                   "} 3 CHARGES");
+      DummyCard e = new DummyCard("");
       DummyPlayer a = new DummyPlayer();
       DummyPlayer b = new DummyPlayer();
       DummyGameController g = new DummyGameController(a, b);
-      Effect compiled = EffectCompiler.Compile(g, a, d);
+      Effect compiled = EffectCompiler.Compile(g, a, e);
 
       Console.WriteLine("Compiled object: " + compiled);
     }
@@ -64,11 +65,11 @@ namespace CARDScript {
       throw new NotImplementedException();
     }
 
-    public void Draw() {
+    public void Discard(int index) {
       throw new NotImplementedException();
     }
 
-    public void Discard(int index) {
+    public void Draw(int value) {
       throw new NotImplementedException();
     }
   }

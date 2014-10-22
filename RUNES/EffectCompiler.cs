@@ -11,7 +11,7 @@ namespace CARDScript {
   public class EffectCompiler {
     public static Effect Compile(IGameController controller, IPlayer user,
       ICard source) {
-      if (source.GetCARDScript().Length == 0) {
+      if (source.GetCARDScript() == null || source.GetCARDScript().Length == 0) {
         return new NullEffect();
       }
       AntlrInputStream input_stream = new AntlrInputStream(

@@ -3,8 +3,7 @@
 
     public override bool Activate() {
       Log("Draw event. " + target + " draws " + value);
-      for (int i = 0; i < value; i++)
-        target.Draw();
+      target.Draw(value);
       return base.Activate();
     }
 
