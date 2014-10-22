@@ -56,19 +56,19 @@ namespace CARDScript {
 
   class DummyPlayer : IPlayer {
 
-    public override void Damage(int value) {
+    public void Damage(int value) {
       throw new NotImplementedException();
     }
 
-    public override void Heal(int value) {
+    public void Heal(int value) {
       throw new NotImplementedException();
     }
 
-    public override void Draw() {
+    public void Draw() {
       throw new NotImplementedException();
     }
 
-    public override void Discard(int index) {
+    public void Discard(int index) {
       throw new NotImplementedException();
     }
   }

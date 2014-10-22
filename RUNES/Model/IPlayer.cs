@@ -5,9 +5,9 @@ using System.Text;
 
 namespace CARDScript.Compiler {
   public interface IPlayer {
-    public abstract void Damage(int value);
-    public abstract void Heal(int value);
-    public abstract void Draw();
-    public abstract void Discard(int index);
+    void Damage(int value);
+    void Heal(int value);
+    void Draw();
+    void Discard(int index);
   }
 }
