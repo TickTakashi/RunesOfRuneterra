@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CARDScript.Model;
+using Antlr4.Runtime;
 
 /* A Collection of Visitors for parsing CARDScript 
  *
@@ -17,6 +19,7 @@ using System.Text;
  * TODO(ticktakashi): This class does not implement all of the grammar.
  */
 namespace CARDScript.Compiler {
+
   class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
 
     ScalarEffectVisitor scalar_effect_visitor;

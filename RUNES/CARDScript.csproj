@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="EffectCompiler.cs" />
     <Compile Include="Compiler\Events\GameEvent.cs" />
     <Compile Include="Compiler\EventMatchers\CARDScriptMatchers.cs" />
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="Compiler\Effects\ScalarEffect.cs" />
     <Compile Include="Compiler\Effects\RepeatEffect.cs" />
     <Compile Include="Compiler\IValue.cs" />
+    <Compile Include="Model\IGameController.cs" />
     <Compile Include="Model\IPlayer.cs" />
     <Compile Include="CARDScriptTestMain.cs" />
     <Compile Include="ANTLR\RunesLexer.g4.cs">

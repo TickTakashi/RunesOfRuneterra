@@ -5,5 +5,6 @@ using System.Text;
 
 namespace CARDScript.Compiler {
   public interface ICard {
+    string GetCARDScript();
   }
 }
