@@ -75,7 +75,7 @@
     <Compile Include="Compiler\Effects\RepeatEffect.cs" />
     <Compile Include="Compiler\IValue.cs" />
     <Compile Include="Model\IGameController.cs" />
-    <Compile Include="Model\IPlayer.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="CARDScriptTestMain.cs" />
     <Compile Include="ANTLR\RunesLexer.g4.cs">
       <DependentUpon>CARDScriptLexer.g4</DependentUpon>
