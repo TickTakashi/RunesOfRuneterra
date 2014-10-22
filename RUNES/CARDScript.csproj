@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Compile Include="Compiler\Effects\NullEffect.cs" />
     <Compile Include="EffectCompiler.cs" />
     <Compile Include="Compiler\Events\GameEvent.cs" />
     <Compile Include="Compiler\EventMatchers\CARDScriptMatchers.cs" />
