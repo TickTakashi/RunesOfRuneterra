@@ -1,6 +1,8 @@
-﻿using RUNES.Runes.Model;
-using RUNES.Runes.Model.Effects;
-using RUNES.Runes.Model.Effects.ScalarEffects;
+﻿using RUNES.Runes.CARDScriptCompiler.Effects;
+using RUNES.Runes.CARDScriptCompiler.Effects.ScalarEffects;
+using RUNES.Runes.CARDScriptCompiler.Events;
+using RUNES.Runes.CARDScriptCompiler.EventMatchers;
+using RUNES.Runes.CARDScriptCompiler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +10,13 @@ using System.Text;
 
 /* A Collection of Visitors for parsing RUNES 
  *
- * A Set of visitors that each handle a subset of all visitor methods necessary to parse
- * effect descriptions, to use these you should first create an effect listener, and then
- * call Accept on a EffectContext parsed via a RunesParser.
+ * A Set of visitors that each handle a subset of all visitor methods necessary
+ * to parse effect descriptions, to use these you should first create an effect
+ * listener, and then call Accept on a EffectContext parsed via a RunesParser.
  * 
- * TODO(ticktakashi): At present this class does not implement all of the grammar.
+ * TODO(ticktakashi): This class does not implement all of the grammar.
  */
-namespace RUNES.Runes.Compiler {
+namespace RUNES.Runes.CARDScriptCompiler {
   class EffectVisitor : RunesParserBaseVisitor<Effect> {
 
     ScalarEffectVisitor scalar_effect_visitor;
@@ -30,13 +32,15 @@ namespace RUNES.Runes.Compiler {
       this.user = user;
       this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
-      this.condition_visitor = new ConditionVisitor(value_visitor, player_visitor, scalar_effect_visitor);
+      this.condition_visitor = new ConditionVisitor(value_visitor,
+                                                    player_visitor,
+                                                    scalar_effect_visitor);
     }
 
     public override Effect VisitEffect(RunesParser.EffectContext context) {
       if (context.preCond() != null) {
         // TODO(ticktakashi): Implement conditional activation.
-        // context.preCond().Accept<Precondition>(precond_visitor); // or something.
+        // context.preCond().Accept<Precondition>(precond_visitor);
       }
       Effect e = context.stat().Accept<Effect>(this);
       e.user = user;
@@ -44,10 +48,12 @@ namespace RUNES.Runes.Compiler {
       return e;
     }
 
-    public override Effect VisitActionScalar(RunesParser.ActionScalarContext context) {
+    public override Effect VisitActionScalar(
+        RunesParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Player target = context.player().Accept<Player>(player_visitor);
-      ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(scalar_effect_visitor);
+      ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(
+          scalar_effect_visitor);
       scalar.target = target;
       scalar.ivalue = value;
       scalar.user = user;
@@ -64,21 +70,25 @@ namespace RUNES.Runes.Compiler {
     
     public override Effect VisitWhen(RunesParser.WhenContext context) {
       Effect triggered_effect = context.stat().Accept<Effect>(this);
-      EventMatcher trigger_condition = context.condition().Accept<EventMatcher>(condition_visitor);
+      EventMatcher trigger_condition =
+          context.condition().Accept<EventMatcher>(condition_visitor);
       Effect scheduled_effect;
       
       if (context.CHARGES() != null) {
         IValue value = context.value().Accept<IValue>(value_visitor);
-        scheduled_effect = new ScheduleEffect(new RepeatGameEventListener(value,trigger_condition, triggered_effect));
+        scheduled_effect = new ScheduleEffect(new RepeatEventListener(
+            value, trigger_condition, triggered_effect));
       } else {
-        scheduled_effect = new ScheduleEffect(new GameEventListener(trigger_condition, triggered_effect));
+        scheduled_effect = new ScheduleEffect(new GameEventListener(
+            trigger_condition, triggered_effect));
       }
       scheduled_effect.user = user;
       scheduled_effect.source = source;
       return scheduled_effect;
     }
 
-    public override Effect VisitActionRepeat(RunesParser.ActionRepeatContext context) {
+    public override Effect VisitActionRepeat(
+        RunesParser.ActionRepeatContext context) {
       Effect action = context.action().Accept<Effect>(this);
       IValue value = context.value().Accept<IValue>(value_visitor);
       RepeatEffect repeat = new RepeatEffect(value, action);
@@ -93,7 +103,9 @@ namespace RUNES.Runes.Compiler {
     public PlayerVisitor player_visitor;
     public ScalarEffectVisitor scalar_effect_visitor;
 
-    public ConditionVisitor(IValueVisitor value_visitor, PlayerVisitor player_visitor, ScalarEffectVisitor scalar_effect_visitor) {
+    public ConditionVisitor(IValueVisitor value_visitor,
+                            PlayerVisitor player_visitor,
+                            ScalarEffectVisitor scalar_effect_visitor) {
       this.value_visitor = value_visitor;
       this.player_visitor = player_visitor;
       this.scalar_effect_visitor = scalar_effect_visitor;
@@ -101,10 +113,12 @@ namespace RUNES.Runes.Compiler {
 
     // TODO(ticktakashi): condCard (for statCard)
 
-    public override EventMatcher VisitCondScalar(RunesParser.CondScalarContext context) {
+    public override EventMatcher VisitCondScalar(
+        RunesParser.CondScalarContext context) {
       Player target = context.player().Accept<Player>(player_visitor);
       IValue value = context.value().Accept<IValue>(value_visitor);
-      ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(scalar_effect_visitor);
+      ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(
+          scalar_effect_visitor);
       effect.ivalue = value;
       effect.target = target;
       effect.user = player_visitor.GetUser();
@@ -124,7 +138,8 @@ namespace RUNES.Runes.Compiler {
           condition = new EQMatcher(value);
           break;
         default:
-          Console.WriteLine("You have no yet implemented this binop: " + context.ineq().GetText());
+          Console.WriteLine("You have no yet implemented this binop: " +
+            context.ineq().GetText());
           break;
       }
      
@@ -133,7 +148,8 @@ namespace RUNES.Runes.Compiler {
       return combined;
     }
 
-    public override EventMatcher VisitCondExpr(RunesParser.CondExprContext context) {
+    public override EventMatcher VisitCondExpr(
+        RunesParser.CondExprContext context) {
       int op = context.binopBool().start.Type;
       EventMatcher condition = null;
       EventMatcher left = context.condition(0).Accept<EventMatcher>(this);
@@ -147,26 +163,30 @@ namespace RUNES.Runes.Compiler {
           condition = new AndMatcher(left, right);
           break;
         default:
-          Console.WriteLine("You have no yet implemented this binop: " + context.binopBool().GetText());
+          Console.WriteLine("You have no yet implemented this binop: " +
+            context.binopBool().GetText());
           break;
       }
       
       return condition;
     }
 
-    public override EventMatcher VisitCondNot(RunesParser.CondNotContext context) {
+    public override EventMatcher VisitCondNot(
+        RunesParser.CondNotContext context) {
       EventMatcher cond = context.condition().Accept<EventMatcher>(this);
       return new NotMatcher(cond);
     }
 
-    public override EventMatcher VisitCondParen(RunesParser.CondParenContext context) {
+    public override EventMatcher VisitCondParen(
+        RunesParser.CondParenContext context) {
       EventMatcher cond = context.condition().Accept<EventMatcher>(this);
       return cond;
     }
   }
 
   class ScalarEffectVisitor : RunesParserBaseVisitor<ScalarEffect> {
-    public override ScalarEffect VisitScalarEffect(RunesParser.ScalarEffectContext context) {
+    public override ScalarEffect VisitScalarEffect(
+        RunesParser.ScalarEffectContext context) {
       ScalarEffect effect = null;
 
       int effectType = context.start.Type;
@@ -184,15 +204,13 @@ namespace RUNES.Runes.Compiler {
           // TODO(ticktakashi): Implement Shields.
           // effect = new Shields();
           goto case RunesParser.TAKES;
-          break;
         case RunesParser.PIERCES:
           // TODO(ticktakashi): Implement Pierces.
           // effect = new Pierces();
           goto case RunesParser.TAKES;
-          break;
         default:
-          Console.WriteLine("Could not match Scalar Effect. Index was: " + effectType + 
-            "Defaulting to TAKES");
+          Console.WriteLine("Could not match Scalar Effect. Index was: " +
+                            effectType + "Defaulting to TAKES");
           goto case RunesParser.TAKES;
       }
 
@@ -224,7 +242,7 @@ namespace RUNES.Runes.Compiler {
 
   class IValueVisitor : RunesParserBaseVisitor<IValue> {
     public override IValue VisitValue(RunesParser.ValueContext context) {
-      // TODO(ticktakashi): Once other types of values have been added, add them here.
+      // TODO(ticktakashi): Add new value types here.
       int value = Int32.Parse(context.NUMBER().GetText());
       return new LiteralIntValue(value);
     }

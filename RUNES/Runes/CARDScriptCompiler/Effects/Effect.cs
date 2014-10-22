@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using RUNES.Runes.CARDScriptCompiler;
+using System.Collections;
 
-namespace RUNES.Runes.Model.Effects {
+namespace RUNES.Runes.CARDScriptCompiler.Effects {
   public abstract class Effect {
     private Card _source;
 
@@ -23,7 +24,7 @@ namespace RUNES.Runes.Model.Effects {
       set { _next = value; }
     }
 
-    // Activate this effect, returns true if the effect is complete and can be deleted.
+    // Activate this effect, returns true if the effect can be deleted.
     public virtual bool  Activate() {
       if (next != null) {
         return next.Activate();
@@ -32,7 +33,7 @@ namespace RUNES.Runes.Model.Effects {
       }
     }
 
-    // Wrap this so that I don't have to import unity everywhere... :D 
+    // TODO(ticktakashi): Investigate the sanity of this.  
     public void Log(string message) {
       //Debug.Log(message);
     }

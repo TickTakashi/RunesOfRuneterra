@@ -56,19 +56,22 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Runes\Compiler\RunesVisitors.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Events\GameEvent.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\EventMatchers\CARDScriptMatchers.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\CARDScriptVisitors.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Events\GameEventListener.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Events\RepeatEventListener.cs" />
     <Compile Include="Runes\Model\Card.cs" />
-    <Compile Include="Runes\Model\Effects\Condition.cs" />
-    <Compile Include="Runes\Model\Effects\ScalarEffects\Damage.cs" />
-    <Compile Include="Runes\Model\Effects\ScalarEffects\Draw.cs" />
-    <Compile Include="Runes\Model\Effects\Effect.cs" />
-    <Compile Include="Runes\Model\Effects\ScalarEffects\Heal.cs" />
-    <Compile Include="Runes\Model\Effects\ScheduleEffect.cs" />
-    <Compile Include="Runes\Model\Effects\ScalarEffect.cs" />
-    <Compile Include="Runes\Model\Effects\RepeatEffect.cs" />
-    <Compile Include="Runes\Model\Effects\Values.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\ScalarEffects\Damage.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\ScalarEffects\Draw.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\Effect.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\ScalarEffects\Heal.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\ScheduleEffect.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\ScalarEffect.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\Effects\RepeatEffect.cs" />
+    <Compile Include="Runes\CARDScriptCompiler\IValue.cs" />
     <Compile Include="Runes\Model\Player.cs" />
-    <Compile Include="Runes\RunesLanguageBuilder.cs" />
+    <Compile Include="Runes\CARDScriptTestMain.cs" />
     <Compile Include="Runes\RunesLexer.g4.cs">
       <DependentUpon>RunesLexer.g4</DependentUpon>
     </Compile>

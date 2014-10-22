@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System;
-using RUNES.Runes.Model.Effects;
+using RUNES.Runes.CARDScriptCompiler.Events;
+using RUNES.Runes.CARDScriptCompiler.Effects;
 
 /* Based on the WHEN statement, schedule a trigger condition
  * the effect_to_schedule in the correct list. 
@@ -13,10 +14,10 @@ public class ScheduleEffect : Effect {
   }
 
   public override bool Activate() {
-    // TODO(ticktakashi): Add the GameEventListener to the list of event registered
-    // event listeners
+    // TODO(ticktakashi): Add the GameEventListener to the list of listeners
     // GameController.schedule(listener);
-    Console.WriteLine("Triggering the listener 3 times with event type 50 and scalar value 100");
+    Console.WriteLine("Triggering the listener 3 times with event type 50" + 
+                      " and scalar value 100");
     GameEvent incorrect = new GameEvent();
     incorrect.event_type = 50;
     incorrect.scalar_value = 100;
@@ -24,20 +25,24 @@ public class ScheduleEffect : Effect {
     Console.WriteLine(listener.Trigger(incorrect));
     Console.WriteLine(listener.Trigger(incorrect));
 
-    Console.WriteLine("Triggering the listener 3 times with event type SHIELDS and scalar value 2");
+    Console.WriteLine("Triggering the listener 3 times with event type " + 
+                      "SHIELDS and scalar value 2");
     GameEvent still_incorrect = new GameEvent();
     still_incorrect.event_type = RUNES.Runes.RunesParser.SHIELDS;
     still_incorrect.scalar_value = 2;
-    Console.WriteLine("Checking Trigger result: " + listener.listening_for.Match(still_incorrect));
+    Console.WriteLine("Checking Trigger result: " +
+                      listener.listening_for.Match(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
     Console.WriteLine(listener.Trigger(still_incorrect));
 
-    Console.WriteLine("Triggering the listener 3 times with event type SHIELDS and scalar value 5");
+    Console.WriteLine("Triggering the listener 3 times with event type" +
+                      " SHIELDS and scalar value 5");
     GameEvent correct = new GameEvent();
     correct.event_type = RUNES.Runes.RunesParser.SHIELDS;
     correct.scalar_value = 5;
-    Console.WriteLine("Checking Trigger result: " + listener.listening_for.Match(correct));
+    Console.WriteLine("Checking Trigger result: " +
+                      listener.listening_for.Match(correct));
     Console.WriteLine(listener.Trigger(correct));
     Console.WriteLine(listener.Trigger(correct));
     Console.WriteLine(listener.Trigger(correct));

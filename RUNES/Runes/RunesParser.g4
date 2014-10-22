@@ -41,9 +41,11 @@ scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
 
 cardEffect	: DISCARDS | FINDS;
 
-card		    : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE | NUMBER | THIS  ;
+card		    : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE 
+            | NUMBER | THIS  ;
 
-value		    : NUMBER ; // In future, this might be a value from the card like shield etc.
+// In future, this might be a value from the card like shield etc.
+value		    : NUMBER ;
 
 binopBool	  : OR | AND ;
 

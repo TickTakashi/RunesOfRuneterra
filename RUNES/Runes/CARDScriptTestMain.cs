@@ -1,7 +1,7 @@
 ﻿using Antlr4.Runtime;
-using RUNES.Runes.Compiler;
-using RUNES.Runes.Model;
-using RUNES.Runes.Model.Effects;
+using RUNES.Runes.CARDScriptCompiler;
+using RUNES.Runes.CARDScriptCompiler;
+using RUNES.Runes.CARDScriptCompiler.Effects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Text;
 
 
 namespace RUNES.Runes {
-  class RunesLanguageBuilder {
+  class CARDScriptTestMain {
     public static void Main() {
       string input =  "WHEN ENEMY HEALS >= 1 {\n" +
                       "  ENEMY TAKES 1 3 TIMES \n" +
@@ -32,7 +32,8 @@ namespace RUNES.Runes {
       RunesLexer lexer = new RunesLexer(input_stream);
       CommonTokenStream tokens = new CommonTokenStream(lexer);
       RunesParser parser = new RunesParser(tokens);
-      EffectVisitor visitor = new EffectVisitor(new Player(), new Player(), new Card());
+      EffectVisitor visitor = new EffectVisitor(new Player(), new Player(),
+        new Card());
       RunesParser.EffectContext effect = parser.effect();
       return effect.Accept<Effect>(visitor);
     }

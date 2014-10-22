@@ -1,4 +1,4 @@
-﻿namespace RUNES.Runes.Model.Effects.ScalarEffects {
+﻿namespace RUNES.Runes.CARDScriptCompiler.Effects.ScalarEffects {
   public class Draw : ScalarEffect {
 
     public override bool Activate() {

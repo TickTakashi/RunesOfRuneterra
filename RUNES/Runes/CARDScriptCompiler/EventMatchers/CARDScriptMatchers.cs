@@ -1,9 +1,11 @@
-﻿using System;
+﻿using RUNES.Runes.CARDScriptCompiler.Effects;
+using RUNES.Runes.CARDScriptCompiler.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RUNES.Runes.Model.Effects {
+namespace RUNES.Runes.CARDScriptCompiler.EventMatchers {
   public abstract class EventMatcher {
     public abstract bool Match(GameEvent e);
   }
@@ -18,9 +20,9 @@ namespace RUNES.Runes.Model.Effects {
   }
 
   public class OrMatcher : BinaryMatcher<EventMatcher> {
-    public OrMatcher(EventMatcher l, EventMatcher r) : base(l,r) { }
+    public OrMatcher(EventMatcher l, EventMatcher r) : base(l, r) { }
     public override bool Match(GameEvent e) {
-      return l.Match(e) || r.Match(e); 
+      return l.Match(e) || r.Match(e);
     }
   }
 
@@ -95,60 +97,7 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return effect.ToString()  + condition.ToString() ;
+      return effect.ToString() + condition.ToString();
     }
   }
-
-  public class GameEventListener {
-    protected Effect callback;
-    public EventMatcher listening_for;
-
-    public GameEventListener(EventMatcher cond, Effect effect) {
-      this.listening_for = cond;
-      this.callback = effect;
-    }
-
-    public virtual bool Trigger(GameEvent e) {
-      if (listening_for.Match(e)) {
-        return callback.Activate();
-      } else {
-        return false;
-      }
-    }
-
-    public override string ToString() {
-      return "the next time " + listening_for + ": " + callback;
-    }
-  }
-
-  public class RepeatGameEventListener : GameEventListener {
-    private IValue count;
-    private int count_down = 0;
-    public RepeatGameEventListener(IValue count, EventMatcher cond, Effect effect)
-      : base(cond, effect) {
-        this.count = count;
-    }
-
-    public override bool Trigger(GameEvent e) {
-      if (listening_for.Match(e)) {
-        callback.Activate();
-        count_down++;
-        return (count.GetValue() - count_down) <= 0;
-      }
-      return false;
-    }
-
-    public override string ToString() {
-      return "the next " + count + " times " + listening_for + ": " + callback;
-    }
-  }
-
-  // Game event struct which contains necessary information about 
-  // events. This is kind of a chimera struct, so think about how you can
-  // neatly divide this struct up into a base and derived structs.
-  public class GameEvent {
-    public int event_type = -1;
-    public int scalar_value = -1;
-  }
-
 }

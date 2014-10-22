@@ -1,9 +1,10 @@
-﻿using System;
+﻿using RUNES.Runes.CARDScriptCompiler;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RUNES.Runes.Model.Effects {
+namespace RUNES.Runes.CARDScriptCompiler.Effects {
   class RepeatEffect : Effect {
     IValue count;
     Effect repeated_effect;
@@ -21,7 +22,8 @@ namespace RUNES.Runes.Model.Effects {
     }
 
     public override string ToString() {
-      return repeated_effect.ToString() + count.GetValue() + " times in a row" + base.ToString();
+      return repeated_effect.ToString() + count.GetValue() +
+        " times in a row" + base.ToString();
     }
   }
 }

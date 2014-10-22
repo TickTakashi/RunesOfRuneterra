@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RUNES.Runes.Model {
+namespace RUNES.Runes.CARDScriptCompiler {
   public class Player {
     
     public virtual void Damage(int value) {}

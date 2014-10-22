@@ -1,4 +1,4 @@
-﻿namespace RUNES.Runes.Model.Effects.ScalarEffects {
+﻿namespace RUNES.Runes.CARDScriptCompiler.Effects.ScalarEffects {
   public class Heal : ScalarEffect {
 
     public override bool Activate() {
