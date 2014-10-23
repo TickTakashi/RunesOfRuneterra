@@ -1,6 +1,7 @@
 ﻿using Antlr4.Runtime;
 using CARDScript.Compiler;
 using CARDScript.Compiler.Effects;
+using CARDScript.Compiler.Events;
 using CARDScript.Model;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace CARDScript {
                                   "  ENEMY TAKES 1 3 TIMES \n" +
                                   "  USER HEALS 3\n" +
                                   "} 3 CHARGES");
-      DummyCard e = new DummyCard("");
+      DummyCard e = new DummyCard("ENEMY TAKES 1~5");
       DummyPlayer a = new DummyPlayer();
       DummyPlayer b = new DummyPlayer();
       DummyGameController g = new DummyGameController(a, b);
@@ -52,6 +53,10 @@ namespace CARDScript {
 
     public IPlayer Opponent(IPlayer p) {
       return p == user ? enemy : user;
+    }
+
+    public void FireEvent(GameEvent e) {
+      throw new NotImplementedException();
     }
   }
 

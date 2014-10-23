@@ -247,10 +247,16 @@ namespace CARDScript.Compiler {
   }
 
   class IValueVisitor : CARDScriptParserBaseVisitor<IValue> {
-    public override IValue VisitValue(CARDScriptParser.ValueContext context) {
+    public override IValue VisitValueInt(CARDScriptParser.ValueIntContext context) {
       // TODO(ticktakashi): Add new value types here.
       int value = Int32.Parse(context.NUMBER().GetText());
       return new LiteralIntValue(value);
+    }
+
+    public override IValue VisitValueRandom(CARDScriptParser.ValueRandomContext context) {
+      IValue l = context.value(0).Accept<IValue>(this);
+      IValue r = context.value(1).Accept<IValue>(this);
+      return new RandomValue(l, r);
     }
   }
 }

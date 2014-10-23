@@ -45,7 +45,10 @@ card		    : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE
             | NUMBER | THIS ;
 
 // In future, this might be a value from the card like shield etc.
-value		    : NUMBER ;
+// TODO(ticktakashi): Add Card Value.
+value		    : NUMBER            # valueInt
+            | value TILDE value # valueRandom
+            ;
 
 binopBool	  : OR | AND  ;
 

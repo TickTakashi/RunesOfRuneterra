@@ -1,5 +1,4 @@
 ﻿using CARDScript.Compiler;
-using CARDScript.Compiler;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {

@@ -28,6 +28,7 @@ RBRACE		: '}';
 LPAREN		: '(';
 RPAREN		: ')';
 SEMICOLON	: ';';
+TILDE     : '~';
 
 // Activation 
 ACTIVATE	: 'ACTIVATE';

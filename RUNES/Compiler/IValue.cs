@@ -23,6 +23,25 @@ namespace CARDScript.Compiler {
     }
   }
 
+  public class RandomValue : IValue {
+    IValue l;
+    IValue r;
+
+    public RandomValue(IValue l, IValue r) {
+      this.l = l;
+      this.r = r;
+    }
+
+    public int GetValue() {
+      Random rand = new Random();
+      return rand.Next(r.GetValue(), l.GetValue());
+    }
+
+    public override string ToString() {
+      return "between " + l + " and " + r;
+    }
+  }
+
   // TODO(ticktakashi): Implement a CardValue type
   // that can extract values from the stats of a card
   // E.g. another cards damage. Also implement modifiers for this such as 
