@@ -16,7 +16,7 @@ namespace CARDScript {
                                   "  ENEMY TAKES 1 3 TIMES \n" +
                                   "  USER HEALS 3\n" +
                                   "} 3 CHARGES");
-      DummyCard e = new DummyCard("ENEMY TAKES 1~5");
+      DummyCard e = new DummyCard("WHEN ENEMY HEALS >= 2  { ENEMY TAKES 1 3 TIMES }");
       DummyPlayer a = new DummyPlayer();
       DummyPlayer b = new DummyPlayer();
       DummyGameController g = new DummyGameController(a, b);

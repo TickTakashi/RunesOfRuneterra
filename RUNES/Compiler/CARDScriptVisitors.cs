@@ -99,8 +99,6 @@ namespace CARDScript.Compiler {
       RepeatEffect repeat = new RepeatEffect(value, action);
       return repeat;
     }
-
-    // TODD(ticktakashi): actionCard (requires condCard)
   }
 
   class ConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {
