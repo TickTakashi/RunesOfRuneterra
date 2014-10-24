@@ -13,14 +13,23 @@ ENEMY		: 'ENEMY';
 ANY			: 'ANY';
 
 // Card Types
-ALL			: 'ALL';
+ALL			  : 'ALL';
 SKILLSHOT	: 'SKILLSHOT';
 TARGETED	: 'TARGETED';
 MOBILITY	: 'MOBILITY';
-MELEE		: 'MELEE';
+MELEE		  : 'MELEE';
 PASSIVE		: 'PASSIVE';
-THIS		: 'THIS';
-FINDS		: 'FINDS';
+THIS		  : 'THIS';
+
+// Locations
+HAND      : 'HAND';
+DECK      : 'DECK';
+COOLDOWN  : 'COOLDOWN';
+
+// Card Properties
+SHIELD    : 'SHIELD';
+DAMAGE    : 'DAMAGE';
+DURATION  : 'DURATION';
 
 // General Punctuation
 LBRACE		: '{';
@@ -29,23 +38,28 @@ LPAREN		: '(';
 RPAREN		: ')';
 SEMICOLON	: ';';
 TILDE     : '~';
+FROM      : 'FROM';
+TO        : 'TO';
+DOT       : '.';
+IN        : 'IN';
 
 // Activation 
 ACTIVATE	: 'ACTIVATE';
 OPTION		: 'OPTIONALLY' | 'OPTION';
-AUTO		: 'AUTOMATICALLY' | 'AUTO';
+AUTO		  : 'AUTOMATICALLY' | 'AUTO';
 
-// Number Based Commands
-DRAWS		: 'DRAWS';
-TAKES		: 'TAKES';
+// Scalar actions
+DRAWS		  : 'DRAWS';
+TAKES		  : 'TAKES';
 DISCARDS	: 'DISCARDS';
-HEALS		: 'HEALS';
+HEALS		  : 'HEALS';
 SHIELDS		: 'SHIELDS';
 PIERCES		: 'PIERCES';
 //...
 
-// Card Based Commands
+// Card actions
 PLAYS		: 'PLAYS';
+ADDS    : 'ADDS';
 // ...
 
 // Equality operators
@@ -58,4 +72,10 @@ AND			: 'AND' | '&&';
 OR			: 'OR'	| '||';
 NOT			: 'NOT' | '!';
 
-NUMBER		: [0-9];
+// Vaule modifiers 
+HALF    : 'HALF';
+DOUBLE  : 'DOUBLE';
+
+// Values and Numbers
+IDENT   : [_a-zA-Z]+ [_a-zA-Z0-9]*;
+NUMBER	: [0-9]+;

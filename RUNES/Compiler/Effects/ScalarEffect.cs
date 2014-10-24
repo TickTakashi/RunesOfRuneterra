@@ -34,7 +34,7 @@ namespace CARDScript.Compiler.Effects {
     protected abstract string Noun();
 
     public override string ToString()  {
-      string verb = CARDScriptParser.tokenNames[effect_id].ToLower();
+      string verb = CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id).ToLower();
       verb = verb.Substring(1, verb.Length - 2);
       return string.Format("{0} {1} {2} {3} {4}",
         target == user ? "you" : "your opponent",
