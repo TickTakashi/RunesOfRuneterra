@@ -4,6 +4,20 @@ options {
 	tokenVocab=CARDScriptLexer;
 }
 
+cardDesc    : SKILL       cardStats
+            | SPELL       cardStats
+            | MELEE       cardStats
+            | DASH NUMBER cardStats
+            | SELF        selfStats
+            | PASSIVE     effect 
+            ;
+
+cardStats   : DAMAGE EQ NUMBER 
+              RANGE EQ NUMBER
+              COST EQ NUMBER
+              LIMIT EQ NUMBER
+              effect ; 
+
 effect		  : (preCond)? stat;
 
 preCond		  : ACTIVATE option WHEN condition;
@@ -23,13 +37,13 @@ stat		    : when                              # statWhen
 when        : WHEN condition LBRACE stat RBRACE (value CHARGES)? ;
 
 action      : player scalarEffect value         # actionScalar
-            | player cardEffect value card      # actionCard
+            | player cardEffect value cardTarget      # actionCard
             ;
 
 // In the future, add a (WITH card)? extension to these scalar to check
 // if, for example, they did 2 damage with a MELEE attack
 condition	  : player scalarEffect ineq value		# condScalar
-			      | player cardEffect card ineq value	# condCard
+			      | player cardEffect cardTarget ineq value	# condCard
 			      | condition binopBool condition			# condExpr
 			      | NOT condition							        # condNot
 			      | LPAREN condition RPAREN				    # condParen
@@ -41,7 +55,7 @@ scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
 
 cardEffect	: DISCARDS | FINDS;
 
-card		    : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE 
+cardTarget  : ALL | MELEE | SKILLSHOT | TARGETED | MOBILITY | PASSIVE 
             | NUMBER | THIS ;
 
 // In future, this might be a value from the card like shield etc.

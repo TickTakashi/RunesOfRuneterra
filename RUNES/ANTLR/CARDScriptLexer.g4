@@ -14,13 +14,18 @@ ANY			: 'ANY';
 
 // Card Types
 ALL			: 'ALL';
-SKILLSHOT	: 'SKILLSHOT';
-TARGETED	: 'TARGETED';
-MOBILITY	: 'MOBILITY';
+SKILL	  : 'SKILLSHOT';
+SPELL	  : 'TARGETED';
+DASH	  : 'MOBILITY';
 MELEE		: 'MELEE';
-PASSIVE		: 'PASSIVE';
+PASSIVE	: 'PASSIVE';
 THIS		: 'THIS';
-FINDS		: 'FINDS';
+
+// Card Stats
+DAMAGE  :
+RANGE   :
+COST    :
+LIMIT   :
 
 // General Punctuation
 LBRACE		: '{';
