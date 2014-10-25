@@ -27,9 +27,9 @@ namespace CARDScript.Compiler {
     PlayerVisitor player_visitor;
     IValueVisitor value_visitor;
     IPlayer user;
-    ICard source;
+    Card source;
 
-    public EffectVisitor(IPlayer user, IPlayer opponent, ICard source) {
+    public EffectVisitor(IPlayer user, IPlayer opponent, Card source) {
       this.source = source;
       this.player_visitor = new PlayerVisitor(user, opponent);
       this.user = user;
@@ -99,8 +99,6 @@ namespace CARDScript.Compiler {
       RepeatEffect repeat = new RepeatEffect(value, action);
       return repeat;
     }
-
-    // TODD(ticktakashi): actionCard (requires condCard)
   }
 
   class ConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {

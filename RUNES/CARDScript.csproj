@@ -60,13 +60,18 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Compiler\Effects\NullEffect.cs" />
-    <Compile Include="EffectCompiler.cs" />
+    <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Events\GameEvent.cs" />
     <Compile Include="Compiler\EventMatchers\CARDScriptMatchers.cs" />
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Events\GameEventListener.cs" />
     <Compile Include="Compiler\Events\RepeatEventListener.cs" />
-    <Compile Include="Model\ICard.cs" />
+    <Compile Include="Model\Cards\Card.cs" />
+    <Compile Include="Model\Cards\Passive.cs" />
+    <Compile Include="Model\Cards\SpellCard.cs" />
+    <Compile Include="Model\Cards\DashCard.cs" />
+    <Compile Include="Model\Cards\MeleeCard.cs" />
+    <Compile Include="Model\Cards\SelfCard.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Damage.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Draw.cs" />
     <Compile Include="Compiler\Effects\Effect.cs" />
@@ -75,6 +80,7 @@
     <Compile Include="Compiler\Effects\ScalarEffect.cs" />
     <Compile Include="Compiler\Effects\RepeatEffect.cs" />
     <Compile Include="Compiler\IValue.cs" />
+    <Compile Include="Model\Cards\SkillCard.cs" />
     <Compile Include="Model\IGameController.cs" />
     <Compile Include="Model\IPlayer.cs" />
     <Compile Include="CARDScriptTestMain.cs" />

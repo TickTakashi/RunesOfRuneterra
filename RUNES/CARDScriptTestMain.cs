@@ -16,25 +16,21 @@ namespace CARDScript {
                                   "  ENEMY TAKES 1 3 TIMES \n" +
                                   "  USER HEALS 3\n" +
                                   "} 3 CHARGES");
-      DummyCard e = new DummyCard("ENEMY TAKES 1~5");
+      DummyCard e = new DummyCard("WHEN ENEMY HEALS >= 2  { ENEMY TAKES 1 3 TIMES }");
       DummyPlayer a = new DummyPlayer();
       DummyPlayer b = new DummyPlayer();
       DummyGameController g = new DummyGameController(a, b);
-      Effect compiled = EffectCompiler.Compile(g, a, e);
+      Card compiled = CardCompiler.Compile(g, a, e);
 
       Console.WriteLine("Compiled object: " + compiled);
     }
   }
 
-  class DummyCard : ICard {
+  class DummyCard : Card {
     string description;
     
     public DummyCard(string s) {
       description = s;
-    }
-
-    public string GetCARDScript() {
-      return description;
     }
   }
 

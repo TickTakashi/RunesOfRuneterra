@@ -3,9 +3,9 @@ using System.Collections;
 
 namespace CARDScript.Compiler.Effects {
   public abstract class Effect {
-    private ICard _source;
+    private Card _source;
 
-    public ICard source {
+    public Card source {
       get { return _source; }
       set { _source = value; }
     }
