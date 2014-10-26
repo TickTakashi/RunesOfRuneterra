@@ -5,6 +5,12 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
+  /* The MeleeCard Class
+   * 
+   * Represents skills with on-hit effects in league of legends. Basically the
+   * same as SpellCards except that they are prevented by Blinds and also fire
+   * a on-hit event when activated.
+   */
   // TODO(ticktakashi): Implement MeleeCard.
   public class MeleeCard : SpellCard {
     public MeleeCard(string name, int id, int damage, int range, int cost,

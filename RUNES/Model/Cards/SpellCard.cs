@@ -6,6 +6,14 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
+  /* The SpellCard Class
+   * 
+   * A Spell card almost corresponds to a targeted skill in league of legends.
+   * They cannot be dodged. This class also provides the basis for all damaging
+   * cards, including MeleeCard and SkillCard. It has a range, which means that
+   * the card can only be used if you are within range distance of your 
+   * opponent.
+   */
   // TODO(ticktakashi): Implement SpellCard.
   public class SpellCard : Card {
     public int damage;
@@ -22,10 +30,7 @@ namespace CARDScript.Model.Cards {
     }
 
     public override void Activate(IPlayer user, IGameController game_controller) {
-      // Activate this cards effect.
       base.Activate(user, game_controller);
-
-      // Once it has resolved, deal Damage.
       game_controller.Opponent(user).Damage(damage);
     }
 

@@ -5,6 +5,13 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
+  /* The SkillCard Class
+   * 
+   * Represents a Skillshot in league of legends. These skills are similar to
+   * SpellCards except for the fact that they can be dodged. They also have an
+   * additional activation hook, as something may happen only when they are
+   * dodged.
+   */
   // TODO(ticktakashi): Implement SkillCard.
   public class SkillCard : SpellCard {
     // TODO(ticktakashi): Think about adding pre and post effects.
@@ -32,6 +39,7 @@ namespace CARDScript.Model.Cards {
       //                    some negation notice if they do so. Derailing the Activate()
       //                    call. "If your opponent plays a Skillshot" <- this is the same as
       //                    a dash and the listener will go wherever this effect would go.
+
       // 1 - Consume Action Points
       user.Spend(cost);
 
@@ -42,7 +50,8 @@ namespace CARDScript.Model.Cards {
       if (dodged) {
         dodge_effect.Activate(this, user, game_controller);
       } else {
-        base.Activate(user, game_controller);
+        effect.Activate(this, user, game_controller);
+        game_controller.Opponent(user).Damage(damage);
       }
     }
   }

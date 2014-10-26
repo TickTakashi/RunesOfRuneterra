@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model {
+  /* The IGameController Interface
+   * 
+   * An interface which describes the game control actions that must occur in
+   * RoR. Provides methods to manipulate Players and check properties about the
+   * games state at any one time.
+   */
   public interface IGameController {
 
     // Fires a game event.

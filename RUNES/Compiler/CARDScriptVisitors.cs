@@ -58,14 +58,25 @@ namespace CARDScript.Compiler {
       return card; 
     }
 
-    // TODO(ticktakashi): Implement CardSkill
     public override Card VisitCardSkill(CARDScriptParser.CardSkillContext context) {
-      return base.VisitCardSkill(context);
+      CardStats s = ParseCardAll(context.cardALL());
+      string name = context.cardID().NAME().GetText();
+      int id = Int32.Parse(context.cardID().NUM().GetText());
+      Effect hit = context.cardE().Accept<Effect>(effect_visitor);
+      Effect dod = context.effect().Accept<Effect>(effect_visitor);
+      SkillCard card = new SkillCard(name, id, s.damage, s.range, s.cost,
+        s.limit, hit, dod);
+      return card;
     }
 
-    // TODO(ticktakashi): Implement CardMelee
     public override Card VisitCardMelee(CARDScriptParser.CardMeleeContext context) {
-      return base.VisitCardMelee(context);
+      CardStats s = ParseCardAll(context.cardALL());
+      string name = context.cardID().NAME().GetText();
+      int id = Int32.Parse(context.cardID().NUM().GetText());
+      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
+      MeleeCard card = new MeleeCard(name, id, s.damage, s.range,
+        s.cost, s.limit, effect);
+      return card; 
     }
 
     private CardStats ParseCardAll(CARDScriptParser.CardALLContext context) {

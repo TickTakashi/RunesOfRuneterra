@@ -8,6 +8,12 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
+  /* The Card Class
+   * 
+   * The base class for all non-passive cards. Contains information about 
+   * this card ID number and name, as well as in game limits such as its cost
+   * to activate and the max number allowed in a deck.
+   */
   public abstract class Card {
     protected string name;
     protected int id;

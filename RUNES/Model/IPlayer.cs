@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model {
+  /* The IPlayer Interface
+   * 
+   * A interface that describes the behaviour that a Player must provide.
+   */
   public interface IPlayer {
     // Decrease your health by value - Fires a Damage Taken Event
     void Damage(int value);

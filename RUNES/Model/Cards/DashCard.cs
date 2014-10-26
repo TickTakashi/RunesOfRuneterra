@@ -5,7 +5,15 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
-  // TODO(ticktakashi): Implement DashCard
+  /* The DashCard Class
+   * 
+   * Represents dashes and mobility modifying moves in league of legends. This
+   * is a special type of spell, which will move the player to a target 
+   * location before deciding whether or not to deal damage.
+   * Dash cards can also be used to Dodge skillshots (by discarding them) and 
+   * so they have a special effect hook, dodge, that can be activated in this
+   * case.
+   */
   public class DashCard : SpellCard {
     int distance;
     Effect dodge;
@@ -14,6 +22,7 @@ namespace CARDScript.Model.Cards {
       int cost, int limit, Effect effect, Effect dodge) :
       base(name, id, damage, range, cost, limit, effect) {
       this.distance = distance;
+      this.dodge = dodge;
     }
 
     public override bool CanActivate(IPlayer user, IGameController game_controller) {

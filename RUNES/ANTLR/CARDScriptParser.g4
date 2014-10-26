@@ -5,11 +5,11 @@ options {
 }
 
 cardDesc    : cardID DASH E? NUM cardALL cardE DODGE E? effect # cardDash 
-            | cardID SKILL        cardALL cardE DODGE E? effect # cardSkill
-            | cardID SPELL        cardALL cardE                  # cardSpell
-            | cardID MELEE        cardALL cardE                  # cardMelee
+            | cardID SKILL       cardALL cardE DODGE E? effect # cardSkill
+            | cardID SPELL       cardALL cardE                  # cardSpell
+            | cardID MELEE       cardALL cardE                  # cardMelee
             | cardID SELF E? NUM cardCL  cardE                  # cardSelf
-            | cardID PASSIVE              cardE                  # cardPassive
+            | cardID PASSIVE             cardE                  # cardPassive
             ;
              
 cardID      : NAME E? NUM ;

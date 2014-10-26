@@ -5,6 +5,11 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
+  /* The SelfCard Class
+   * 
+   * Corresponds to a Self cast buff in league of legends. There is a limited
+   * duration.
+   */
   // TODO(ticktakashi): Implement SelfCard.
   public class SelfCard : Card {
     protected int time;
