@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CARDScript.Compiler.Effects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,13 @@ namespace CARDScript.Model.Cards {
   public class SelfCard : Card {
     protected int time;
 
-    public override void Activate() {
+    public SelfCard(string name, int id, int cost, int limit, int time,
+        Effect effect) : base(name, id, cost, limit, effect) {
+      this.time = time;
+    }
+
+    public override void Activate(IPlayer user, IGameController game_controller) {
+      // TODO(ticktakashi): Implement SelfCard timer semantics
       throw new NotImplementedException();
     }
   }

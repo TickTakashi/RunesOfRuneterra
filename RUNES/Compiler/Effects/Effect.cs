@@ -1,22 +1,10 @@
 ﻿using CARDScript.Compiler;
+using CARDScript.Model;
+using CARDScript.Model.Cards;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {
   public abstract class Effect {
-    private Card _source;
-
-    public Card source {
-      get { return _source; }
-      set { _source = value; }
-    }
-
-    private IPlayer _user;
-
-    public IPlayer user {
-      get { return _user; }
-      set { _user = value; }
-    }
-
     private Effect _next;
 
     public Effect next {
@@ -25,9 +13,9 @@ namespace CARDScript.Compiler.Effects {
     }
 
     // Activate this effect, returns true if the effect can be deleted.
-    public virtual bool  Activate() {
+    public virtual bool  Activate(Card card, IPlayer user, IGameController controller) {
       if (next != null) {
-        return next.Activate();
+        return next.Activate(card, user, controller);
       } else {
         return true;
       }

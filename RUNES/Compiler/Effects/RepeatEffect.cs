@@ -1,4 +1,6 @@
 ﻿using CARDScript.Compiler;
+using CARDScript.Model;
+using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +16,11 @@ namespace CARDScript.Compiler.Effects {
       this.count = count;
     }
 
-    public override bool Activate() {
+    public override bool Activate(Card source, IPlayer user, IGameController game_controller) {
       for (int i = 0; count.GetValue() - i > 0; i++)
-        repeated_effect.Activate();
+        repeated_effect.Activate(source, user, game_controller);
 
+      // TODO(ticktakashi): Call next effect?
       return true;
     }
 

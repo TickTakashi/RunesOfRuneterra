@@ -10,8 +10,7 @@ using System.Text;
 
 namespace CARDScript {
   public class CardCompiler {
-    public static Card Compile(IGameController controller, IPlayer user,
-      string card_description) {
+    public static Card Compile(string card_description) {
       if (card_description == null || card_description.Length == 0)
         return null;
 
@@ -19,12 +18,10 @@ namespace CARDScript {
       CARDScriptLexer lexer = new CARDScriptLexer(input_stream);
       CommonTokenStream tokens = new CommonTokenStream(lexer);
       CARDScriptParser parser = new CARDScriptParser(tokens);
-      CARDScriptParser.EffectContext effect = parser.effect();
-      CardVisitor card_visitor = new CardVisitor(user,
-                                                 controller.Opponent(user),
-                                                 card_description);
+      CARDScriptParser.CardDescContext description = parser.cardDesc();
+      CardVisitor card_visitor = new CardVisitor();
 
-      return effect.Accept<Card>(card_visitor);
+      return description.Accept<Card>(card_visitor);
     }
   }
 }

@@ -3,6 +3,7 @@ using CARDScript.Compiler;
 using CARDScript.Compiler.Effects;
 using CARDScript.Compiler.Events;
 using CARDScript.Model;
+using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,65 +13,63 @@ using System.Text;
 namespace CARDScript {
   class CARDScriptTestMain {
     public static void Main() {
-      DummyCard d = new DummyCard("WHEN ENEMY HEALS >= 1 {\n" +
-                                  "  ENEMY TAKES 1 3 TIMES \n" +
-                                  "  USER HEALS 3\n" +
-                                  "} 3 CHARGES");
-      DummyCard e = new DummyCard("WHEN ENEMY HEALS >= 2  { ENEMY TAKES 1 3 TIMES }");
-      DummyPlayer a = new DummyPlayer();
-      DummyPlayer b = new DummyPlayer();
-      DummyGameController g = new DummyGameController(a, b);
-      Card compiled = CardCompiler.Compile(g, a, e);
+      
+      DummyGameController g = new DummyGameController();
+      Card compiled = CardCompiler.Compile(
+        "\"Test\" = 0 \n" +
+        "SPELL \n" +
+        "DAMAGE = 1 \n" +
+        "RANGE = 2 \n" + 
+        "COST = 3 \n" +
+        "LIMIT = 4 \n" +
+        "EFFECT = { \n" +
+        "  USER TAKES 3 \n" +
+        "}"
+        );
 
-      Console.WriteLine("Compiled object: " + compiled);
+      if (compiled == null) {
+        Console.WriteLine("NULL!");
+      }
+      Console.WriteLine("Compiled object:\n" + compiled);
     }
   }
 
-  class DummyCard : Card {
-    string description;
-    
-    public DummyCard(string s) {
-      description = s;
-    }
-  }
 
   class DummyGameController : IGameController {
-    IPlayer user;
-    IPlayer enemy;
 
-    public DummyGameController(IPlayer user, IPlayer enemy) {
-      this.user = user;
-      this.enemy = enemy;
+    public void FireEvent(GameEvent game_event) {
+      throw new NotImplementedException();
     }
 
-    public void Schedule(Compiler.Events.GameEventListener listener) {
+    public void Schedule(GameEventListener listener) {
       throw new NotImplementedException();
     }
 
     public IPlayer Opponent(IPlayer p) {
-      return p == user ? enemy : user;
-    }
-
-    public void FireEvent(GameEvent e) {
-      throw new NotImplementedException();
-    }
-  }
-
-  class DummyPlayer : IPlayer {
-
-    public void Damage(int value) {
       throw new NotImplementedException();
     }
 
-    public void Heal(int value) {
+    public bool InRange(IPlayer user, int range) {
       throw new NotImplementedException();
     }
 
-    public void Discard(int index) {
+    public void StartTurn() {
       throw new NotImplementedException();
     }
 
-    public void Draw(int value) {
+    public void EndTurn() {
+      throw new NotImplementedException();
+    }
+
+    public IPlayer Current() {
+      throw new NotImplementedException();
+    }
+
+    public bool PromptNegate(IPlayer user, Card card) {
+      throw new NotImplementedException();
+    }
+
+    public void PromptMove(IPlayer user, int distance) {
       throw new NotImplementedException();
     }
   }

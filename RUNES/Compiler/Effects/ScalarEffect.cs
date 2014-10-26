@@ -1,12 +1,17 @@
 ﻿using CARDScript.Compiler;
+using CARDScript.Model;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {
 
+  public enum Target {
+    ENEMY, USER
+  }
+
   public abstract class ScalarEffect : Effect {
-    private IPlayer _target;
-   
-    public IPlayer target {
+    private Target _target;
+
+    public Target target {
       get { return _target; }
       set { _target = value; }
     }
@@ -37,8 +42,8 @@ namespace CARDScript.Compiler.Effects {
       string verb = CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id).ToLower();
       verb = verb.Substring(1, verb.Length - 2);
       return string.Format("{0} {1} {2} {3} {4}",
-        target == user ? "you" : "your opponent",
-        (user == target ? verb.Substring(0, verb.Length - 1) : verb),
+        target == Target.USER ? "you" : "your opponent",
+        (target == Target.USER ? verb.Substring(0, verb.Length - 1) : verb),
         ivalue, Noun(), base.ToString());
     }
   }

@@ -1,6 +1,11 @@
 lexer grammar CARDScriptLexer;
 
-WS : [' \n\t'] -> channel(HIDDEN);
+NAME : DQUOTE CHARACTER* DQUOTE ;
+fragment DQUOTE : '\"';
+fragment CHARACTER :  ~['\"'] | WS ;
+
+COMMENT : ('#' ~[\n]*) -> skip;
+WS : [ \t\n]+ -> skip;
 
 // Conditionals
 WHEN		: 'WHEN';
@@ -33,6 +38,8 @@ RANGE   : 'RANGE';
 COST    : 'COST';
 LIMIT   : 'LIMIT';
 EFFECT  : 'EFFECT';
+DODGE   : 'DODGE';
+DISTANCE: 'DISTANCE';
 
 // CC Effects
 CHANNEL : 'CHANNEL';
@@ -78,6 +85,7 @@ ADDS    : 'ADDS';
 GT			: '>=';
 LT			: '<=';
 EQ			: '==';
+E       : '=';
 
 // Boolean operators
 AND			: 'AND' | '&&';
@@ -90,4 +98,4 @@ DOUBLE  : 'DOUBLE';
 
 // Values and Numbers
 IDENT   : [_a-zA-Z]+ [_a-zA-Z0-9]*;
-NUMBER	: [0-9]+;
+NUM	    : [0-9]+;

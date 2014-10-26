@@ -4,27 +4,23 @@ options {
 	tokenVocab=CARDScriptLexer;
 }
 
-cardDesc    : SKILL       LBRACE cardStats RBRACE     # cardSkill
-            | SPELL       LBRACE cardStats RBRACE     # cardSpell
-            | MELEE       LBRACE cardStats RBRACE     # cardMelee
-            | DASH NUMBER LBRACE cardStats RBRACE     # cardDash
-            | SELF NUMBER LBRACE COST   (EQ)? NUMBER
-                                 LIMIT  (EQ)? NUMBER  
-                          RBRACE                      # cardSelf
-            | PASSIVE     LBRACE effect RBRACE        # cardPassive
+cardDesc    : cardID DASH E? NUM cardALL cardE DODGE E? effect # cardDash 
+            | cardID SKILL        cardALL cardE DODGE E? effect # cardSkill
+            | cardID SPELL        cardALL cardE                  # cardSpell
+            | cardID MELEE        cardALL cardE                  # cardMelee
+            | cardID SELF E? NUM cardCL  cardE                  # cardSelf
+            | cardID PASSIVE              cardE                  # cardPassive
             ;
-
-cardStats   : DAMAGE  (EQ)? NUMBER
-              RANGE   (EQ)? NUMBER
-              COST    (EQ)? NUMBER 
-              LIMIT   (EQ)? NUMBER
-              EFFECT  (EQ)? LBRACE
-                effect
-              RBRACE;
+             
+cardID      : NAME E? NUM ;
+cardE       : EFFECT E? effect ;
+cardALL     : cardDR cardCL (preCond)?;
+cardDR      : DAMAGE E? NUM RANGE E? NUM ;
+cardCL      : COST   E? NUM LIMIT E? NUM ;
 
 cardCC	    : CHANNEL | SLOW | SNARE | STUN | KNOCK | SILENCE | BLIND ;
 
-effect		  : (preCond)? stat;
+effect		  : LBRACE stat RBRACE ;
 
 preCond		  : ACTIVATE option WHEN condition;
 
@@ -40,7 +36,7 @@ stat		    : when                              # statWhen
 when        : WHEN condition LBRACE stat RBRACE (value CHARGES)? ;
 
 // TODO(ticktakashi): Think about how to increase the stats of a card here.
-action      : cardCC NUMBER                                     # actionCC
+action      : cardCC NUM                                        # actionCC
             | player scalarEffect value                         # actionScalar  // e.g. Your opponent takes 4 damage. 
             | player ADDS value cardTarget FROM place TO place  # actionSearch  // e.g. Add one Mystic Shot from deck to hand
             ;
@@ -66,10 +62,10 @@ place       : player location ;
 location    : HAND | DECK | COOL ;
 
 // TODO(ticktakashi): Think about the IDENT case. Need to keep a symbol table.
-cardTarget	: ALL | MELEE | SKILL | SPELL | DASH | PASSIVE | NUMBER | THIS | IDENT ; 
+cardTarget	: ALL | MELEE | SKILL | SPELL | DASH | PASSIVE | NUM | THIS | IDENT ; 
 
 // TODO(ticktakashi): Add Card Based Values, Like x card's damage value.
-value		    : NUMBER                  # valueInt
+value		    : NUM                  # valueInt
             | value TILDE value       # valueRandom
             | IDENT DOT cardProperty  # valueCard   // TODO(ticktakashi): x.SHIELD would mean "equal to x's shield"
             | cardTarget IN place     # valueCount  // TODO(ticktakashi): ALL IN USER HAND would mean "equal to the number of cards in your hand"

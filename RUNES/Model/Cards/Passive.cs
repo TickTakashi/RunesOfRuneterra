@@ -6,6 +6,6 @@ using System.Text;
 
 namespace CARDScript.Model.Cards {
   public class Passive {
-    public Effect passive;
+    Effect passive_effect;
   }
 }

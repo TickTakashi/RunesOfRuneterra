@@ -59,13 +59,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Compile Include="Compiler\Effects\NullEffect.cs" />
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Events\GameEvent.cs" />
     <Compile Include="Compiler\EventMatchers\CARDScriptMatchers.cs" />
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Events\GameEventListener.cs" />
-    <Compile Include="Compiler\Events\RepeatEventListener.cs" />
     <Compile Include="Model\Cards\Card.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />

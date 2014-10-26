@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using CARDScript.Model;
 using Antlr4.Runtime;
+using CARDScript.Model.Cards;
 
 /* A Collection of Visitors for parsing CARDScript 
  *
@@ -19,49 +20,103 @@ using Antlr4.Runtime;
  * TODO(ticktakashi): This class does not implement all of the grammar.
  */
 namespace CARDScript.Compiler {
+  
 
-  class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
+  class CardVisitor : CARDScriptParserBaseVisitor<Card> {
+    struct CardStats {
+      public int damage;
+      public int range;
+      public int cost;
+      public int limit;
+    }
+
+    EffectVisitor effect_visitor;
+
+    public CardVisitor() {
+      this.effect_visitor = new EffectVisitor();
+    }
+
+    public override Card VisitCardDash(CARDScriptParser.CardDashContext context) {
+      int dash_strength = Int32.Parse(context.NUM().GetText());
+      CardStats s = ParseCardAll(context.cardALL());
+      string name = context.cardID().NAME().GetText();
+      int id      = Int32.Parse(context.cardID().NUM().GetText());
+      Effect hit  = context.cardE().Accept<Effect>(effect_visitor);
+      Effect dod = context.effect().Accept<Effect>(effect_visitor);
+      DashCard card = new DashCard(dash_strength, name, id, s.damage, s.range,
+        s.cost, s.limit, hit, dod);
+      return card;
+    }
+
+    public override Card VisitCardSpell(CARDScriptParser.CardSpellContext context) {
+      CardStats s = ParseCardAll(context.cardALL());
+      string name = context.cardID().NAME().GetText();
+      int id = Int32.Parse(context.cardID().NUM().GetText());
+      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
+      SpellCard card = new SpellCard(name, id, s.damage, s.range,
+        s.cost, s.limit, effect);
+      return card; 
+    }
+
+    // TODO(ticktakashi): Implement CardSkill
+    public override Card VisitCardSkill(CARDScriptParser.CardSkillContext context) {
+      return base.VisitCardSkill(context);
+    }
+
+    // TODO(ticktakashi): Implement CardMelee
+    public override Card VisitCardMelee(CARDScriptParser.CardMeleeContext context) {
+      return base.VisitCardMelee(context);
+    }
+
+    private CardStats ParseCardAll(CARDScriptParser.CardALLContext context) {
+      CardStats stats = ParseCardCL(context.cardCL());
+      stats.damage = Int32.Parse(context.cardDR().NUM(0).GetText());
+      stats.range = Int32.Parse(context.cardDR().NUM(1).GetText());
+      return stats;
+    }
+
+    private CardStats ParseCardCL(CARDScriptParser.CardCLContext context) {
+      CardStats stats = new CardStats();
+      stats.cost = Int32.Parse(context.NUM(0).GetText());
+      stats.limit = Int32.Parse(context.NUM(1).GetText());
+      return stats;
+    }
+
+    public override Card VisitCardSelf(CARDScriptParser.CardSelfContext context) {
+      return base.VisitCardSelf(context);
+    }
+
+    public override Card VisitCardPassive(CARDScriptParser.CardPassiveContext context) {
+      return base.VisitCardPassive(context);
+    }
+  }
+
+  public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
 
     ScalarEffectVisitor scalar_effect_visitor;
     ConditionVisitor condition_visitor;
-    PlayerVisitor player_visitor;
     IValueVisitor value_visitor;
-    IPlayer user;
-    Card source;
 
-    public EffectVisitor(IPlayer user, IPlayer opponent, Card source) {
-      this.source = source;
-      this.player_visitor = new PlayerVisitor(user, opponent);
-      this.user = user;
+    public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
       this.condition_visitor = new ConditionVisitor(value_visitor,
-                                                    player_visitor,
-                                                    scalar_effect_visitor);
+                                                   scalar_effect_visitor);
     }
 
     public override Effect VisitEffect(
         CARDScriptParser.EffectContext context) {
-      if (context.preCond() != null) {
-        // TODO(ticktakashi): Implement conditional activation.
-        // context.preCond().Accept<Precondition>(precond_visitor);
-      }
-      Effect e = context.stat().Accept<Effect>(this);
-      e.user = user;
-      e.source = source;
-      return e;
+      return context.stat().Accept<Effect>(this);
     }
 
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
-      IPlayer target = context.player().Accept<IPlayer>(player_visitor);
+      Target target = context.player().USER() != null ? Target.USER : Target.ENEMY;  
       ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(
           scalar_effect_visitor);
       scalar.target = target;
       scalar.ivalue = value;
-      scalar.user = user;
-      scalar.source = source;
       return scalar;
     }
 
@@ -78,17 +133,14 @@ namespace CARDScript.Compiler {
       EventMatcher trigger_condition =
           context.condition().Accept<EventMatcher>(condition_visitor);
       Effect scheduled_effect;
-      
+
       if (context.CHARGES() != null) {
         IValue value = context.value().Accept<IValue>(value_visitor);
-        scheduled_effect = new ScheduleEffect(new RepeatEventListener(
-            value, trigger_condition, triggered_effect));
+        scheduled_effect = new ScheduleEffect(trigger_condition, triggered_effect, value);
       } else {
-        scheduled_effect = new ScheduleEffect(new GameEventListener(
-            trigger_condition, triggered_effect));
+        scheduled_effect = new ScheduleEffect(trigger_condition, triggered_effect);
       }
-      scheduled_effect.user = user;
-      scheduled_effect.source = source;
+
       return scheduled_effect;
     }
 
@@ -103,14 +155,11 @@ namespace CARDScript.Compiler {
 
   class ConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {
     public IValueVisitor value_visitor;
-    public PlayerVisitor player_visitor;
     public ScalarEffectVisitor scalar_effect_visitor;
 
     public ConditionVisitor(IValueVisitor value_visitor,
-                            PlayerVisitor player_visitor,
                             ScalarEffectVisitor scalar_effect_visitor) {
       this.value_visitor = value_visitor;
-      this.player_visitor = player_visitor;
       this.scalar_effect_visitor = scalar_effect_visitor;
     }
 
@@ -118,13 +167,11 @@ namespace CARDScript.Compiler {
 
     public override EventMatcher VisitCondScalar(
         CARDScriptParser.CondScalarContext context) {
-      IPlayer target = context.player().Accept<IPlayer>(player_visitor);
+      Target target = context.player().USER() != null ? Target.USER : Target.ENEMY; 
       IValue value = context.value().Accept<IValue>(value_visitor);
       ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(
           scalar_effect_visitor);
       effect.ivalue = value;
-      effect.target = target;
-      effect.user = player_visitor.GetUser();
       effect.target = target;
 
       int op = context.ineq().start.Type;
@@ -222,32 +269,10 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class PlayerVisitor : CARDScriptParserBaseVisitor<IPlayer> {
-    IPlayer user;
-    IPlayer opponent;
-
-    public PlayerVisitor(IPlayer user, IPlayer opponent) {
-      this.user = user;
-      this.opponent = opponent;
-    }
-    
-    public override IPlayer VisitPlayer(
-        CARDScriptParser.PlayerContext context) {
-      if (context.ENEMY() != null)
-        return opponent;
-      else
-        return user;
-    }
-
-    public IPlayer GetUser() {
-      return user;
-    }
-  }
-
   class IValueVisitor : CARDScriptParserBaseVisitor<IValue> {
     public override IValue VisitValueInt(CARDScriptParser.ValueIntContext context) {
       // TODO(ticktakashi): Add new value types here.
-      int value = Int32.Parse(context.NUMBER().GetText());
+      int value = Int32.Parse(context.NUM().GetText());
       return new LiteralIntValue(value);
     }
 

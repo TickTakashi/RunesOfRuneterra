@@ -10,6 +10,12 @@ namespace CARDScript.Compiler.EventMatchers {
     public abstract bool Match(GameEvent e);
   }
 
+  public class NullMatcher : EventMatcher {
+    public override bool Match(GameEvent e) {
+      return true;
+    }
+  }
+
   public abstract class BinaryMatcher<T> : EventMatcher {
     protected T l;
     protected T r;
