@@ -1,7 +1,7 @@
 ﻿using CARDScript.Compiler.Effects;
 using CARDScript.Compiler.Effects.ScalarEffects;
 using CARDScript.Compiler.Events;
-using CARDScript.Compiler.EventMatchers;
+using CARDScript.Compiler.Matchers;
 using CARDScript.Compiler;
 using System;
 using System.Collections.Generic;
@@ -147,8 +147,8 @@ namespace CARDScript.Compiler {
     
     public override Effect VisitWhen(CARDScriptParser.WhenContext context) {
       Effect triggered_effect = context.stat().Accept<Effect>(this);
-      EventMatcher trigger_condition =
-          context.eventCond().Accept<EventMatcher>(event_condition_visitor);
+      Matcher<GameEvent> trigger_condition =
+          context.eventCond().Accept<Matcher<GameEvent>>(event_condition_visitor);
       Effect scheduled_effect;
 
       if (context.CHARGES() != null) {
@@ -161,6 +161,13 @@ namespace CARDScript.Compiler {
       return scheduled_effect;
     }
 
+    public override Effect VisitIf(CARDScriptParser.IfContext context) {
+      Effect ifthen = context.stat(0).Accept<Effect>(this);
+      Effect ifelse = context.ELSE() != null ? context.stat(1).Accept<Effect>(this) : null;
+      //StateMatcher 
+      return base.VisitIf(context);
+    }
+
     public override Effect VisitActionRepeat(
         CARDScriptParser.ActionRepeatContext context) {
       Effect action = context.action().Accept<Effect>(this);
@@ -170,7 +177,7 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class EventConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {
+  class EventConditionVisitor : CARDScriptParserBaseVisitor<Matcher<GameEvent>> {
     public IValueVisitor value_visitor;
     public ScalarEffectVisitor scalar_effect_visitor;
 
@@ -182,7 +189,7 @@ namespace CARDScript.Compiler {
 
     // TODO(ticktakashi): condCard (for statCard)
 
-    public override EventMatcher VisitEventCondScalar(
+    public override Matcher<GameEvent> VisitEventCondScalar(
         CARDScriptParser.EventCondScalarContext context) {
       Target target = context.player().USER() != null ? Target.USER : Target.ENEMY; 
       IValue value = context.value().Accept<IValue>(value_visitor);
@@ -192,7 +199,7 @@ namespace CARDScript.Compiler {
       effect.target = target;
 
       int op = context.ineq().start.Type;
-      UnaryMatcher<IValue> condition = null;
+      InequalityMatcher condition = null;
 
       switch (op) {
         case CARDScriptParser.GT:
@@ -210,24 +217,24 @@ namespace CARDScript.Compiler {
           break;
       }
      
-      EventMatcher combined = new ScalarMatcher(effect, condition);
+      Matcher<GameEvent> combined = new ScalarMatcher(effect, condition);
 
       return combined;
     }
 
-    public override EventMatcher VisitEventCondExpr(
+    public override Matcher<GameEvent> VisitEventCondExpr(
         CARDScriptParser.EventCondExprContext context) {
       int op = context.binopBool().start.Type;
-      EventMatcher condition = null;
-      EventMatcher left = context.eventCond(0).Accept<EventMatcher>(this);
-      EventMatcher right = context.eventCond(0).Accept<EventMatcher>(this);
+      Matcher<GameEvent> condition = null;
+      Matcher<GameEvent> left = context.eventCond(0).Accept<Matcher<GameEvent>>(this);
+      Matcher<GameEvent> right = context.eventCond(0).Accept<Matcher<GameEvent>>(this);
 
       switch (op) {
         case CARDScriptParser.OR:
-          condition = new OrMatcher(left, right);
+          condition = new OrMatcher<GameEvent>(left, right);
           break;
         case CARDScriptParser.AND:
-          condition = new AndMatcher(left, right);
+          condition = new AndMatcher<GameEvent>(left, right);
           break;
         default:
           Console.WriteLine("You have no yet implemented this binop: " +
@@ -238,15 +245,15 @@ namespace CARDScript.Compiler {
       return condition;
     }
 
-    public override EventMatcher VisitEventCondNot(
+    public override Matcher<GameEvent> VisitEventCondNot(
         CARDScriptParser.EventCondNotContext context) {
-      EventMatcher cond = context.eventCond().Accept<EventMatcher>(this);
-      return new NotMatcher(cond);
+      Matcher<GameEvent> cond = context.eventCond().Accept<Matcher<GameEvent>>(this);
+      return new NotMatcher<GameEvent>(cond);
     }
 
-    public override EventMatcher VisitEventCondParen(
+    public override Matcher<GameEvent> VisitEventCondParen(
         CARDScriptParser.EventCondParenContext context) {
-      EventMatcher cond = context.eventCond().Accept<EventMatcher>(this);
+      Matcher<GameEvent> cond = context.eventCond().Accept<Matcher<GameEvent>>(this);
       return cond;
     }
   }

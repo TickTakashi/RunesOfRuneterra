@@ -1,5 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
-using CARDScript.Compiler.EventMatchers;
+using CARDScript.Compiler.Matchers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

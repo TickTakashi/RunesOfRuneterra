@@ -32,14 +32,14 @@ stat		    : if                                # statIf
 			      | stat stat								          # statList
 			      ;
 
-// Triggers an effect the next time that whenCond occurs.
+// Triggers an effect the next time an event that matches eventCond occurs.
 when        : WHEN eventCond LBRACE stat RBRACE (value CHARGES)? ;
 
-// TODO(ticktakashi): Checks if whenCond is true when this card is activated.
+// TODO(ticktakashi): Checks if stateCond is true when this card is activated.
 if          : IF stateCond LBRACE stat RBRACE (ELSE LBRACE stat RBRACE)? ;
 
 // TODO(ticktakashi): Implement if conditions
-stateCond   : player HEALTH ineq value  #stateCondHealth // If the enemy has less than x health
+stateCond   : player HEALTH ineq value  #stateCondScalar // If the enemy has less than x health
             ; // TODO(ticktakashi): Melee attacked 3 times in the past 3 turns - Will require some kind of action history unless it is constantly counted.
               // This will be a stateCond which checks for historical eventCond.
               // Store all fired events in an ordered list and then search back till you find what you're looking for or reach some negtive conditions

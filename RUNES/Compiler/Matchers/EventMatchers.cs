@@ -5,50 +5,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CARDScript.Compiler.EventMatchers {
-  public abstract class EventMatcher {
-    public abstract bool Match(GameEvent e);
-  }
-
-  public class NullMatcher : EventMatcher {
-    public override bool Match(GameEvent e) {
+namespace CARDScript.Compiler.Matchers {
+  public class NullMatcher<T> : Matcher<T> {
+    public override bool Match(T e) {
       return true;
     }
   }
 
-  public abstract class BinaryMatcher<T> : EventMatcher {
-    protected T l;
-    protected T r;
-    public BinaryMatcher(T l, T r) {
+  public abstract class MatcherBinop<T> : Matcher<T> {
+    protected Matcher<T> l;
+    protected Matcher<T> r;
+    public MatcherBinop(Matcher<T> l, Matcher<T> r) {
       this.l = l;
       this.r = r;
     }
   }
 
-  public class OrMatcher : BinaryMatcher<EventMatcher> {
-    public OrMatcher(EventMatcher l, EventMatcher r) : base(l, r) { }
-    public override bool Match(GameEvent e) {
+  public class OrMatcher<T> : MatcherBinop<T> {
+    public OrMatcher(Matcher<T> l, Matcher<T> r) : base(l, r) { }
+    public override bool Match(T e) {
       return l.Match(e) || r.Match(e);
     }
   }
 
-  public class AndMatcher : BinaryMatcher<EventMatcher> {
-    public AndMatcher(EventMatcher l, EventMatcher r) : base(l, r) { }
-    public override bool Match(GameEvent e) {
+  public class AndMatcher<T> : MatcherBinop<T> {
+    public AndMatcher(Matcher<T> l, Matcher<T> r) : base(l, r) { }
+    public override bool Match(T e) {
       return l.Match(e) && r.Match(e);
     }
   }
 
-  public abstract class UnaryMatcher<T> : EventMatcher {
-    protected T l;
-    public UnaryMatcher(T l) {
+  public class NotMatcher<T> : Matcher<T> {
+    Matcher<T> l;
+    public NotMatcher(Matcher<T> l) {
       this.l = l;
     }
-  }
-
-  public class NotMatcher : UnaryMatcher<EventMatcher> {
-    public NotMatcher(EventMatcher e) : base(e) { }
-    public override bool Match(GameEvent e) {
+    public override bool Match(T e) {
       return !l.Match(e);
     }
 
@@ -57,7 +49,14 @@ namespace CARDScript.Compiler.EventMatchers {
     }
   }
 
-  public class GTMatcher : UnaryMatcher<IValue> {
+  public abstract class InequalityMatcher : Matcher<GameEvent> {
+    protected IValue l;
+    public InequalityMatcher(IValue l) { 
+      this.l = l;
+    }
+  }
+
+  public class GTMatcher : InequalityMatcher {
     public GTMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
       return l.GetValue() <= e.scalar_value;
@@ -68,7 +67,7 @@ namespace CARDScript.Compiler.EventMatchers {
     }
   }
 
-  public class LTMatcher : UnaryMatcher<IValue> {
+  public class LTMatcher : InequalityMatcher {
     public LTMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
       return l.GetValue() >= e.scalar_value;
@@ -79,7 +78,7 @@ namespace CARDScript.Compiler.EventMatchers {
     }
   }
 
-  public class EQMatcher : UnaryMatcher<IValue> {
+  public class EQMatcher : InequalityMatcher {
     public EQMatcher(IValue v) : base(v) { }
     public override bool Match(GameEvent e) {
       return l.GetValue() == e.scalar_value;
@@ -90,14 +89,15 @@ namespace CARDScript.Compiler.EventMatchers {
     }
   }
 
-  public class ScalarMatcher : EventMatcher {
+  public class ScalarMatcher : Matcher<GameEvent> {
     private ScalarEffect effect;
-    private UnaryMatcher<IValue> condition;
-    public ScalarMatcher(ScalarEffect effect, UnaryMatcher<IValue> condition) {
+    private InequalityMatcher condition;
+    public ScalarMatcher(ScalarEffect effect, InequalityMatcher condition) {
       this.effect = effect;
       this.condition = condition;
     }
 
+    // TODO(ticktakashi): Need to make sure this matches the right player
     public override bool Match(GameEvent e) {
       return effect.effect_id == e.event_type && condition.Match(e);
     }

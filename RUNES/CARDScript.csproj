@@ -60,10 +60,12 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
+    <Compile Include="Compiler\Matchers\Matcher.cs" />
     <Compile Include="Compiler\Events\GameEvent.cs" />
-    <Compile Include="Compiler\EventMatchers\CARDScriptMatchers.cs" />
+    <Compile Include="Compiler\Matchers\EventMatchers.cs" />
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Events\GameEventListener.cs" />
+    <Compile Include="Compiler\Matchers\StateMatchers.cs" />
     <Compile Include="Model\Cards\Card.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />

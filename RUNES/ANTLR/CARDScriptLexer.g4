@@ -52,6 +52,9 @@ KNOCK   : 'KNOCK';
 SILENCE : 'SILENCE';
 BLIND   : 'BLIND';
 
+// State Properties
+HEALTH  : 'HEALTH';
+
 // General Punctuation
 LBRACE		: '{';
 RBRACE		: '}';

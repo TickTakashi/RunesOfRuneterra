@@ -1,6 +1,6 @@
 ﻿using CARDScript.Compiler;
 using CARDScript.Compiler.Effects;
-using CARDScript.Compiler.EventMatchers;
+using CARDScript.Compiler.Matchers;
 using CARDScript.Compiler.Events;
 using System;
 using System.Collections.Generic;
