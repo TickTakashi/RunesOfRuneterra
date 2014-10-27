@@ -25,7 +25,6 @@ public class ScheduleEffect : Effect {
 
   public override bool Activate(Card source, IPlayer user,
       IGameController game_controller) {
-    // TODO(ticktakashi): Add the GameEventListener to the list of listeners
     game_controller.Schedule(new GameEventListener(listening_for, callback,
       user, game_controller, source, repeat));
     return base.Activate(source, user, game_controller);

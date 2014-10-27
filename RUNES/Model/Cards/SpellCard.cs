@@ -14,7 +14,6 @@ namespace CARDScript.Model.Cards {
    * the card can only be used if you are within range distance of your 
    * opponent.
    */
-  // TODO(ticktakashi): Implement SpellCard.
   public class SpellCard : Card {
     public int damage;
     public int range;

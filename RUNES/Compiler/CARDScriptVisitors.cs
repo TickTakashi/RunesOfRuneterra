@@ -94,7 +94,13 @@ namespace CARDScript.Compiler {
     }
 
     public override Card VisitCardSelf(CARDScriptParser.CardSelfContext context) {
-      return base.VisitCardSelf(context);
+      CardStats s = ParseCardCL(context.cardCL());
+      string name = context.cardID().NAME().GetText();
+      int id = Int32.Parse(context.cardID().NUM().GetText());
+      int time = Int32.Parse(context.NUM().GetText());
+      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
+      SelfCard card = new SelfCard(name, id, s.cost, s.limit, time, effect);
+      return card;
     }
 
     public override Card VisitCardPassive(CARDScriptParser.CardPassiveContext context) {
@@ -105,13 +111,13 @@ namespace CARDScript.Compiler {
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
 
     ScalarEffectVisitor scalar_effect_visitor;
-    ConditionVisitor condition_visitor;
+    EventConditionVisitor event_condition_visitor;
     IValueVisitor value_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
-      this.condition_visitor = new ConditionVisitor(value_visitor,
+      this.event_condition_visitor = new EventConditionVisitor(value_visitor,
                                                    scalar_effect_visitor);
     }
 
@@ -142,7 +148,7 @@ namespace CARDScript.Compiler {
     public override Effect VisitWhen(CARDScriptParser.WhenContext context) {
       Effect triggered_effect = context.stat().Accept<Effect>(this);
       EventMatcher trigger_condition =
-          context.condition().Accept<EventMatcher>(condition_visitor);
+          context.eventCond().Accept<EventMatcher>(event_condition_visitor);
       Effect scheduled_effect;
 
       if (context.CHARGES() != null) {
@@ -164,11 +170,11 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class ConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {
+  class EventConditionVisitor : CARDScriptParserBaseVisitor<EventMatcher> {
     public IValueVisitor value_visitor;
     public ScalarEffectVisitor scalar_effect_visitor;
 
-    public ConditionVisitor(IValueVisitor value_visitor,
+    public EventConditionVisitor(IValueVisitor value_visitor,
                             ScalarEffectVisitor scalar_effect_visitor) {
       this.value_visitor = value_visitor;
       this.scalar_effect_visitor = scalar_effect_visitor;
@@ -176,8 +182,8 @@ namespace CARDScript.Compiler {
 
     // TODO(ticktakashi): condCard (for statCard)
 
-    public override EventMatcher VisitCondScalar(
-        CARDScriptParser.CondScalarContext context) {
+    public override EventMatcher VisitEventCondScalar(
+        CARDScriptParser.EventCondScalarContext context) {
       Target target = context.player().USER() != null ? Target.USER : Target.ENEMY; 
       IValue value = context.value().Accept<IValue>(value_visitor);
       ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(
@@ -199,7 +205,7 @@ namespace CARDScript.Compiler {
           condition = new EQMatcher(value);
           break;
         default:
-          Console.WriteLine("You have no yet implemented this binop: " +
+          Console.WriteLine("You have not yet implemented this binop: " +
             context.ineq().GetText());
           break;
       }
@@ -209,12 +215,12 @@ namespace CARDScript.Compiler {
       return combined;
     }
 
-    public override EventMatcher VisitCondExpr(
-        CARDScriptParser.CondExprContext context) {
+    public override EventMatcher VisitEventCondExpr(
+        CARDScriptParser.EventCondExprContext context) {
       int op = context.binopBool().start.Type;
       EventMatcher condition = null;
-      EventMatcher left = context.condition(0).Accept<EventMatcher>(this);
-      EventMatcher right = context.condition(0).Accept<EventMatcher>(this);
+      EventMatcher left = context.eventCond(0).Accept<EventMatcher>(this);
+      EventMatcher right = context.eventCond(0).Accept<EventMatcher>(this);
 
       switch (op) {
         case CARDScriptParser.OR:
@@ -232,15 +238,15 @@ namespace CARDScript.Compiler {
       return condition;
     }
 
-    public override EventMatcher VisitCondNot(
-        CARDScriptParser.CondNotContext context) {
-      EventMatcher cond = context.condition().Accept<EventMatcher>(this);
+    public override EventMatcher VisitEventCondNot(
+        CARDScriptParser.EventCondNotContext context) {
+      EventMatcher cond = context.eventCond().Accept<EventMatcher>(this);
       return new NotMatcher(cond);
     }
 
-    public override EventMatcher VisitCondParen(
-        CARDScriptParser.CondParenContext context) {
-      EventMatcher cond = context.condition().Accept<EventMatcher>(this);
+    public override EventMatcher VisitEventCondParen(
+        CARDScriptParser.EventCondParenContext context) {
+      EventMatcher cond = context.eventCond().Accept<EventMatcher>(this);
       return cond;
     }
   }

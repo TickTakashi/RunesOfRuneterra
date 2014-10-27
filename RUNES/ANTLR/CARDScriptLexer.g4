@@ -5,10 +5,12 @@ fragment DQUOTE : '\"';
 fragment CHARACTER :  ~['\"'] | WS ;
 
 COMMENT : ('#' ~[\n]*) -> skip;
-WS : [ \t\n]+ -> skip;
+WS      : [ \t\n]+ -> skip;
 
 // Conditionals
 WHEN		: 'WHEN';
+IF      : 'IF';
+ELSE    : 'ELSE';
 CHARGES : 'CHARGES';
 TIMES   : 'TIMES';
 
@@ -92,7 +94,7 @@ AND			: 'AND' | '&&';
 OR			: 'OR'	| '||';
 NOT			: 'NOT' | '!';
 
-// Vaule modifiers 
+// Value modifiers 
 HALF    : 'HALF';
 DOUBLE  : 'DOUBLE';
 

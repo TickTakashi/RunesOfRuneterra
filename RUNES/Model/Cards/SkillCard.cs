@@ -12,7 +12,6 @@ namespace CARDScript.Model.Cards {
    * additional activation hook, as something may happen only when they are
    * dodged.
    */
-  // TODO(ticktakashi): Implement SkillCard.
   public class SkillCard : SpellCard {
     // TODO(ticktakashi): Think about adding pre and post effects.
     public Effect dodge_effect;

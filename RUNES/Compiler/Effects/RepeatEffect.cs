@@ -20,8 +20,7 @@ namespace CARDScript.Compiler.Effects {
       for (int i = 0; count.GetValue() - i > 0; i++)
         repeated_effect.Activate(source, user, game_controller);
 
-      // TODO(ticktakashi): Call next effect?
-      return true;
+      return next.Activate(source, user, game_controller);
     }
 
     public override string ToString() {
