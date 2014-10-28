@@ -7,6 +7,7 @@ using CARDScript.Model;
 using CARDScript.Model.Cards;
 using CARDScript.Compiler.Matchers;
 using CARDScript.Compiler;
+using CARDScript.Model.Players;
 
 /* Based on the WHEN statement, schedule a trigger condition
  * the effect_to_schedule in the correct list. 

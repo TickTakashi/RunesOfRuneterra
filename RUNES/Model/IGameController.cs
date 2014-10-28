@@ -1,6 +1,7 @@
 ﻿using CARDScript.Compiler;
 using CARDScript.Compiler.Events;
 using CARDScript.Model.Cards;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,15 +27,6 @@ namespace CARDScript.Model {
 
     // Returns true if this player is within range distance of opponent
     bool InRange(IPlayer user, int range);
-
-    // Starts the current players turn by drawing a card etc.
-    void StartTurn();
-
-    // Ends the current players turn and starts the next players turn.
-    void EndTurn();
-
-    // Whos turn is it?
-    IPlayer Current();
 
     // Prompt player to negate this card. Also fires SkillshotHit and Miss events
     // This should be similar to FireEvent

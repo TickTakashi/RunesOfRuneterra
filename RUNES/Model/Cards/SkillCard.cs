@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;

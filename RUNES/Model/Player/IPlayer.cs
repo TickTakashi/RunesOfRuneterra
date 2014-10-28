@@ -1,9 +1,10 @@
-﻿using System;
+﻿using CARDScript.Model.Players;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CARDScript.Model {
+namespace CARDScript.Model.Players {
   /* The IPlayer Interface
    * 
    * A interface that describes the behaviour that a Player must provide.
@@ -33,24 +34,10 @@ namespace CARDScript.Model {
     // Refreshes Action Points, setting to the max value
     void RefreshActionPoints();
 
-    // Stuns the player for n turns
-    void Stun(int n);
-    bool IsStunned();
+    // Add a buff to the player
+    void BuffPlayer(BuffType type, int strength);
 
-    // Snares the player for n turns
-    void Snare(int n);
-    bool IsSnared();
-
-    // Blinds the player for n turns
-    void Blind(int n);
-    bool IsBlind();
-
-    // Slows the player for n turns 
-    void Slow(int n);
-    bool IsSlowed();
-
-    // Silence the player for n turns
-    void Silence(int n);
-    bool IsSilenced();
+    // Check for CC
+    bool HasBuff(BuffType type);
   }
 }

@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,24 +16,26 @@ namespace CARDScript.Model.Cards {
    * case.
    */
   public class DashCard : SpellCard {
-    int distance;
+    private int _distance;
+    public int distance { get { return _distance; } }
+
     Effect dodge;
     
     public DashCard(int distance, string name, int id, int damage, int range,
       int cost, int limit, Effect effect, Effect dodge) :
       base(name, id, damage, range, cost, limit, effect) {
-      this.distance = distance;
+      this._distance = distance;
       this.dodge = dodge;
     }
 
     public override bool CanActivate(IPlayer user, IGameController game_controller) {
-      return !(user.IsSnared() || user.IsStunned() || user.IsSilenced()) &&
-        user.HasActionPoints(cost);
+      return !(user.HasBuff(BuffType.SNARE) || user.HasBuff(BuffType.STUN) ||
+        user.HasBuff(BuffType.SILENCE)) && user.HasActionPoints(cost);
     } 
 
     public override void Activate(IPlayer user, IGameController game_controller) {
       user.Spend(cost);
-      game_controller.PromptMove(user, distance);
+      game_controller.PromptMove(user, _distance);
 
       // TODO(ticktakashi): Fire an ActivationBegin event here.
       effect.Activate(this, user, game_controller);

@@ -1,5 +1,6 @@
 ﻿using CARDScript.Model;
 using CARDScript.Model.Cards;
+using CARDScript.Model.Players;
 namespace CARDScript.Compiler.Effects.ScalarEffects {
   public class Draw : ScalarEffect {
 

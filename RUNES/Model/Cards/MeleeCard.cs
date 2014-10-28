@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace CARDScript.Model.Cards {
 
 
     public override bool CanActivate(IPlayer user, IGameController game_controller) {
-      return !user.IsBlind() && base.CanActivate(user, game_controller);
+      return !user.HasBuff(BuffType.BLIND) && base.CanActivate(user, game_controller);
     }
 
     public override void Activate(IPlayer user, IGameController game_controller) {

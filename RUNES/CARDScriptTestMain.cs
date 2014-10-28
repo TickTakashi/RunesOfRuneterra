@@ -4,6 +4,7 @@ using CARDScript.Compiler.Effects;
 using CARDScript.Compiler.Events;
 using CARDScript.Model;
 using CARDScript.Model.Cards;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;

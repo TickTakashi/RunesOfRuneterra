@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CARDScript.Model.Players;
 
 namespace CARDScript.Model.Cards {
   /* The SpellCard Class

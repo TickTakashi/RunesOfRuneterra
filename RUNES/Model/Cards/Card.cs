@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using CARDScript.Model.Players;
 
 namespace CARDScript.Model.Cards {
   /* The Card Class
@@ -15,23 +16,31 @@ namespace CARDScript.Model.Cards {
    * to activate and the max number allowed in a deck.
    */
   public abstract class Card {
-    protected string name;
-    protected int id;
-    protected int cost;
-    protected int limit;
+    protected string _name;
+    public string name { get { return _name; } }
+
+    protected int _id;
+    public int id { get { return _id; } }
+    
+    protected int _cost;
+    public int cost { get { return _cost; } }
+
+    protected int _limit;
+    public int limit { get { return _limit;  } }
+
     protected Effect effect;
 
     public Card(string name, int id, int cost, int limit, Effect effect) {
-      this.name = name;
-      this.id = id;
-      this.cost = cost;
-      this.limit = limit;
+      this._name = name;
+      this._id = id;
+      this._cost = cost;
+      this._limit = limit;
       this.effect = effect;
     }
 
     // TODO(ticktakashi): Implement conditional activation.
     public virtual bool CanActivate(IPlayer user, IGameController UNUSED) {
-      return !(user.IsStunned() || user.IsSilenced()) &&
+      return !(user.HasBuff(BuffType.STUN) || user.HasBuff(BuffType.SILENCE)) &&
         user.HasActionPoints(cost);
     }
 
@@ -42,12 +51,16 @@ namespace CARDScript.Model.Cards {
     }
 
     public virtual string PrettyPrint() {
-      return string.Format("Name: {0}\nID: {1}\nCost: {2}\nLimit: {3}", name, id,
-        cost, limit);
+      return string.Format("Name: {0}\nID: {1}\nCost: {2}\nLimit: {3}", name, _id,
+        cost, _limit);
     }
 
     public override string ToString() {
       return PrettyPrint() + "\nEffect: " + effect.ToString();
+    }
+
+    public string GetDescription() {
+      return effect.ToString();
     }
   }
 }
