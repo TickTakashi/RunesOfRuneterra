@@ -31,9 +31,13 @@ namespace CARDScript.Model {
 
     // Prompt player to negate this card. Also fires SkillshotHit and Miss events
     // This should be similar to FireEvent
-    bool PromptNegate(IPlayer user, Card card, Effect effect);
+    void PromptNegate(IPlayer user, Card card, Effect effect, EffectCallback callback);
 
     // Prompt the player to chose a place within distance range and move there
-    void PromptMove(IPlayer user, int distance);
+    void PromptMove(IPlayer user, int distance, EffectCallback callback);
+
+
   }
+
+  public delegate void EffectCallback(Card card, IPlayer user, IGameController controller);
 }

@@ -14,12 +14,8 @@ namespace CARDScript.Compiler.Effects {
     }
 
     // Activate this effect, returns true if the effect can be deleted.
-    public virtual bool  Activate(Card card, IPlayer user, IGameController controller) {
-      if (next != null) {
-        return next.Activate(card, user, controller);
-      } else {
-        return true;
-      }
+    public virtual bool Activate(Card card, IPlayer user, IGameController controller) {
+      return !(next != null && next.Activate(card, user, controller));
     }
 
     public virtual bool CanActivate(Card card, IPlayer user, IGameController controller) {
@@ -32,19 +28,11 @@ namespace CARDScript.Compiler.Effects {
     // that we can decide whether or not to add a DealsCardDamageEffect when a
     // DamageCard is created.
     public virtual bool DealsCardDamage() {
-      if (next != null) {
-        return next.DealsCardDamage();
-      } else {
-        return false;
-      }
+      return next != null && next.DealsCardDamage();
     }
 
     public virtual bool CanNegate(Effect effect) {
-      if (next != null) {
-        return next.CanNegate(effect);
-      } else {
-        return false;
-      }
+      return next != null && next.CanNegate(effect);
     }
 
     // TODO(ticktakashi): Investigate the sanity of this.  

@@ -14,7 +14,7 @@ namespace CARDScript.Model.Cards {
       Effect effect) : base(name, id, cost, limit, effect) {
       this._damage = damage;
       if (!effect.DealsCardDamage()) {
-        Effect cardDamage = new DealsCardDamageEffect(effect, this);
+        Effect cardDamage = new BasicCardEffect(effect, this);
         this.effect = cardDamage;
       }
     }
