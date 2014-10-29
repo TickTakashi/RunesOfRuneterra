@@ -1,7 +1,7 @@
 ﻿using CARDScript.Model;
 using CARDScript.Model.Cards;
 using CARDScript.Model.Players;
-namespace CARDScript.Compiler.Effects.ScalarEffects {
+namespace CARDScript.Compiler.Effects.TargetedScalarEffects {
   public class Heal : TargetedScalarEffect {
 
     public override bool Activate(Card source, IPlayer user, IGameController game_controller) {

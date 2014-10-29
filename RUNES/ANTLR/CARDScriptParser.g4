@@ -49,7 +49,9 @@ stateCond   : player HEALTH ineq value  #stateCondScalar // If the enemy has les
 //                    since those will still be combinatorially useful and
 //                    it will save a bunch of time and complexity in 
 //                    frequently run code.
-action      : ccEffect NUM                                      # actionCC
+action      : KNOCKBACK NUM                                     # actionKnockback
+            | DASH NUM                                          # actionDash
+            | ccEffect NUM                                      # actionCC
             | player scalarEffect value                         # actionScalar  // e.g. Your opponent takes 4 damage. 
             | player ADDS value cardTarget FROM place TO place  # actionSearch  // e.g. Add one Mystic Shot from deck to hand
             ;
@@ -72,7 +74,7 @@ player		  : USER | ENEMY ;
 //                    himself etc.
 scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
 
-ccEffect	  : SLOW | SNARE | STUN | KNOCKBACK | KNOCKUP | SILENCE | BLIND ;
+ccEffect	  : SLOW | SNARE | STUN | KNOCKUP | SILENCE | BLIND ;
 
 
 // TODO(ticktakashi): Implement semantics for places. Like the hand, cooldown, and the deck.

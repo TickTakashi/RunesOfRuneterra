@@ -1,5 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
-using CARDScript.Compiler.Effects.ScalarEffects;
+using CARDScript.Compiler.Effects.TargetedScalarEffects;
 using CARDScript.Compiler.Events;
 using CARDScript.Compiler.Matchers;
 using CARDScript.Compiler;

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.Effects.ScalarEffects {
-  public class Dash : ScalarEffect {
+  public class Dash : StandardBuff {
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
       controller.PromptMove(user, value, base.Activate);
       return true;

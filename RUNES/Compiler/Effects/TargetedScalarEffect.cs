@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler;
+using CARDScript.Compiler.Effects.ScalarEffects;
 using CARDScript.Model;
 using System.Collections;
 
@@ -14,15 +15,6 @@ namespace CARDScript.Compiler.Effects {
     public Target target {
       get { return _target; }
       set { _target = value; }
-    }
-
-
-    // TODO: Surely all effects need this?
-    private int _effect_id;
-
-    public int effect_id {
-      get { return _effect_id; }
-      set { _effect_id = value; }
     }
 
     // TODO(ticktakashi): Reconsider the structure of this ToString() method to
