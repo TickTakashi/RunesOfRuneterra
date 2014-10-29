@@ -7,11 +7,10 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.Effects {
-  // TODO(ticktakashi): Investigate whether or not this can be used as an entry
-  // point for dodging and negation. All things that happen before this effect
-  // should be considered things that activate anyway regardless of dodging and
-  // things that activate afterwards are part of the cards effect that can be 
-  // dodged. This would become sort of a master effect.
+  // This class is an important entry point for dodging. If you are confused,
+  // read the commit logs. Also, try and remember that this effect deals the
+  // "normal" damage of the card. You don't need to deal damage again anywhere
+  // else, and all damage now happens through effects.
   public class BasicCardDamage : Effect {
     protected DamageCard damage_card;
 
