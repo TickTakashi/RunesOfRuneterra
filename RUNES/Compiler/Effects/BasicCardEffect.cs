@@ -12,10 +12,10 @@ namespace CARDScript.Compiler.Effects {
   // should be considered things that activate anyway regardless of dodging and
   // things that activate afterwards are part of the cards effect that can be 
   // dodged. This would become sort of a master effect.
-  public class BasicCardEffect : Effect {
+  public class BasicCardDamage : Effect {
     protected DamageCard damage_card;
 
-    public BasicCardEffect(Effect next, DamageCard damage_card) {
+    public BasicCardDamage(Effect next, DamageCard damage_card) {
       this.damage_card = damage_card;
       this.next = next;
     }
@@ -28,11 +28,11 @@ namespace CARDScript.Compiler.Effects {
     }
 
 
-    public virtual void DealDamage(Card card, IPlayer user, IGameController controller) {
+    public virtual bool DealDamage(Card card, IPlayer user, IGameController controller) {
       if (damage_card.InRange(user, controller))
         user.Damage(damage_card.damage);
 
-      base.Activate(card, user, controller);
+      return base.Activate(card, user, controller);
     }
 
     // We check if we are in range here, because this will not be reached if 
@@ -47,13 +47,25 @@ namespace CARDScript.Compiler.Effects {
     }
   }
 
-  public class SkillshotEffect : BasicCardEffect {
-    public SkillshotEffect(Effect a, DamageCard b) : base(a, b) { }
+  public class SkillCardDamage : BasicCardDamage {
+    public SkillCardDamage(Effect a, DamageCard b) : base(a, b) { }
 
     public override void DealDamage(Card card, IPlayer user, IGameController controller) {
       if (damage_card.InRange(user, controller)) {
         user.Damage(damage_card.damage);
-        // Fire skillshot landed event here.
+        // TODO(ticktakashi): Fire skillshot landed event here.
+      }
+      base.Activate(card, user, controller);
+    }
+  }
+
+  public class MeleeCardDamage : BasicCardDamage {
+    public MeleeCardDamage(Effect a, DamageCard b) : base(a, b) { }
+
+    public override void DealDamage(Card card, IPlayer user, IGameController controller) {
+      if (damage_card.InRange(user, controller)) {
+        user.Damage(damage_card.damage);
+        // TODO(ticktakashi): Fire onhit event here.
       }
       base.Activate(card, user, controller);
     }

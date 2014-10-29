@@ -39,5 +39,5 @@ namespace CARDScript.Model {
 
   }
 
-  public delegate void EffectCallback(Card card, IPlayer user, IGameController controller);
+  public delegate bool EffectCallback(Card card, IPlayer user, IGameController controller);
 }

@@ -31,5 +31,12 @@ namespace CARDScript.Model.Cards {
     public override bool InRange(IPlayer user, IGameController controller) {
       return controller.InRange(user, user.GetMeleeRange());
     }
+
+    protected override void SetCardDamage() {
+      if (!effect.DealsCardDamage()) {
+        Effect cardDamage = new MeleeCardDamage(effect, this);
+        this.effect = cardDamage;
+      }
+    }
   }
 }

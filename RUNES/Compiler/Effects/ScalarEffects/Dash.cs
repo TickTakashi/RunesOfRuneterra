@@ -9,8 +9,8 @@ using System.Text;
 namespace CARDScript.Compiler.Effects.ScalarEffects {
   public class Dash : ScalarEffect {
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      controller.PromptMove(user, value);
-      return base.Activate(card, user, controller);
+      controller.PromptMove(user, value, base.Activate);
+      return true;
     }
 
     // We can always dash if we know that we are not CCd.
@@ -19,10 +19,8 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
         !user.HasBuff(BuffType.SILENCE);
     }
 
-
     public override bool CanNegate(Effect effect) {
-      // 
-      return effect is SkillEffect || base.CanNegate(effect);     
+      return effect is SkillCardDamage || base.CanNegate(effect);     
     }
   }
 }

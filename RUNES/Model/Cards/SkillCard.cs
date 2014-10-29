@@ -14,13 +14,16 @@ namespace CARDScript.Model.Cards {
    * dodged.
    */
   public class SkillCard : SpellCard {
-    // TODO(ticktakashi): Think about adding pre and post effects.
-    public Effect dodge_effect;
-
     public SkillCard(string name, int id, int damage, int range, int cost,
         int limit, Effect effect) : base(name, id, damage,
-        range, cost, limit, new SkillshotEffect(effect, this)) {
-      this.dodge_effect = dodge_effect;
+        range, cost, limit, effect) {
+    }
+
+    protected override void SetCardDamage() {
+      if (!effect.DealsCardDamage()) {
+        Effect cardDamage = new SkillCardDamage(effect, this);
+        this.effect = cardDamage;
+      }
     }
   }
 }
