@@ -7,7 +7,12 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.Effects.ScalarEffects {
-  public class Dash : StandardBuff {
+  public class Dash : ScalarEffect {
+
+    public Dash(int distance) {
+      this.ivalue = new LiteralIntValue(distance);
+    }
+
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
       controller.PromptMove(user, value, base.Activate);
       return true;
@@ -21,6 +26,10 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
 
     public override bool CanNegate(Effect effect) {
       return effect is SkillCardDamage || base.CanNegate(effect);     
+    }
+
+    public override string ToString() {
+      return "\nDASH " + value + "\n" + base.ToString();
     }
   }
 }

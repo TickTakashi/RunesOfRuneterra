@@ -10,6 +10,7 @@ using System.Text;
 using CARDScript.Model;
 using Antlr4.Runtime;
 using CARDScript.Model.Cards;
+using CARDScript.Compiler.Effects.ScalarEffects;
 
 /* A Collection of Visitors for parsing CARDScript 
  *
@@ -104,6 +105,16 @@ namespace CARDScript.Compiler {
             return new NullEffect();
     }
 
+    public override Effect VisitActionDash(CARDScriptParser.ActionDashContext context) {
+      int distance = Int32.Parse(context.NUM().GetText());
+      return new Dash(distance);
+    }
+
+    public override Effect VisitActionCC(CARDScriptParser.ActionCCContext context) {
+      return new StandardBuff(context.ccEffect().Start.Type, 
+        Int32.Parse(context.NUM().GetText()));
+    }
+
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
@@ -142,7 +153,7 @@ namespace CARDScript.Compiler {
     public override Effect VisitIf(CARDScriptParser.IfContext context) {
       Effect ifthen = context.stat(0).Accept<Effect>(this);
       Effect ifelse = context.ELSE() != null ? context.stat(1).Accept<Effect>(this) : null;
-      //StateMatcher 
+      // TODO(ticktakashi): Visit If needs to be implemented along with StateMatchers 
       return base.VisitIf(context);
     }
 

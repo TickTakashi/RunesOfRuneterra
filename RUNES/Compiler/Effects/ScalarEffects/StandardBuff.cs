@@ -10,10 +10,11 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
   public class StandardBuff : ScalarEffect {
     private BuffType buff_type;
 
-    public StandardBuff(int effect_id) {
+    public StandardBuff(int effect_id, int strength) {
       this.effect_id = effect_id;
       this.buff_type = (BuffType) Enum.Parse(typeof(BuffType),
          CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id), true);
+      this.ivalue = new LiteralIntValue(strength);
     }
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
