@@ -40,15 +40,15 @@ RANGE   : 'RANGE';
 COST    : 'COST';
 LIMIT   : 'LIMIT';
 EFFECT  : 'EFFECT';
-DODGE   : 'DODGE';
-DISTANCE: 'DISTANCE';
+TIME    : 'TIME';
 
 // CC Effects
 CHANNEL : 'CHANNEL';
 SLOW    : 'SLOW';
 SNARE   : 'SNARE';
 STUN    : 'STUN';
-KNOCK   : 'KNOCK';
+KNOCKBACK   : 'KNOCKBACK';
+KNOCKUP     : 'KNOCKUP';
 SILENCE : 'SILENCE';
 BLIND   : 'BLIND';
 
@@ -100,6 +100,7 @@ NOT			: 'NOT' | '!';
 // Value modifiers 
 HALF    : 'HALF';
 DOUBLE  : 'DOUBLE';
+DISTANCE: 'DISTANCE';
 
 // Values and Numbers
 IDENT   : [_a-zA-Z]+ [_a-zA-Z0-9]*;

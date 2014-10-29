@@ -19,6 +19,9 @@ namespace CARDScript.Model.Cards {
     public SelfCard(string name, int id, int cost, int limit, int time,
         Effect effect) : base(name, id, cost, limit, effect) {
       this._time = time;
+      if (effect == null) {
+        throw new NotImplementedException(); 
+      }
     }
 
     public override void Activate(IPlayer user, IGameController game_controller) {

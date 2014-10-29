@@ -72,7 +72,7 @@ player		  : USER | ENEMY ;
 //                    himself etc.
 scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
 
-ccEffect	  : SLOW | SNARE | STUN | KNOCK | SILENCE | BLIND ;
+ccEffect	  : SLOW | SNARE | STUN | KNOCKBACK | KNOCKUP | SILENCE | BLIND ;
 
 
 // TODO(ticktakashi): Implement semantics for places. Like the hand, cooldown, and the deck.
@@ -81,7 +81,8 @@ place       : player location ;
 location    : HAND | DECK | COOL ;
 
 // TODO(ticktakashi): Think about the IDENT case. Need to keep a symbol table.
-cardTarget	: ALL | MELEE | SKILL | SPELL | DASH | PASSIVE | NUM | THIS | IDENT ; 
+// Keep it simple, we dont need this yet.
+cardTarget	: ALL | MELEE | SKILL | SPELL | PASSIVE | NUM | THIS | IDENT ; 
 
 // TODO(ticktakashi): Add Card Based Values, Like x card's damage value.
 value		    : NUM                     # valueInt

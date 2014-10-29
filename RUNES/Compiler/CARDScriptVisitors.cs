@@ -37,61 +37,49 @@ namespace CARDScript.Compiler {
     }
 
     public override Card VisitCardSpell(CARDScriptParser.CardSpellContext context) {
-      CardInfo s = ParseCardAll(context.cardALL());
-      string name = context.cardID().NAME().GetText();
-      int id = Int32.Parse(context.cardID().NUM().GetText());
-      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
-      SpellCard card = new SpellCard(name, id, s.damage, s.range,
+      CardInfo s = ParseCardID(context.cardID());
+      int damage = Int32.Parse(context.NUM(0).GetText());
+      int range = Int32.Parse(context.NUM(1).GetText());
+      Effect effect = context.cardE().Accept<Effect>(effect_visitor); 
+      SpellCard card = new SpellCard(s.name, s.id, damage, range,
         s.cost, s.limit, effect);
       return card; 
     }
 
     public override Card VisitCardSkill(CARDScriptParser.CardSkillContext context) {
-      CardInfo s = ParseCardAll(context.cardALL());
-      string name = context.cardID().NAME().GetText();
-      int id = Int32.Parse(context.cardID().NUM().GetText());
-      Effect hit = context.cardE().Accept<Effect>(effect_visitor);
-      Effect dod = context.effect().Accept<Effect>(effect_visitor);
-      SkillCard card = new SkillCard(name, id, s.damage, s.range, s.cost,
-        s.limit, hit, dod);
+      CardInfo s = ParseCardID(context.cardID());
+      int damage = Int32.Parse(context.NUM(0).GetText());
+      int range  = Int32.Parse(context.NUM(1).GetText());
+      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
+      SkillCard card = new SkillCard(s.name, s.id, damage, range, s.cost,
+        s.limit, effect);
       return card;
     }
 
     public override Card VisitCardMelee(CARDScriptParser.CardMeleeContext context) {
-      CardInfo s = ParseCardAll(context.cardID());
+      CardInfo s = ParseCardID(context.cardID());
+      int damage = Int32.Parse(context.NUM().GetText());
       Effect effect = context.cardE().effect().Accept<Effect>(effect_visitor);
-      MeleeCard card = new MeleeCard(s.name, s.id, s.damage,
+      MeleeCard card = new MeleeCard(s.name, s.id, damage,
         s.cost, s.limit, effect);
       return card; 
     }
+    
+    public override Card VisitCardSelf(CARDScriptParser.CardSelfContext context) {
+      CardInfo s = ParseCardID(context.cardID());
+      int time = Int32.Parse(context.NUM().GetText());
+      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
+      SelfCard card = new SelfCard(s.name, s.id, s.cost, s.limit, time, effect);
+      return card;
+    }
 
-    private CardInfo ParseCardAll(CARDScriptParser.CardIDContext context) {
+    private CardInfo ParseCardID(CARDScriptParser.CardIDContext context) {
       CardInfo stats = new CardInfo();
       stats.name = context.NAME().GetText();
       stats.id = Int32.Parse(context.NUM(0).GetText());
       stats.cost = Int32.Parse(context.NUM(1).GetText());
       stats.limit = Int32.Parse(context.NUM(2).GetText());
       return stats;
-    }
-
-    private List<Effect> ParseEffects(CARDScriptParser.CardEContext context) {
-      List<Effect> ret = new List<Effect>();
-
-      return ret;
-    }
-
-    public override Card VisitCardSelf(CARDScriptParser.CardSelfContext context) {
-      CardInfo s = ParseCardCL(context.cardCL());
-      string name = context.cardID().NAME().GetText();
-      int id = Int32.Parse(context.cardID().NUM().GetText());
-      int time = Int32.Parse(context.NUM().GetText());
-      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
-      SelfCard card = new SelfCard(name, id, s.cost, s.limit, time, effect);
-      return card;
-    }
-
-    public override Card VisitCardPassive(CARDScriptParser.CardPassiveContext context) {
-      return base.VisitCardPassive(context);
     }
   }
 

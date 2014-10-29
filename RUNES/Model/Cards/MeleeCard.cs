@@ -33,7 +33,7 @@ namespace CARDScript.Model.Cards {
     }
 
     protected override void SetCardDamage() {
-      if (!effect.DealsCardDamage()) {
+      if (effect == null || !effect.DealsCardDamage()) {
         Effect cardDamage = new MeleeCardDamage(effect, this);
         this.effect = cardDamage;
       }

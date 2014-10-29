@@ -66,11 +66,11 @@ namespace CARDScript {
       throw new NotImplementedException();
     }
 
-    public bool PromptNegate(IPlayer user, Card card) {
+    public void PromptNegate(IPlayer user, Card card, Effect effect, EffectCallback callback) {
       throw new NotImplementedException();
     }
 
-    public void PromptMove(IPlayer user, int distance) {
+    public void PromptMove(IPlayer user, int distance, EffectCallback callback) {
       throw new NotImplementedException();
     }
   }

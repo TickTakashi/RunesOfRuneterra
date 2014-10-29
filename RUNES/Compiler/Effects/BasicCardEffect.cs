@@ -49,24 +49,24 @@ namespace CARDScript.Compiler.Effects {
   public class SkillCardDamage : BasicCardDamage {
     public SkillCardDamage(Effect a, DamageCard b) : base(a, b) { }
 
-    public override void DealDamage(Card card, IPlayer user, IGameController controller) {
+    public override bool DealDamage(Card card, IPlayer user, IGameController controller) {
       if (damage_card.InRange(user, controller)) {
         user.Damage(damage_card.damage);
         // TODO(ticktakashi): Fire skillshot landed event here.
       }
-      base.Activate(card, user, controller);
+      return base.Activate(card, user, controller);
     }
   }
 
   public class MeleeCardDamage : BasicCardDamage {
     public MeleeCardDamage(Effect a, DamageCard b) : base(a, b) { }
 
-    public override void DealDamage(Card card, IPlayer user, IGameController controller) {
+    public override bool DealDamage(Card card, IPlayer user, IGameController controller) {
       if (damage_card.InRange(user, controller)) {
         user.Damage(damage_card.damage);
         // TODO(ticktakashi): Fire onhit event here.
       }
-      base.Activate(card, user, controller);
+      return base.Activate(card, user, controller);
     }
   }
 }

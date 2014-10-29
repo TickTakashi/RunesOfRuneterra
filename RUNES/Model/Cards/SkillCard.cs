@@ -20,7 +20,7 @@ namespace CARDScript.Model.Cards {
     }
 
     protected override void SetCardDamage() {
-      if (!effect.DealsCardDamage()) {
+      if (effect == null || !effect.DealsCardDamage()) {
         Effect cardDamage = new SkillCardDamage(effect, this);
         this.effect = cardDamage;
       }
