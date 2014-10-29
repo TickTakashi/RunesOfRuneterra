@@ -23,9 +23,9 @@ namespace CARDScript.Compiler {
   
 
   class CardVisitor : CARDScriptParserBaseVisitor<Card> {
-    struct CardStats {
-      public int damage;
-      public int range;
+    struct CardInfo {
+      public string name;
+      public int id;
       public int cost;
       public int limit;
     }
@@ -36,20 +36,8 @@ namespace CARDScript.Compiler {
       this.effect_visitor = new EffectVisitor();
     }
 
-    public override Card VisitCardDash(CARDScriptParser.CardDashContext context) {
-      int dash_strength = Int32.Parse(context.NUM().GetText());
-      CardStats s = ParseCardAll(context.cardALL());
-      string name = context.cardID().NAME().GetText();
-      int id      = Int32.Parse(context.cardID().NUM().GetText());
-      Effect hit  = context.cardE().Accept<Effect>(effect_visitor);
-      Effect dod = context.effect().Accept<Effect>(effect_visitor);
-      DashCard card = new DashCard(dash_strength, name, id, s.damage, s.range,
-        s.cost, s.limit, hit, dod);
-      return card;
-    }
-
     public override Card VisitCardSpell(CARDScriptParser.CardSpellContext context) {
-      CardStats s = ParseCardAll(context.cardALL());
+      CardInfo s = ParseCardAll(context.cardALL());
       string name = context.cardID().NAME().GetText();
       int id = Int32.Parse(context.cardID().NUM().GetText());
       Effect effect = context.cardE().Accept<Effect>(effect_visitor);
@@ -59,7 +47,7 @@ namespace CARDScript.Compiler {
     }
 
     public override Card VisitCardSkill(CARDScriptParser.CardSkillContext context) {
-      CardStats s = ParseCardAll(context.cardALL());
+      CardInfo s = ParseCardAll(context.cardALL());
       string name = context.cardID().NAME().GetText();
       int id = Int32.Parse(context.cardID().NUM().GetText());
       Effect hit = context.cardE().Accept<Effect>(effect_visitor);
@@ -70,31 +58,30 @@ namespace CARDScript.Compiler {
     }
 
     public override Card VisitCardMelee(CARDScriptParser.CardMeleeContext context) {
-      CardStats s = ParseCardAll(context.cardALL());
-      string name = context.cardID().NAME().GetText();
-      int id = Int32.Parse(context.cardID().NUM().GetText());
-      Effect effect = context.cardE().Accept<Effect>(effect_visitor);
-      MeleeCard card = new MeleeCard(name, id, s.damage, s.range,
+      CardInfo s = ParseCardAll(context.cardID());
+      Effect effect = context.cardE().effect().Accept<Effect>(effect_visitor);
+      MeleeCard card = new MeleeCard(s.name, s.id, s.damage,
         s.cost, s.limit, effect);
       return card; 
     }
 
-    private CardStats ParseCardAll(CARDScriptParser.CardALLContext context) {
-      CardStats stats = ParseCardCL(context.cardCL());
-      stats.damage = Int32.Parse(context.cardDR().NUM(0).GetText());
-      stats.range = Int32.Parse(context.cardDR().NUM(1).GetText());
+    private CardInfo ParseCardAll(CARDScriptParser.CardIDContext context) {
+      CardInfo stats = new CardInfo();
+      stats.name = context.NAME().GetText();
+      stats.id = Int32.Parse(context.NUM(0).GetText());
+      stats.cost = Int32.Parse(context.NUM(1).GetText());
+      stats.limit = Int32.Parse(context.NUM(2).GetText());
       return stats;
     }
 
-    private CardStats ParseCardCL(CARDScriptParser.CardCLContext context) {
-      CardStats stats = new CardStats();
-      stats.cost = Int32.Parse(context.NUM(0).GetText());
-      stats.limit = Int32.Parse(context.NUM(1).GetText());
-      return stats;
+    private List<Effect> ParseEffects(CARDScriptParser.CardEContext context) {
+      List<Effect> ret = new List<Effect>();
+
+      return ret;
     }
 
     public override Card VisitCardSelf(CARDScriptParser.CardSelfContext context) {
-      CardStats s = ParseCardCL(context.cardCL());
+      CardInfo s = ParseCardCL(context.cardCL());
       string name = context.cardID().NAME().GetText();
       int id = Int32.Parse(context.cardID().NUM().GetText());
       int time = Int32.Parse(context.NUM().GetText());
@@ -123,14 +110,17 @@ namespace CARDScript.Compiler {
 
     public override Effect VisitEffect(
         CARDScriptParser.EffectContext context) {
-      return context.stat().Accept<Effect>(this);
+          if (context.stat() != null)
+            return context.stat().Accept<Effect>(this);
+          else
+            return new NullEffect();
     }
 
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Target target = context.player().USER() != null ? Target.USER : Target.ENEMY;  
-      ScalarEffect scalar = context.scalarEffect().Accept<ScalarEffect>(
+      TargetedScalarEffect scalar = context.scalarEffect().Accept<TargetedScalarEffect>(
           scalar_effect_visitor);
       scalar.target = target;
       scalar.ivalue = value;
@@ -193,7 +183,7 @@ namespace CARDScript.Compiler {
         CARDScriptParser.EventCondScalarContext context) {
       Target target = context.player().USER() != null ? Target.USER : Target.ENEMY; 
       IValue value = context.value().Accept<IValue>(value_visitor);
-      ScalarEffect effect = context.scalarEffect().Accept<ScalarEffect>(
+      TargetedScalarEffect effect = context.scalarEffect().Accept<TargetedScalarEffect>(
           scalar_effect_visitor);
       effect.ivalue = value;
       effect.target = target;
@@ -258,10 +248,10 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class ScalarEffectVisitor : CARDScriptParserBaseVisitor<ScalarEffect> {
-    public override ScalarEffect VisitScalarEffect(
+  class ScalarEffectVisitor : CARDScriptParserBaseVisitor<TargetedScalarEffect> {
+    public override TargetedScalarEffect VisitScalarEffect(
         CARDScriptParser.ScalarEffectContext context) {
-      ScalarEffect effect = null;
+      TargetedScalarEffect effect = null;
 
       int effectType = context.start.Type;
       switch (effectType) {

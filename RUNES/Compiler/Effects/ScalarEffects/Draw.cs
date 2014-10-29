@@ -2,7 +2,7 @@
 using CARDScript.Model.Cards;
 using CARDScript.Model.Players;
 namespace CARDScript.Compiler.Effects.ScalarEffects {
-  public class Draw : ScalarEffect {
+  public class Draw : TargetedScalarEffect {
 
     public override bool Activate(Card source, IPlayer user, IGameController game_controller) {
       Log("Draw event. " + target + " draws " + value);

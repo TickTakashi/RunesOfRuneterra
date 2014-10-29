@@ -90,9 +90,9 @@ namespace CARDScript.Compiler.Matchers {
   }
 
   public class ScalarMatcher : Matcher<GameEvent> {
-    private ScalarEffect effect;
+    private TargetedScalarEffect effect;
     private InequalityMatcher condition;
-    public ScalarMatcher(ScalarEffect effect, InequalityMatcher condition) {
+    public ScalarMatcher(TargetedScalarEffect effect, InequalityMatcher condition) {
       this.effect = effect;
       this.condition = condition;
     }

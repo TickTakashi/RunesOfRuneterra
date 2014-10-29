@@ -8,7 +8,7 @@ namespace CARDScript.Compiler.Effects {
     ENEMY, USER
   }
 
-  public abstract class ScalarEffect : Effect {
+  public abstract class TargetedScalarEffect : ScalarEffect {
     private Target _target;
 
     public Target target {
@@ -16,17 +16,8 @@ namespace CARDScript.Compiler.Effects {
       set { _target = value; }
     }
 
-    private IValue _ivalue;
 
-    public IValue ivalue {
-      get { return _ivalue; }
-      set { _ivalue = value; }
-    }
-
-    public int value {
-      get { return _ivalue.GetValue(); }
-    }
-
+    // TODO: Surely all effects need this?
     private int _effect_id;
 
     public int effect_id {

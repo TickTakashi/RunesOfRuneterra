@@ -3,7 +3,7 @@ using CARDScript.Model;
 using CARDScript.Model.Cards;
 using CARDScript.Model.Players;
 namespace CARDScript.Compiler.Effects.ScalarEffects {
-  public class Damage : ScalarEffect {
+  public class Damage : TargetedScalarEffect {
     public override bool Activate(Card source, IPlayer user, IGameController game_controller) {
       Log("Damage event. Dealing " + value + " damage to " + target);
       IPlayer my_target = user;

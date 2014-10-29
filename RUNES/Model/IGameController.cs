@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler;
+using CARDScript.Compiler.Effects;
 using CARDScript.Compiler.Events;
 using CARDScript.Model.Cards;
 using CARDScript.Model.Players;
@@ -30,7 +31,7 @@ namespace CARDScript.Model {
 
     // Prompt player to negate this card. Also fires SkillshotHit and Miss events
     // This should be similar to FireEvent
-    bool PromptNegate(IPlayer user, Card card);
+    bool PromptNegate(IPlayer user, Card card, Effect effect);
 
     // Prompt the player to chose a place within distance range and move there
     void PromptMove(IPlayer user, int distance);

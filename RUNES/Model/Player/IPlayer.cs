@@ -39,5 +39,8 @@ namespace CARDScript.Model.Players {
 
     // Check for CC
     bool HasBuff(BuffType type);
+
+    // Get the melee range of this player, after modification.
+    int GetMeleeRange();
   }
 }

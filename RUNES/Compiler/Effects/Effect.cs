@@ -22,6 +22,31 @@ namespace CARDScript.Compiler.Effects {
       }
     }
 
+    public virtual bool CanActivate(Card card, IPlayer user, IGameController controller) {
+      return !user.HasBuff(BuffType.STUN) && !user.HasBuff(BuffType.SILENCE) &&
+        (next == null || next.CanActivate(card, user, controller));
+    }
+
+    // Does this effect deal this cards damage? It may do so next turn or 
+    // it may do so right now. Either way, we need to know if this happens so 
+    // that we can decide whether or not to add a DealsCardDamageEffect when a
+    // DamageCard is created.
+    public virtual bool DealsCardDamage() {
+      if (next != null) {
+        return next.DealsCardDamage();
+      } else {
+        return false;
+      }
+    }
+
+    public virtual bool CanNegate(Effect effect) {
+      if (next != null) {
+        return next.CanNegate(effect);
+      } else {
+        return false;
+      }
+    }
+
     // TODO(ticktakashi): Investigate the sanity of this.  
     public void Log(string message) {
       //Debug.Log(message);

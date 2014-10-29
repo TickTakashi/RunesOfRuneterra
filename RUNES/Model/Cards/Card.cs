@@ -31,7 +31,7 @@ namespace CARDScript.Model.Cards {
     protected Effect effect;
 
     public Card(string name, int id, int cost, int limit, Effect effect) {
-      this._name = name;
+      this._name = name.Substring(1, name.Length - 2);
       this._id = id;
       this._cost = cost;
       this._limit = limit;
@@ -39,8 +39,10 @@ namespace CARDScript.Model.Cards {
     }
 
     // TODO(ticktakashi): Implement conditional activation.
-    public virtual bool CanActivate(IPlayer user, IGameController UNUSED) {
-      return !(user.HasBuff(BuffType.STUN) || user.HasBuff(BuffType.SILENCE)) &&
+    // public abstract bool CanActivateNow(GameEvent e, card, user, controller)
+
+    public virtual bool CanActivate(IPlayer user, IGameController controller) {
+      return effect.CanActivate(this, user, controller) &&
         user.HasActionPoints(cost);
     }
 

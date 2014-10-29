@@ -60,16 +60,20 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
+    <Compile Include="Compiler\Effects\DealsCardDamageEffect.cs" />
+    <Compile Include="Compiler\Effects\NullEffect.cs" />
+    <Compile Include="Compiler\Effects\ScalarEffects\Dash.cs" />
     <Compile Include="Compiler\Matchers\Matcher.cs" />
     <Compile Include="Compiler\Events\GameEvent.cs" />
     <Compile Include="Compiler\Matchers\EventMatchers.cs" />
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Events\GameEventListener.cs" />
     <Compile Include="Compiler\Matchers\StateMatchers.cs" />
+    <Compile Include="Compiler\ScalarEffect.cs" />
     <Compile Include="Model\Cards\Card.cs" />
+    <Compile Include="Model\Cards\DamageCard.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />
-    <Compile Include="Model\Cards\DashCard.cs" />
     <Compile Include="Model\Cards\MeleeCard.cs" />
     <Compile Include="Model\Cards\SelfCard.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Damage.cs" />
@@ -77,7 +81,7 @@
     <Compile Include="Compiler\Effects\Effect.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Heal.cs" />
     <Compile Include="Compiler\Effects\ScheduleEffect.cs" />
-    <Compile Include="Compiler\Effects\ScalarEffect.cs" />
+    <Compile Include="Compiler\Effects\TargetedScalarEffect.cs" />
     <Compile Include="Compiler\Effects\RepeatEffect.cs" />
     <Compile Include="Compiler\IValue.cs" />
     <Compile Include="Model\Cards\SkillCard.cs" />

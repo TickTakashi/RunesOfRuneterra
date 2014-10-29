@@ -4,28 +4,26 @@ options {
 	tokenVocab=CARDScriptLexer;
 }
 
-cardDesc    : cardID DASH E? NUM cardALL cardE DODGE E? effect # cardDash 
-            | cardID SKILL       cardALL cardE DODGE E? effect # cardSkill
-            | cardID SPELL       cardALL cardE                  # cardSpell
-            | cardID MELEE       cardALL cardE                  # cardMelee
-            | cardID SELF E? NUM cardCL  cardE                  # cardSelf
-            | cardID PASSIVE             cardE                  # cardPassive
+cardDesc    : cardID SKILL DAMAGE E? NUM RANGE E? NUM cardE # cardSkill
+            | cardID SPELL DAMAGE E? NUM RANGE E? NUM cardE # cardSpell
+            | cardID MELEE DAMAGE E? NUM cardE              # cardMelee
+            | cardID SELF  TIME   E? NUM cardE              # cardSelf
             ;
-             
-cardID      : NAME E? NUM ;
-cardE       : EFFECT E? effect ;
-cardALL     : cardDR cardCL (preCond)?;
-cardDR      : DAMAGE E? NUM RANGE E? NUM ;
-cardCL      : COST   E? NUM LIMIT E? NUM ;
 
+cardType    : SKILL | SPELL | MELEE | SELF ;
 
-effect		  : LBRACE (CHANNEL NUM)? stat RBRACE ;
+cardID      : NAME E? NUM COST E? NUM LIMIT E? NUM ;
+
+cardE       : EFFECT E? effect ; // NEGATE E? effect;
+
+effect		  : LBRACE stat? RBRACE ;
 
 preCond		  : ACTIVATE option WHEN eventCond;
 
 option		  : OPTION | AUTO ;
 
-stat		    : if                                # statIf
+stat		    : DAMAGE                            # statDamage // Inflict the damage of this card. If no other effects exist and damage hasnt been created yet, it will be created.
+            | if                                # statIf
             | when                              # statWhen
             | action                            # statAction
 			      | action value TIMES				        # actionRepeat
