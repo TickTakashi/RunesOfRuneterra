@@ -12,8 +12,9 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
 
     public StandardBuff(int effect_id, int strength) {
       this.effect_id = effect_id;
-      this.buff_type = (BuffType) Enum.Parse(typeof(BuffType),
-         CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id), true);
+      string buff_name = CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id);
+      buff_name = buff_name.Substring(1, buff_name.Length - 2);
+      this.buff_type = (BuffType) Enum.Parse(typeof(BuffType), buff_name, true);
       this.ivalue = new LiteralIntValue(strength);
     }
 
@@ -23,7 +24,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override string ToString() {
-      return "\n" + buff_type + " " + value + "\n" +
+      return "\n<i>" + buff_type + "</i> " + value + "\n" +
         base.ToString();
     }
   }

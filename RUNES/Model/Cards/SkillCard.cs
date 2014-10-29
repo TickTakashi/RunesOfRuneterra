@@ -18,12 +18,5 @@ namespace CARDScript.Model.Cards {
         int limit, Effect effect) : base(name, id, damage,
         range, cost, limit, effect) {
     }
-
-    protected override void SetCardDamage() {
-      if (effect == null || !effect.DealsCardDamage()) {
-        Effect cardDamage = new SkillCardDamage(effect, this);
-        this.effect = cardDamage;
-      }
-    }
   }
 }

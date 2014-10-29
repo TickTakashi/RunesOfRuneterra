@@ -11,13 +11,17 @@ namespace CARDScript.Compiler.Effects {
   // read the commit logs. Also, try and remember that this effect deals the
   // "normal" damage of the card. You don't need to deal damage again anywhere
   // else, and all damage now happens through effects.
-  public class BasicCardDamage : Effect {
-    protected DamageCard damage_card;
+  public class CardEffect : Effect {
+    DamageCard damage_card;
 
-    public BasicCardDamage(Effect next, DamageCard damage_card) {
+    public CardEffect(Effect next, DamageCard damage_card) {
       this.damage_card = damage_card;
       this.next = next;
     }
+
+    public CardEffect(DamageCard damage_card) : this(null, damage_card) {}
+
+    public CardEffect() : this(null, null) {}
 
     // We need to check if we are in range here. We may have moved.
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
@@ -26,47 +30,37 @@ namespace CARDScript.Compiler.Effects {
       return true;
     }
 
-
     public virtual bool DealDamage(Card card, IPlayer user, IGameController controller) {
-      if (damage_card.InRange(user, controller))
-        user.Damage(damage_card.damage);
+      if (damage_card == null) {
+        damage_card = (DamageCard)card;
+      }
 
+      if (damage_card != null) {
+        if (damage_card.InRange(user, controller))
+          user.Damage(damage_card.damage);
+
+        if (damage_card is SkillCard)
+          ; // Fire Skillshot hit event
+        else if (damage_card is MeleeCard)
+          ; // Fire On hit event.
+      }
       return base.Activate(card, user, controller);
     }
 
     // We check if we are in range here, because this will not be reached if 
     // there is confirmation beforehand (e.g. a dash)
-    public override bool CanActivate(Card card, IPlayer user, IGameController controller) {
-      return damage_card.InRange(user, controller) && 
+    public override bool CanActivate(Card card, IPlayer user, 
+      IGameController controller) {
+      return damage_card.InRange(user, controller) &&
         base.CanActivate(card, user, controller);
     }
 
     public override bool DealsCardDamage() {
       return true;
     }
-  }
 
-  public class SkillCardDamage : BasicCardDamage {
-    public SkillCardDamage(Effect a, DamageCard b) : base(a, b) { }
-
-    public override bool DealDamage(Card card, IPlayer user, IGameController controller) {
-      if (damage_card.InRange(user, controller)) {
-        user.Damage(damage_card.damage);
-        // TODO(ticktakashi): Fire skillshot landed event here.
-      }
-      return base.Activate(card, user, controller);
-    }
-  }
-
-  public class MeleeCardDamage : BasicCardDamage {
-    public MeleeCardDamage(Effect a, DamageCard b) : base(a, b) { }
-
-    public override bool DealDamage(Card card, IPlayer user, IGameController controller) {
-      if (damage_card.InRange(user, controller)) {
-        user.Damage(damage_card.damage);
-        // TODO(ticktakashi): Fire onhit event here.
-      }
-      return base.Activate(card, user, controller);
+    public bool Dashable() {
+      return damage_card != null && damage_card is SkillCard;
     }
   }
 }

@@ -25,7 +25,8 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override bool CanNegate(Effect effect) {
-      return effect is SkillCardDamage || base.CanNegate(effect);     
+      return (effect is CardEffect && ((CardEffect)effect).Dashable()) ||
+        base.CanNegate(effect);     
     }
 
     public override string ToString() {

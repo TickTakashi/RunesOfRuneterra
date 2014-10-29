@@ -18,7 +18,7 @@ namespace CARDScript.Model.Cards {
 
     protected virtual void SetCardDamage() {
       if (effect == null || !effect.DealsCardDamage()) {
-        Effect cardDamage = new BasicCardDamage(effect, this);
+        Effect cardDamage = new CardEffect(effect, this);
         this.effect = cardDamage;
       }
     }

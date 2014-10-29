@@ -23,20 +23,8 @@ namespace CARDScript.Model.Cards {
         base.CanActivate(user, game_controller);
     }
 
-    public override void Activate(IPlayer user, IGameController game_controller) {
-      base.Activate(user, game_controller);
-      // TODO(ticktakashi): Fire a OnHit event here.
-    }
-
     public override bool InRange(IPlayer user, IGameController controller) {
       return controller.InRange(user, user.GetMeleeRange());
-    }
-
-    protected override void SetCardDamage() {
-      if (effect == null || !effect.DealsCardDamage()) {
-        Effect cardDamage = new MeleeCardDamage(effect, this);
-        this.effect = cardDamage;
-      }
     }
   }
 }

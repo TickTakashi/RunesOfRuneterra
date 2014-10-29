@@ -105,6 +105,10 @@ namespace CARDScript.Compiler {
             return new NullEffect();
     }
 
+    public override Effect VisitStatDamage(CARDScriptParser.StatDamageContext context) {
+      return new CardEffect(); // I am relying on the right card being passed to this on activation.
+    }
+
     public override Effect VisitActionDash(CARDScriptParser.ActionDashContext context) {
       int distance = Int32.Parse(context.NUM().GetText());
       return new Dash(distance);

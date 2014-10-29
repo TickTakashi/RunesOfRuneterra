@@ -43,7 +43,7 @@ namespace CARDScript.Compiler.Effects {
     public override string ToString() {
       string extend = "";
       if (next != null) {
-        extend = ", then " + next.ToString(); 
+        extend = /*", then " + */ next.ToString(); 
       }
       return extend;
     }
