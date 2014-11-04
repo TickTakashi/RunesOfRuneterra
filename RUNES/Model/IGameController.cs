@@ -34,7 +34,7 @@ namespace CARDScript.Model {
     void PromptNegate(IPlayer user, Card card, Effect effect, EffectCallback callback);
 
     // Prompt the player to chose a place within distance range and move there
-    void PromptMove(IPlayer user, int distance, EffectCallback callback);
+    void PromptMove(IPlayer user, Card card, int distance, EffectCallback callback);
 
 
   }

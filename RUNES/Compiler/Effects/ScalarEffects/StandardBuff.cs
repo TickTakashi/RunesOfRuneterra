@@ -24,7 +24,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override string ToString() {
-      return "\n<i>" + buff_type + "</i> " + value + "\n" +
+      return "\n<i>" + buff_type + " " + value + "</i>\n" +
         base.ToString();
     }
   }

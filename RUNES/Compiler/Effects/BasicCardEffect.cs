@@ -37,7 +37,7 @@ namespace CARDScript.Compiler.Effects {
 
       if (damage_card != null) {
         if (damage_card.InRange(user, controller))
-          user.Damage(damage_card.damage);
+          controller.Opponent(user).Damage(damage_card.damage);
 
         if (damage_card is SkillCard)
           ; // Fire Skillshot hit event

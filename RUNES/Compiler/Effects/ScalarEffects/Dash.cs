@@ -14,7 +14,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      controller.PromptMove(user, value, base.Activate);
+      controller.PromptMove(user, card, value, base.Activate);
       return true;
     }
 
@@ -30,7 +30,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override string ToString() {
-      return "\nDASH " + value + "\n" + base.ToString();
+      return "\n<i>DASH " + value + "</i>\n" + base.ToString();
     }
   }
 }
