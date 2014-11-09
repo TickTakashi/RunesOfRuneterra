@@ -73,5 +73,10 @@ namespace CARDScript {
     public void PromptMove(IPlayer user, Card card, int distance, EffectCallback callback) {
       throw new NotImplementedException();
     }
+
+
+    public void MovePlayer(IPlayer player, int distance) {
+      throw new NotImplementedException();
+    }
   }
 }

@@ -42,5 +42,11 @@ namespace CARDScript.Model.Players {
 
     // Get the melee range of this player, after modification.
     int GetMeleeRange();
+
+    // Get the movement range of this player, after modification.
+    int GetMovementRange();
+
+    // Get the cost of each space moved for this player, after modification.
+    int GetMovementCost();
   }
 }
