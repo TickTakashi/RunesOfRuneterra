@@ -14,7 +14,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      controller.PromptMove(user, card, value, base.Activate);
+      user.PromptMove(card, value, base.Activate);
       return true;
     }
 
@@ -24,9 +24,8 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
         !user.HasBuff(BuffType.SILENCE);
     }
 
-    public override bool CanNegate(Effect effect) {
-      return (effect is CardEffect && ((CardEffect)effect).Dashable()) ||
-        base.CanNegate(effect);     
+    public override bool CanNegate(CardEffect effect) {
+      return effect.Dashable() || base.CanNegate(effect);     
     }
 
     public override string ToString() {

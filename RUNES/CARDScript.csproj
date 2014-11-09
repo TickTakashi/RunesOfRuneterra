@@ -60,7 +60,7 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
-    <Compile Include="Compiler\Effects\BasicCardEffect.cs" />
+    <Compile Include="Compiler\Effects\CardEffect.cs" />
     <Compile Include="Compiler\Effects\NullEffect.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Dash.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\StandardBuff.cs" />

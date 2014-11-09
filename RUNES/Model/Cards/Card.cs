@@ -46,7 +46,7 @@ namespace CARDScript.Model.Cards {
         user.HasActionPoints(cost);
     }
 
-    public bool CanNegate(Effect possibly_negatable) {
+    public bool CanNegate(CardEffect possibly_negatable) {
       return effect.CanNegate(possibly_negatable);
     }
 
