@@ -19,7 +19,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      user.BuffPlayer(buff_type, value);
+      controller.Opponent(user).BuffPlayer(buff_type, value);
       return base.Activate(card, user, controller);
     }
 
