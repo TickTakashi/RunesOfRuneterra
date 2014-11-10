@@ -8,11 +8,9 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.Matchers {
-  public abstract class StateMatcher : Matcher {
-  }
 
   // TODO(ticktakashi): Implement HealthMatcher. Which should check that player Ps health meets a certin requirement, likely using GMatcher and LMatcher.
-  public class HealthMatcher : StateMatcher {
+  public class HealthMatcher : Matcher {
     InequalityMatcher matcher;
     Target target;
 

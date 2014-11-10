@@ -87,14 +87,15 @@ namespace CARDScript.Compiler {
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
 
     ScalarEffectVisitor scalar_effect_visitor;
-    EventConditionVisitor event_condition_visitor;
+    MatcherVisitor matcher_visitor;
     IValueVisitor value_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
       this.scalar_effect_visitor = new ScalarEffectVisitor();
-      this.event_condition_visitor = new EventConditionVisitor(value_visitor,
+      this.matcher_visitor = new MatcherVisitor(value_visitor,
                                                    scalar_effect_visitor);
+    
     }
 
     public override Effect VisitEffect(
@@ -122,7 +123,7 @@ namespace CARDScript.Compiler {
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
-      Target target = context.player().USER() != null ? Target.USER : Target.ENEMY;  
+      Target target = MatcherVisitor.ParseTarget(context.player());  
       TargetedScalarEffect scalar = context.scalarEffect().Accept<TargetedScalarEffect>(
           scalar_effect_visitor);
       scalar.target = target;
@@ -141,7 +142,7 @@ namespace CARDScript.Compiler {
     public override Effect VisitWhen(CARDScriptParser.WhenContext context) {
       Effect triggered_effect = context.stat().Accept<Effect>(this);
       Matcher trigger_condition =
-          context.eventCond().Accept<Matcher>(event_condition_visitor);
+          context.eventCond().Accept<Matcher>(matcher_visitor);
       Effect scheduled_effect;
 
       if (context.CHARGES() != null) {
@@ -158,6 +159,8 @@ namespace CARDScript.Compiler {
       Effect ifthen = context.stat(0).Accept<Effect>(this);
       Effect ifelse = context.ELSE() != null ? context.stat(1).Accept<Effect>(this) : null;
       // TODO(ticktakashi): Visit If needs to be implemented along with StateMatchers 
+      Matcher matcher = context.stateCond().Accept<Matcher>(matcher_visitor);
+
       return base.VisitIf(context);
     }
 
@@ -170,46 +173,35 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class EventConditionVisitor : CARDScriptParserBaseVisitor<Matcher> {
+  class MatcherVisitor : CARDScriptParserBaseVisitor<Matcher> {
     public IValueVisitor value_visitor;
     public ScalarEffectVisitor scalar_effect_visitor;
 
-    public EventConditionVisitor(IValueVisitor value_visitor,
+    public MatcherVisitor(IValueVisitor value_visitor,
                             ScalarEffectVisitor scalar_effect_visitor) {
       this.value_visitor = value_visitor;
       this.scalar_effect_visitor = scalar_effect_visitor;
     }
 
-    // TODO(ticktakashi): condCard (for statCard)
+    public override Matcher VisitStateCondHealth(
+        CARDScriptParser.StateCondHealthContext context) {
+      IValue value = context.value().Accept<IValue>(value_visitor);
+      InequalityMatcher im = ParseInequality(context.ineq(), value); 
+      Target t = ParseTarget(context.player());
+      return new HealthMatcher(t, im);    
+    }
 
     public override Matcher VisitEventCondScalar(
         CARDScriptParser.EventCondScalarContext context) {
-      Target target = context.player().USER() != null ? Target.USER : Target.ENEMY; 
+      Target target = ParseTarget(context.player()); 
       IValue value = context.value().Accept<IValue>(value_visitor);
       TargetedScalarEffect effect = context.scalarEffect().Accept<TargetedScalarEffect>(
           scalar_effect_visitor);
       effect.ivalue = value;
       effect.target = target;
 
-      int op = context.ineq().start.Type;
-      InequalityMatcher condition = null;
-
-      switch (op) {
-        case CARDScriptParser.GT:
-          condition = new GTMatcher(value);
-          break;
-        case CARDScriptParser.LT:
-          condition = new LTMatcher(value);
-          break;
-        case CARDScriptParser.EQ:
-          condition = new EQMatcher(value);
-          break;
-        default:
-          Console.WriteLine("You have not yet implemented this binop: " +
-            context.ineq().GetText());
-          break;
-      }
-     
+      InequalityMatcher condition = ParseInequality(context.ineq(), value);
+    
       Matcher combined = new ScalarMatcher(effect, condition);
 
       return combined;
@@ -249,7 +241,36 @@ namespace CARDScript.Compiler {
       Matcher cond = context.eventCond().Accept<Matcher>(this);
       return cond;
     }
+
+    public static InequalityMatcher ParseInequality(
+        CARDScriptParser.IneqContext context, IValue value) {
+      int op = context.start.Type;
+      InequalityMatcher condition = null;
+
+      switch (op) {
+        case CARDScriptParser.GT:
+          condition = new GTMatcher(value);
+          break;
+        case CARDScriptParser.LT:
+          condition = new LTMatcher(value);
+          break;
+        case CARDScriptParser.EQ:
+          condition = new EQMatcher(value);
+          break;
+        default:
+          Console.WriteLine("You have not yet implemented this binop: " +
+            context.GetText());
+          break;
+      }
+
+      return condition;
+    }
+
+    public static Target ParseTarget(CARDScriptParser.PlayerContext context) {
+      return context.USER() != null ? Target.USER : Target.ENEMY; 
+    }
   }
+
 
   class ScalarEffectVisitor : CARDScriptParserBaseVisitor<TargetedScalarEffect> {
     public override TargetedScalarEffect VisitScalarEffect(

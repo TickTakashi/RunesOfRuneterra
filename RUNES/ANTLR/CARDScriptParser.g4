@@ -37,7 +37,9 @@ when        : WHEN eventCond LBRACE stat RBRACE (value CHARGES)? ;
 if          : IF stateCond LBRACE stat RBRACE (ELSE LBRACE stat RBRACE)? ;
 
 // TODO(ticktakashi): Implement if conditions
-stateCond   : player HEALTH ineq value  #stateCondScalar // If the enemy has less than x health
+// Note that this doesn't prevent you from activating the card. Its different
+// from You may only activate this card if: x.
+stateCond   : player HEALTH ineq value  #stateCondHealth // If the enemy has less than x health
             ; // TODO(ticktakashi): Melee attacked 3 times in the past 3 turns - Will require some kind of action history unless it is constantly counted.
               // This will be a stateCond which checks for historical eventCond.
               // Store all fired events in an ordered list and then search back till you find what you're looking for or reach some negtive conditions
