@@ -42,5 +42,8 @@ namespace CARDScript.Model.Players {
 
     // Get the melee range of this player, after modification.
     int GetMeleeRange();
+    
+    // Get the current health of this player
+    int GetHealth();
   }
 }
