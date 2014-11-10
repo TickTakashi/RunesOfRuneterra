@@ -160,8 +160,8 @@ namespace CARDScript.Compiler {
       Effect ifelse = context.ELSE() != null ? context.stat(1).Accept<Effect>(this) : null;
       // TODO(ticktakashi): Visit If needs to be implemented along with StateMatchers 
       Matcher matcher = context.stateCond().Accept<Matcher>(matcher_visitor);
-
-      return base.VisitIf(context);
+      ConditionalEffect cond = new ConditionalEffect(matcher, ifthen, ifelse);
+      return cond;
     }
 
     public override Effect VisitActionRepeat(
