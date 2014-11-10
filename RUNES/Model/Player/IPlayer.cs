@@ -1,4 +1,6 @@
-﻿using CARDScript.Model.Players;
+﻿using CARDScript.Compiler.Effects;
+using CARDScript.Model.Cards;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +44,18 @@ namespace CARDScript.Model.Players {
 
     // Get the melee range of this player, after modification.
     int GetMeleeRange();
+
+    // Get the movement range of this player, after modification.
+    int GetMovementRange();
+
+    // Get the cost of each space moved for this player, after modification.
+    int GetMovementCost();
+
+    // Prompt this player to chose to move up to distance steps.
+    void PromptMove(Card card, int distance, EffectCallback callback);
+
+    // Prompt this player to negate this card effect.
+    void PromptNegate(Card card, CardEffect effect, EffectCallback callback);
     
     // Get the current health of this player
     int GetHealth();

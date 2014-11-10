@@ -31,7 +31,7 @@ namespace CARDScript.Compiler.Effects {
       return next != null && next.DealsCardDamage();
     }
 
-    public virtual bool CanNegate(Effect effect) {
+    public virtual bool CanNegate(CardEffect effect) {
       return next != null && next.CanNegate(effect);
     }
 

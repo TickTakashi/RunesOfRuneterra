@@ -25,7 +25,7 @@ namespace CARDScript.Compiler.Effects {
 
     // We need to check if we are in range here. We may have moved.
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      controller.PromptNegate(user, card, this, DealDamage);
+      controller.Opponent(user).PromptNegate(card, this, DealDamage);
       // This should never happen more than once. Even with fox fire. We are definitely done here.
       return true;
     }
@@ -37,7 +37,7 @@ namespace CARDScript.Compiler.Effects {
 
       if (damage_card != null) {
         if (damage_card.InRange(user, controller))
-          user.Damage(damage_card.damage);
+          controller.Opponent(user).Damage(damage_card.damage);
 
         if (damage_card is SkillCard)
           ; // Fire Skillshot hit event

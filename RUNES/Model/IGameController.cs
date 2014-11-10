@@ -29,14 +29,8 @@ namespace CARDScript.Model {
     // Returns true if this player is within range distance of opponent
     bool InRange(IPlayer user, int range);
 
-    // Prompt player to negate this card. Also fires SkillshotHit and Miss events
-    // This should be similar to FireEvent
-    void PromptNegate(IPlayer user, Card card, Effect effect, EffectCallback callback);
-
-    // Prompt the player to chose a place within distance range and move there
-    void PromptMove(IPlayer user, int distance, EffectCallback callback);
-
-
+    // Actually Moves the player
+    void MovePlayer(IPlayer player, int distance);
   }
 
   public delegate bool EffectCallback(Card card, IPlayer user, IGameController controller);

@@ -46,6 +46,10 @@ namespace CARDScript.Model.Cards {
         user.HasActionPoints(cost);
     }
 
+    public bool CanNegate(CardEffect possibly_negatable) {
+      return effect.CanNegate(possibly_negatable);
+    }
+
     public virtual void Activate(IPlayer user, IGameController game_controller) {
       // TODO(ticktakashi): Fire an ActivationBegin event here.
       user.Spend(cost);
