@@ -56,5 +56,7 @@ namespace CARDScript.Model.Players {
 
     // Prompt this player to negate this card effect.
     void PromptNegate(Card card, CardEffect effect, EffectCallback callback);
+
+    bool IsPrompted();
   }
 }
