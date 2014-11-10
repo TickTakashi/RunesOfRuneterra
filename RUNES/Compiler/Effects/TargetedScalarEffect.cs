@@ -1,12 +1,23 @@
 ﻿using CARDScript.Compiler;
 using CARDScript.Compiler.Effects.ScalarEffects;
 using CARDScript.Model;
+using CARDScript.Model.Players;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {
 
   public enum Target {
     ENEMY, USER
+
+  }
+  public static class TargetMethods {
+    public static IPlayer Resolve(Target t, IPlayer activator, IGameController gc) {
+      if (t == Target.USER) {
+        return activator;
+      } else {
+        return gc.Opponent(activator);
+      }
+    }
   }
 
   public abstract class TargetedScalarEffect : ScalarEffect {

@@ -1,5 +1,6 @@
 ﻿using CARDScript.Compiler.Effects;
 using CARDScript.Compiler.Matchers;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace CARDScript.Compiler.Events {
   public class GameEvent {
     public int event_type = -1;
     public int scalar_value = -1;
+    public IPlayer target_player;
   }
 }

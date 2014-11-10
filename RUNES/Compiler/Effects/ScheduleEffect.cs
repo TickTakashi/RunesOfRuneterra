@@ -14,10 +14,10 @@ using CARDScript.Model.Players;
   */
 public class ScheduleEffect : Effect {
   private Effect callback;
-  private Matcher<GameEvent> listening_for;
+  private Matcher listening_for;
   private IValue repeat;
 
-  public ScheduleEffect(Matcher<GameEvent> listening_for, Effect callback,
+  public ScheduleEffect(Matcher listening_for, Effect callback,
       IValue repeat = null) {
     this.callback = callback;
     this.listening_for = listening_for;
