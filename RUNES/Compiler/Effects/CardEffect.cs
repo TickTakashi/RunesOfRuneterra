@@ -36,13 +36,17 @@ namespace CARDScript.Compiler.Effects {
       }
 
       if (damage_card != null) {
-        if (damage_card.InRange(user, controller))
-          controller.Opponent(user).Damage(damage_card.damage);
+        if (damage_card.InRange(user, controller)) {
+          if (damage_card is SkillCard)
+            controller.Opponent(user).Damage(damage_card.damage +
+              user.GetMeleeDamage());
+            
+            // TODO(ticktakashi): Fire Skillshot hit event
+          else if (damage_card is MeleeCard)
+            ; // Fire On hit event.
 
-        if (damage_card is SkillCard)
-          ; // Fire Skillshot hit event
-        else if (damage_card is MeleeCard)
-          ; // Fire On hit event.
+        }
+
       }
       return base.Activate(card, user, controller);
     }

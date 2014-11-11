@@ -61,5 +61,9 @@ namespace CARDScript.Model.Players {
     int GetHealth();
 
     bool IsPrompted();
+
+    bool CanMelee();
+
+    int GetMeleeDamage();
   }
 }

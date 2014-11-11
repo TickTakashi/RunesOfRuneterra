@@ -13,10 +13,10 @@ namespace CARDScript.Model.Cards {
     public DamageCard(string name, int id, int damage, int cost, int limit,
       Effect effect) : base(name, id, cost, limit, effect) {
       this._damage = damage;
-      SetCardDamage();
+      SetupCardDamage();
     }
 
-    protected virtual void SetCardDamage() {
+    protected virtual void SetupCardDamage() {
       if (effect == null || !effect.DealsCardDamage()) {
         Effect cardDamage = new CardEffect(effect, this);
         this.effect = cardDamage;
