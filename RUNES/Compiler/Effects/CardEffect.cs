@@ -44,6 +44,9 @@ namespace CARDScript.Compiler.Effects {
             controller.Opponent(user).Damage(damage_card.damage +
               user.GetMeleeDamage());
             // TODO(ticktakashi): Fire on hit event
+          } else if (damage_card is SpellCard) {
+            controller.Opponent(user).Damage(damage_card.damage);
+            // TODO(ticktakashi): Fire a spellcard hit event.
           }
         }
 
