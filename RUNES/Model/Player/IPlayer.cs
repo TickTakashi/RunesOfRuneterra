@@ -65,5 +65,8 @@ namespace CARDScript.Model.Players {
     bool CanMelee();
 
     int GetMeleeDamage();
+
+    // Basic attacks the opponent
+    void MeleeAttack();
   }
 }
