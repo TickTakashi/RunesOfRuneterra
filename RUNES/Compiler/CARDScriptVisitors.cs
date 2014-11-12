@@ -124,6 +124,11 @@ namespace CARDScript.Compiler {
         Int32.Parse(context.NUM().GetText()));
     }
 
+    public override Effect VisitActionShield(CARDScriptParser.ActionShieldContext context) {
+      return new StandardBuff(Target.USER, context.SHIELD().Symbol.Type,
+        Int32.Parse(context.NUM().GetText())); ;
+    }
+
     public override Effect VisitActionBuff(CARDScriptParser.ActionBuffContext context) {
       IValue strength = context.value(0).Accept<IValue>(value_visitor);
       IValue duration = null;

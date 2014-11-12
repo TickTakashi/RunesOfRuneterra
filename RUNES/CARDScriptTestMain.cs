@@ -15,14 +15,14 @@ namespace CARDScript {
   class CARDScriptTestMain {
     public static void Main() {
       string script =
-@"""Transform - Mercury Hammer"" = 15
+@"""Eclipse"" = 22
 COST = 1
 LIMIT = 2
-SELF
-TIME = 1
+SPELL
+DAMAGE = 1
+RANGE = 1
 EFFECT = {
-  USER MELEE_DAMAGE 1
-  USER ADDS 1 ""Transform - Mercury Cannon"" TO HAND
+  SHIELD 2
 }";      
       DummyGameController g = new DummyGameController();
       Card compiled = CardCompiler.Compile(script);

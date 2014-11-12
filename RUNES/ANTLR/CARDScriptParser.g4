@@ -62,6 +62,7 @@ action      : KNOCKBACK NUM                     # actionKnockback
             | player buff value (value)?        # actionBuff
             | player scalarEffect value         # actionScalar  // e.g. Your opponent takes 4 damage. 
             | player ADDS value NAME TO location # actionSearch  // e.g. Add one Mystic Shot from deck to hand
+            | SHIELD NUM                        # actionShield
             ;
 
 // TODO(ticktakashi): Add a (WITH card)? extension to these scalar to check if, for example, they did 2 damage with a MELEE attack
@@ -81,7 +82,7 @@ player		  : USER | ENEMY ;
 //                    Also, when checking whenConds we must consider that the opponent might heal
 //                    himself etc.
 scalarEffect: DRAWS | TAKES | HEALS;
-buff        : MELEE_DAMAGE | MELEE_RANGE | SHIELD;
+buff        : MELEE_DAMAGE | MELEE_RANGE | SKILL_DAMAGE ;
 ccEffect	  : SLOW | SNARE | STUN | KNOCKUP | SILENCE | BLIND ;
 
 
