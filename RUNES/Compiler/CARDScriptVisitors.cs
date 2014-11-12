@@ -136,6 +136,10 @@ namespace CARDScript.Compiler {
         context.buff().Start.Type, duration, strength);
     }
 
+    public override Effect VisitActionKnockback(CARDScriptParser.ActionKnockbackContext context) {
+      return new Knockback(Int32.Parse(context.NUM().GetText()));
+    }
+
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);

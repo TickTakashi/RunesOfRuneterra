@@ -37,6 +37,7 @@ namespace CARDScript.Model {
 
     Card BuildCard(string card_name);
 
+    void KnockbackPlayer(IPlayer target_player, int value, EffectCallback callback);
   }
 
   public delegate bool EffectCallback(Card card, IPlayer user, IGameController controller);

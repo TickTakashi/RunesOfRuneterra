@@ -15,14 +15,14 @@ namespace CARDScript {
   class CARDScriptTestMain {
     public static void Main() {
       string script =
-@"""Blood Thirst"" = 1 
-COST = 1
-LIMIT = 3
-MELEE
-DAMAGE = 1
+@"""Thundering Blow"" = 13
+COST = 2
+LIMIT = 2
+SPELL
+DAMAGE = 2
+RANGE = 0
 EFFECT = {
-  USER HEALS 1
-  USER ADDS 1 ""Blood Price"" TO DECK
+  KNOCKBACK 1
 }";      
       DummyGameController g = new DummyGameController();
       Card compiled = CardCompiler.Compile(script);
@@ -97,6 +97,11 @@ EFFECT = {
 
 
     public Card BuildCard(string card_name) {
+      throw new NotImplementedException();
+    }
+
+
+    public void KnockbackPlayer(IPlayer target_player, int value, EffectCallback callback) {
       throw new NotImplementedException();
     }
   }
