@@ -32,6 +32,14 @@ namespace CARDScript.Compiler.Effects {
       return base.Activate(card, user, controller);
     }
 
-    // Think about can activate etc.
+    public override string ToString() {
+      string elseif = "";
+      
+      if (else_body != null) {
+        elseif = " otherwise " + else_body;
+      }
+
+      return "if " + condition + ": " + if_body + else_body + base.ToString();
+    }
   }
 }

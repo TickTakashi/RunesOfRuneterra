@@ -10,6 +10,10 @@ cardDesc    : cardID SKILL DAMAGE E? NUM RANGE E? NUM cardE # cardSkill
             | cardID SELF  TIME   E? NUM cardE              # cardSelf
             ;
 
+// TODO(ticktakashi): Passives must have a totally different set of rules to
+// non passives.
+//passiveDesc : NAME E? NUM cardE ;
+
 cardType    : SKILL | SPELL | MELEE | SELF ;
 
 cardID      : NAME E? NUM COST E? NUM LIMIT E? NUM ;
@@ -39,7 +43,8 @@ if          : IF stateCond LBRACE stat RBRACE (ELSE LBRACE stat RBRACE)? ;
 // TODO(ticktakashi): Implement if conditions
 // Note that this doesn't prevent you from activating the card. Its different
 // from You may only activate this card if: x.
-stateCond   : player HEALTH ineq value  #stateCondHealth // If the enemy has less than x health
+stateCond   : player HEALTH ineq value  #stateCondHealth
+            | DISTANCE ineq value       #stateCondDistance
             ; // TODO(ticktakashi): Melee attacked 3 times in the past 3 turns - Will require some kind of action history unless it is constantly counted.
               // This will be a stateCond which checks for historical eventCond.
               // Store all fired events in an ordered list and then search back till you find what you're looking for or reach some negtive conditions
@@ -51,12 +56,12 @@ stateCond   : player HEALTH ineq value  #stateCondHealth // If the enemy has les
 //                    since those will still be combinatorially useful and
 //                    it will save a bunch of time and complexity in 
 //                    frequently run code.
-action      : KNOCKBACK NUM                                     # actionKnockback
-            | DASH NUM                                          # actionDash
-            | ccEffect NUM                                      # actionCC
-            | player buff value (value)?                        # actionBuff
-            | player scalarEffect value                         # actionScalar  // e.g. Your opponent takes 4 damage. 
-            | player ADDS value cardTarget FROM place TO place  # actionSearch  // e.g. Add one Mystic Shot from deck to hand
+action      : KNOCKBACK NUM                     # actionKnockback
+            | DASH NUM                          # actionDash
+            | ccEffect NUM                      # actionCC
+            | player buff value (value)?        # actionBuff
+            | player scalarEffect value         # actionScalar  // e.g. Your opponent takes 4 damage. 
+            | player ADDS value NAME TO location # actionSearch  // e.g. Add one Mystic Shot from deck to hand
             ;
 
 // TODO(ticktakashi): Add a (WITH card)? extension to these scalar to check if, for example, they did 2 damage with a MELEE attack

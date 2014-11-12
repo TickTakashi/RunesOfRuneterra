@@ -21,7 +21,10 @@ using CARDScript.Compiler.Effects.ScalarEffects;
  * TODO(ticktakashi): This class does not implement all of the grammar.
  */
 namespace CARDScript.Compiler {
-  
+
+  class PassiveVisitor : CARDScriptParserBaseVisitor<Passive> {
+
+  }
 
   class CardVisitor : CARDScriptParserBaseVisitor<Card> {
     struct CardInfo {
@@ -144,12 +147,18 @@ namespace CARDScript.Compiler {
       return scalar;
     }
 
+    public override Effect VisitActionSearch(CARDScriptParser.ActionSearchContext context) {
+      Target player = MatcherVisitor.ParseTarget(context.player());
+      IValue value = context.value().Accept<IValue>(value_visitor);
+      int destination = context.location().Start.Type;
+      return new CardAdder(player, value, context.NAME().GetText(), destination);
+    }
+
     public override Effect VisitStatList(
         CARDScriptParser.StatListContext context) {
       Effect first = context.stat(0).Accept<Effect>(this);
       Effect second = context.stat(1).Accept<Effect>(this);
       first.GetLastEffect().next = second;
-      Console.WriteLine("First is: " + first + ", Second is: " + second);
       return first;
     }
     
@@ -172,7 +181,6 @@ namespace CARDScript.Compiler {
     public override Effect VisitIf(CARDScriptParser.IfContext context) {
       Effect ifthen = context.stat(0).Accept<Effect>(this);
       Effect ifelse = context.ELSE() != null ? context.stat(1).Accept<Effect>(this) : null;
-      // TODO(ticktakashi): Visit If needs to be implemented along with StateMatchers 
       Matcher matcher = context.stateCond().Accept<Matcher>(matcher_visitor);
       ConditionalEffect cond = new ConditionalEffect(matcher, ifthen, ifelse);
       return cond;
@@ -203,6 +211,13 @@ namespace CARDScript.Compiler {
       InequalityMatcher im = ParseInequality(context.ineq(), value); 
       Target t = ParseTarget(context.player());
       return new HealthMatcher(t, im);    
+    }
+
+    public override Matcher VisitStateCondDistance(
+        CARDScriptParser.StateCondDistanceContext context) {
+          IValue value = context.value().Accept<IValue>(value_visitor);
+          InequalityMatcher im = ParseInequality(context.ineq(), value);
+      return new DistanceMatcher(im);
     }
 
     public override Matcher VisitEventCondScalar(

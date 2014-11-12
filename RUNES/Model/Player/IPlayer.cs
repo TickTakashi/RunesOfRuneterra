@@ -69,5 +69,11 @@ namespace CARDScript.Model.Players {
 
     // Basic attacks the opponent
     void MeleeAttack();
+
+    void AddToDeck(Card card);
+
+    void AddToHand(Card card);
+
+    void AddToCooldown(Card card);
   }
 }

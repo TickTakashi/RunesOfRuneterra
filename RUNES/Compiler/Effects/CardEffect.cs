@@ -69,5 +69,12 @@ namespace CARDScript.Compiler.Effects {
     public bool Dashable() {
       return damage_card != null && damage_card is SkillCard;
     }
+
+    public override string ToString() {
+      if (next != null)
+        return next.ToString();
+      else 
+        return "";
+    }
   }
 }

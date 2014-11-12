@@ -52,12 +52,16 @@ namespace CARDScript.Compiler.Matchers {
   }
 
   public abstract class InequalityMatcher {
-    protected IValue l;
+    public IValue l;
     public InequalityMatcher(IValue l) { 
       this.l = l;
     }
 
     public abstract bool CompareTo(int rval);
+
+    public string StringWithInt() {
+      return l.ToString() + " " + ToString();
+    }
   }
 
   public class GTMatcher : InequalityMatcher {

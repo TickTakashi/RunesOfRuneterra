@@ -5,7 +5,7 @@ fragment DQUOTE : '\"';
 fragment CHARACTER :  ~['\"'] | WS ;
 
 COMMENT : ('#' ~[\n]*) -> skip;
-WS      : [ \t\n]+ -> skip;
+WS      : [ \t\n\r]+ -> skip;
 
 // Conditionals
 WHEN		: 'WHEN';

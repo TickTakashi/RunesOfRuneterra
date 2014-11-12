@@ -23,5 +23,26 @@ namespace CARDScript.Compiler.Matchers {
       IPlayer player = TargetMethods.Resolve(target, scheduler, controller);
       return matcher.CompareTo(player.GetHealth());
     }
+
+    public override string ToString() {
+      return TargetMethods.Owner(target) + " health is " + matcher.StringWithInt();
+    }
+  }
+
+
+  public class DistanceMatcher : Matcher {
+    InequalityMatcher matcher;
+
+    public DistanceMatcher(InequalityMatcher matcher) {
+      this.matcher = matcher;
+    }
+
+    public override bool Match(GameEvent UNUSED, IGameController controller, IPlayer scheduler) {
+      return matcher.CompareTo(controller.PlayerDistance());
+    }
+
+    public override string ToString() {
+      return "the distance between you and your opponent is " + matcher.StringWithInt();
+   }
   }
 }

@@ -60,6 +60,7 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
+    <Compile Include="Compiler\CardAdder.cs" />
     <Compile Include="Compiler\Effects\CardEffect.cs" />
     <Compile Include="Compiler\Effects\ConditionalEffect.cs" />
     <Compile Include="Compiler\Effects\NullEffect.cs" />

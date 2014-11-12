@@ -14,27 +14,34 @@ using System.Text;
 namespace CARDScript {
   class CARDScriptTestMain {
     public static void Main() {
-      
+      string script =
+@"""Blood Thirst"" = 1 
+COST = 1
+LIMIT = 3
+MELEE
+DAMAGE = 1
+EFFECT = {
+  USER HEALS 1
+  USER ADDS 1 ""Blood Price"" TO DECK
+}";      
       DummyGameController g = new DummyGameController();
-      Card compiled = CardCompiler.Compile(
-        "\"Test\" = 0 \n" +
-        "COST = 3 \n" +
-        "LIMIT = 4 \n" +
-        "SELF \n" +
-        "TIME = 3 \n" +
-        "EFFECT = { \n" +
-        "  DASH 2\n" +
-        "  USER TAKES 3\n" +
-        "  ENEMY TAKES 2\n"  +
-        "  USER TAKES 3\n" +
-        "  ENEMY TAKES 2\n" + 
-        "  USER TAKES 3\n" +
-        "}"
-        );
+      Card compiled = CardCompiler.Compile(script);
 
       if (compiled == null) {
         Console.WriteLine("NULL!");
+        return;
       }
+
+
+      Console.WriteLine(script);
+      System.IO.StreamWriter file = new System.IO.StreamWriter(
+        "D:\\GameDev\\Unity Projects\\LoLCardGame\\Assets\\CARDSSources\\" +
+        compiled.id.ToString("000") + "_" + 
+        compiled.name.Replace(" ", "_").ToUpper() + ".txt");
+
+      file.WriteLine(script);
+
+      file.Close();
       Console.WriteLine("Compiled object:\n" + compiled);
     }
   }
@@ -80,6 +87,16 @@ namespace CARDScript {
 
 
     public void MovePlayer(IPlayer player, int distance) {
+      throw new NotImplementedException();
+    }
+
+
+    public int PlayerDistance() {
+      throw new NotImplementedException();
+    }
+
+
+    public Card BuildCard(string card_name) {
       throw new NotImplementedException();
     }
   }

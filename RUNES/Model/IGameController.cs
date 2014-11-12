@@ -31,6 +31,12 @@ namespace CARDScript.Model {
 
     // Actually Moves the player
     void MovePlayer(IPlayer player, int distance);
+
+    // The distance between the players
+    int PlayerDistance();
+
+    Card BuildCard(string card_name);
+
   }
 
   public delegate bool EffectCallback(Card card, IPlayer user, IGameController controller);

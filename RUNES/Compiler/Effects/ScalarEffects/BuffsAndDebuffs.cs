@@ -82,7 +82,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
        
       string extend = "";
       if (next != null) {
-        extend = ", and " + next.ToString(); 
+        extend = " and " + next.ToString(); 
       }
       
       return ret + extend;
