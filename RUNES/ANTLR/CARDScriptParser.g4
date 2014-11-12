@@ -56,7 +56,8 @@ stateCond   : player HEALTH ineq value  #stateCondHealth
 //                    since those will still be combinatorially useful and
 //                    it will save a bunch of time and complexity in 
 //                    frequently run code.
-action      : KNOCKBACK NUM                     # actionKnockback
+action      : COUNTS AS cardType                # actionCountsAs // TODO(ticktakashi): Think about implementing this smartly
+            | KNOCKBACK NUM                     # actionKnockback
             | DASH NUM                          # actionDash
             | ccEffect NUM                      # actionCC
             | player buff value (value)?        # actionBuff

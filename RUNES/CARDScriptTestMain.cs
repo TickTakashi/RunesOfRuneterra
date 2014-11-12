@@ -15,14 +15,14 @@ namespace CARDScript {
   class CARDScriptTestMain {
     public static void Main() {
       string script =
-@"""Eclipse"" = 22
-COST = 1
-LIMIT = 2
-SPELL
-DAMAGE = 1
-RANGE = 1
+@"""Solar Flare"" = 52
+COST = 2
+LIMIT = 1
+SKILL
+DAMAGE = 2
+RANGE = 4
 EFFECT = {
-  SHIELD 2
+  STUN 1
 }";      
       DummyGameController g = new DummyGameController();
       Card compiled = CardCompiler.Compile(script);

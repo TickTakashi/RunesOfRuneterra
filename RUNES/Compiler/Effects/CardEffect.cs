@@ -38,14 +38,16 @@ namespace CARDScript.Compiler.Effects {
       if (damage_card != null) {
         if (damage_card.InRange(user, controller)) {
           if (damage_card is SkillCard) {
-            controller.Opponent(user).Damage(damage_card.damage);
+            controller.Opponent(user).Damage(damage_card.damage + 
+              user.GetSkillDamage());
             // TODO(ticktakashi): Fire On skillshot hit event.
           } else if (damage_card is MeleeCard) {
             controller.Opponent(user).Damage(damage_card.damage +
               user.GetMeleeDamage());
             // TODO(ticktakashi): Fire on hit event
           } else if (damage_card is SpellCard) {
-            controller.Opponent(user).Damage(damage_card.damage);
+            controller.Opponent(user).Damage(damage_card.damage +
+              user.GetSpellDamage());
             // TODO(ticktakashi): Fire a spellcard hit event.
           }
         }

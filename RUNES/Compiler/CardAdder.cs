@@ -25,16 +25,15 @@ namespace CARDScript.Compiler {
       IPlayer target = TargetMethods.Resolve(player, user, controller);
       
       for (int i = 0; i < value.GetValue(); i++) {
-        Card new_card = controller.BuildCard(name);
         switch(destination) {
           case CARDScriptParser.HAND:
-            target.AddToHand(new_card);
+            target.AddToHand(name);
             break;
           case CARDScriptParser.DECK:
-            target.AddToDeck(new_card);
+            target.AddToDeck(name);
             break;
           case CARDScriptParser.COOL:
-            target.AddToCooldown(new_card);
+            target.AddToCooldown(name);
             break;
           default:
             throw new Exception("No place specified!");

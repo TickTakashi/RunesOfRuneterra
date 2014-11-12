@@ -35,8 +35,6 @@ namespace CARDScript.Model {
     // The distance between the players
     int PlayerDistance();
 
-    Card BuildCard(string card_name);
-
     void KnockbackPlayer(IPlayer target_player, int value, EffectCallback callback);
   }
 

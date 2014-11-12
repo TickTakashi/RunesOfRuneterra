@@ -32,21 +32,27 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       string extend = "";
       if (next != null) {
         extend = next.ToString();
-      }
+      } 
       return "\n<i>" + buff_type + " " + value + "</i>\n" + extend;
     }
   }
 
-  public class VariableBuff : StandardBuff {
+  public class VariableBuff : ScalarEffect {
+    protected BuffType buff_type;
+    protected Target target;
     private IValue strength;
 
     public VariableBuff(Target target, int effect_id, IValue duration,
-      IValue strength) : base(target, effect_id, duration) {
-        this.strength = strength;
+      IValue strength) {
+      this.target = target;
+      this.effect_id = effect_id;
+      string buff_name = CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id);
+      buff_name = buff_name.Substring(1, buff_name.Length - 2);
+      this.buff_type = (BuffType)Enum.Parse(typeof(BuffType), buff_name, true);
+      this.ivalue = duration;
+      this.strength = strength;
     }
-    // TODO(ticktakashi): For when you wake up: You need to implement the visitor component
-    // of this. meaning actionBuff. I know you want to make things pretty but you don't have
-    // time! focus on getting a decent amount of cards into the game.
+
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
       if (card is SelfCard) {
         TargetMethods.Resolve(target, user, controller).BuffPlayer(buff_type,

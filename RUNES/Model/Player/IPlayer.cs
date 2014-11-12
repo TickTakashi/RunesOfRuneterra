@@ -14,7 +14,7 @@ namespace CARDScript.Model.Players {
   public interface IPlayer {
     // Decrease your health by value - Fires a Damage Taken Event
     void Damage(int value);
-
+    
     // Increase your health by value
     void Heal(int value);
     
@@ -70,10 +70,14 @@ namespace CARDScript.Model.Players {
     // Basic attacks the opponent
     void MeleeAttack();
 
-    void AddToDeck(Card card);
+    void AddToDeck(string card);
 
-    void AddToHand(Card card);
+    void AddToHand(string card);
 
-    void AddToCooldown(Card card);
+    void AddToCooldown(string card);
+
+    int GetSkillDamage();
+
+    int GetSpellDamage();
   }
 }

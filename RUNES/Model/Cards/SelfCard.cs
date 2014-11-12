@@ -23,10 +23,5 @@ namespace CARDScript.Model.Cards {
         throw new NotImplementedException(); 
       }
     }
-
-    public override void Activate(IPlayer user, IGameController game_controller) {
-      // TODO(ticktakashi): Implement SelfCard timer semantics
-      throw new NotImplementedException();
-    }
   }
 }
