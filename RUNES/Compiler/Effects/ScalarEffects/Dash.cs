@@ -29,7 +29,11 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override string ToString() {
-      return "\n<i>DASH " + value + "</i>\n" + base.ToString();
+      string extend = "";
+      if (next != null) {
+        extend = next.ToString();
+      }
+      return "\n<i>DASH " + value + "</i>\n" + extend;
     }
   }
 }

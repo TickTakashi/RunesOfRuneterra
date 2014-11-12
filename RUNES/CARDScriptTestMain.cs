@@ -18,13 +18,17 @@ namespace CARDScript {
       DummyGameController g = new DummyGameController();
       Card compiled = CardCompiler.Compile(
         "\"Test\" = 0 \n" +
-        "SPELL \n" +
-        "DAMAGE = 1 \n" +
-        "RANGE = 2 \n" + 
         "COST = 3 \n" +
         "LIMIT = 4 \n" +
+        "SELF \n" +
+        "TIME = 3 \n" +
         "EFFECT = { \n" +
-        "  USER TAKES 3 \n" +
+        "  DASH 2\n" +
+        "  USER TAKES 3\n" +
+        "  ENEMY TAKES 2\n"  +
+        "  USER TAKES 3\n" +
+        "  ENEMY TAKES 2\n" + 
+        "  USER TAKES 3\n" +
         "}"
         );
 

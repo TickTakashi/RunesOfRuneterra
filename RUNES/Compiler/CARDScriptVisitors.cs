@@ -116,8 +116,21 @@ namespace CARDScript.Compiler {
     }
 
     public override Effect VisitActionCC(CARDScriptParser.ActionCCContext context) {
-      return new StandardBuff(context.ccEffect().Start.Type, 
+
+      return new StandardBuff(Target.ENEMY, context.ccEffect().Start.Type, 
         Int32.Parse(context.NUM().GetText()));
+    }
+
+    public override Effect VisitActionBuff(CARDScriptParser.ActionBuffContext context) {
+      IValue strength = context.value(0).Accept<IValue>(value_visitor);
+      IValue duration = null;
+      
+      if (context.value(1) != null) {
+        duration = context.value(1).Accept<IValue>(value_visitor);
+      }
+
+      return new VariableBuff(MatcherVisitor.ParseTarget(context.player()),
+        context.buff().Start.Type, duration, strength);
     }
 
     public override Effect VisitActionScalar(
@@ -135,7 +148,8 @@ namespace CARDScript.Compiler {
         CARDScriptParser.StatListContext context) {
       Effect first = context.stat(0).Accept<Effect>(this);
       Effect second = context.stat(1).Accept<Effect>(this);
-      first.next = second;
+      first.GetLastEffect().next = second;
+      Console.WriteLine("First is: " + first + ", Second is: " + second);
       return first;
     }
     
@@ -288,14 +302,6 @@ namespace CARDScript.Compiler {
         case CARDScriptParser.TAKES:
           effect = new Damage();
           break;
-        case CARDScriptParser.SHIELDS:
-          // TODO(ticktakashi): Implement Shields.
-          // effect = new Shields();
-          goto case CARDScriptParser.TAKES;
-        case CARDScriptParser.PIERCES:
-          // TODO(ticktakashi): Implement Pierces.
-          // effect = new Pierces();
-          goto case CARDScriptParser.TAKES;
         default:
           Console.WriteLine("Could not match Scalar Effect. Index was: " +
                             effectType + "Defaulting to TAKES");

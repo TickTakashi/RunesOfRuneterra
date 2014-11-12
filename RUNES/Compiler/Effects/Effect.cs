@@ -40,10 +40,18 @@ namespace CARDScript.Compiler.Effects {
       //Debug.Log(message);
     }
 
+    public Effect GetLastEffect() {
+      if (next == null)
+        return this;
+      else
+        return next.GetLastEffect();
+    }
+
+    // TODO(ticktakashi): Fix tostring.
     public override string ToString() {
       string extend = "";
       if (next != null) {
-        extend = /*", then " + */ next.ToString(); 
+        extend = ", then " + next.ToString(); 
       }
       return extend;
     }

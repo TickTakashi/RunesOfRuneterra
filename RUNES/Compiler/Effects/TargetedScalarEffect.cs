@@ -18,6 +18,14 @@ namespace CARDScript.Compiler.Effects {
         return gc.Opponent(activator);
       }
     }
+
+    public static string Name(Target target) {
+      return target == Target.USER ? "you" : "your opponent";
+    }
+
+    public static string Owner(Target target) {
+      return target == Target.USER ? "your" : "your opponents";
+    }
   }
 
   public abstract class TargetedScalarEffect : ScalarEffect {
@@ -35,7 +43,7 @@ namespace CARDScript.Compiler.Effects {
     public override string ToString()  {
       string verb = CARDScriptParser.DefaultVocabulary.GetLiteralName(effect_id).ToLower();
       verb = verb.Substring(1, verb.Length - 2);
-      return string.Format("{0} {1} {2} {3} {4}",
+      return string.Format("{0} {1} {2} {3}{4}",
         target == Target.USER ? "you" : "your opponent",
         (target == Target.USER ? verb.Substring(0, verb.Length - 1) : verb),
         ivalue, Noun(), base.ToString());

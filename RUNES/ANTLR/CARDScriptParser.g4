@@ -54,6 +54,7 @@ stateCond   : player HEALTH ineq value  #stateCondHealth // If the enemy has les
 action      : KNOCKBACK NUM                                     # actionKnockback
             | DASH NUM                                          # actionDash
             | ccEffect NUM                                      # actionCC
+            | player buff value (value)?                        # actionBuff
             | player scalarEffect value                         # actionScalar  // e.g. Your opponent takes 4 damage. 
             | player ADDS value cardTarget FROM place TO place  # actionSearch  // e.g. Add one Mystic Shot from deck to hand
             ;
@@ -74,8 +75,8 @@ player		  : USER | ENEMY ;
 //                    However, there are skills which negatively effect the user.
 //                    Also, when checking whenConds we must consider that the opponent might heal
 //                    himself etc.
-scalarEffect: DRAWS | TAKES | HEALS | SHIELDS | PIERCES;
-
+scalarEffect: DRAWS | TAKES | HEALS;
+buff        : MELEE_DAMAGE | MELEE_RANGE | SHIELD;
 ccEffect	  : SLOW | SNARE | STUN | KNOCKUP | SILENCE | BLIND ;
 
 

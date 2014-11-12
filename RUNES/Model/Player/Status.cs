@@ -10,11 +10,13 @@ namespace CARDScript.Model.Players {
     public int status_id;    // Unique ID for this status
     public BuffType type;    // What does this buff do?
     public int duration;        // Can be positive or negative
+    public int power;
 
-    public Status(BuffType type, int power) {
+    public Status(BuffType type, int duration, int power) {
       this.status_id = STATUS_COUNTER++;
       this.type = type;
-      this.duration = power;
+      this.duration = duration;
+      this.power = power;
     }
   }
 
