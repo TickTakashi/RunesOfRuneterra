@@ -70,6 +70,9 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
         case BuffType.MELEE_RANGE:
           ret += " melee attacks have " + strength.GetValue() + " additional range";
           break;
+        case BuffType.SKILL_DAMAGE:
+          ret += " skillshots deal " + strength.GetValue() + " additional range";
+          break;
         case BuffType.SHIELD:
           return base.ToString();
         default:
