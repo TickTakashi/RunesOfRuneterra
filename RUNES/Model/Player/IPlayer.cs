@@ -37,8 +37,8 @@ namespace CARDScript.Model.Players {
     void RefreshActionPoints();
 
     // Add a buff to the player
-    void BuffPlayer(BuffType type, int duration);
-    void BuffPlayer(BuffType type, int duration, int strength);
+    void BuffPlayer(IPlayer caster, BuffType type, int duration);
+    void BuffPlayer(IPlayer caster, BuffType type, int duration, int strength);
 
     // Check for CC
     bool HasBuff(BuffType type);
@@ -79,5 +79,7 @@ namespace CARDScript.Model.Players {
     int GetSkillDamage();
 
     int GetSpellDamage();
+
+    bool Dead();
   }
 }

@@ -19,6 +19,9 @@ namespace CARDScript.Model.Cards {
     protected string _name;
     public string name { get { return _name; } }
 
+    protected bool _is_dash;
+    public bool is_dash { get { return _is_dash; } }
+
     protected int _id;
     public int id { get { return _id; } }
     
@@ -26,9 +29,10 @@ namespace CARDScript.Model.Cards {
     public int cost { get { return _cost; } }
 
     protected int _limit;
-    public int limit { get { return _limit;  } }
+    public int limit { get { return _limit; } }
 
-    protected Effect effect;
+
+    public Effect effect;
 
     public Card(string name, int id, int cost, int limit, Effect effect) {
       this._name = name.Substring(1, name.Length - 2);
@@ -46,8 +50,13 @@ namespace CARDScript.Model.Cards {
         user.HasActionPoints(cost);
     }
 
-    public bool CanNegate(CardEffect possibly_negatable) {
-      return effect.CanNegate(possibly_negatable);
+    public bool IsDash() {
+      return is_dash;
+    }
+
+    public bool CanNegate(IPlayer user, IGameController controller, 
+      CardEffect possibly_negatable) {
+      return effect.CanNegate(this, user, controller, possibly_negatable);
     }
 
     public virtual void Activate(IPlayer user, IGameController game_controller) {

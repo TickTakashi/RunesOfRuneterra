@@ -24,7 +24,10 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      TargetMethods.Resolve(target, user, controller).BuffPlayer(buff_type, value);
+      int turn_offset = 0;
+      if (target == Target.ENEMY)
+        turn_offset++;
+      TargetMethods.Resolve(target, user, controller).BuffPlayer(user, buff_type, value + turn_offset);
       return base.Activate(card, user, controller);
     }
 
@@ -55,19 +58,22 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
       if (card is SelfCard) {
-        TargetMethods.Resolve(target, user, controller).BuffPlayer(buff_type,
+        TargetMethods.Resolve(target, user, controller).BuffPlayer(user, buff_type,
           ((SelfCard)card).time, strength.GetValue());
-      } else if (ivalue != null) {
-        TargetMethods.Resolve(target, user, controller).BuffPlayer(buff_type,
-          value, strength.GetValue());
       } else {
-        throw new NotImplementedException("You must specify a duration for non-self cards!"); 
+        TargetMethods.Resolve(target, user, controller).BuffPlayer(user, buff_type,
+          1, strength.GetValue());
       }
 
       return base.Activate(card, user, controller);
     }
 
     public override string ToString() {
+      string extend = "";
+      if (next != null) {
+        extend = next.ToString();
+      }
+     
       string ret = TargetMethods.Owner(target);
       switch (buff_type) {
         case BuffType.MELEE_DAMAGE:
@@ -79,6 +85,10 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
         case BuffType.SKILL_DAMAGE:
           ret += " skillshots deal " + strength.GetValue() + " additional damage";
           break;
+        case BuffType.SHIELD:
+          return "\n<i>SHIELD " + strength.GetValue() + "</i>\n" + extend;
+        case BuffType.KNOCKUP:
+          return "\n<i>KNOCKUP " + strength.GetValue() + "</i>\n" + extend;
         default:
           throw new NotImplementedException("Reached default case for buffs.");
       }
@@ -86,12 +96,10 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       if (ivalue != null) {
         ret += " for the next " + ivalue + " turns.";
       }
-       
-      string extend = "";
+
       if (next != null) {
-        extend = " and " + next.ToString(); 
+        extend = " and " + extend;
       }
-      
       return ret + extend;
     }
   }

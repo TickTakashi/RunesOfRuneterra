@@ -58,6 +58,7 @@ stateCond   : player HEALTH ineq value  #stateCondHealth
 //                    frequently run code.
 action      : COUNTS AS cardType                # actionCountsAs // TODO(ticktakashi): Think about implementing this smartly
             | KNOCKBACK NUM                     # actionKnockback
+            | KNOCKUP NUM                       # actionKnockup
             | DASH NUM                          # actionDash
             | ccEffect NUM                      # actionCC
             | player buff value (value)?        # actionBuff

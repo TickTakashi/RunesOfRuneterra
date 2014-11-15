@@ -31,8 +31,9 @@ namespace CARDScript.Compiler.Effects {
       return next != null && next.DealsCardDamage();
     }
 
-    public virtual bool CanNegate(CardEffect effect) {
-      return next != null && next.CanNegate(effect);
+    public virtual bool CanNegate(Card card, IPlayer user,
+      IGameController controller, CardEffect effect) {
+      return next != null && next.CanNegate(card, user, controller, effect);
     }
 
     // TODO(ticktakashi): Investigate the sanity of this.  

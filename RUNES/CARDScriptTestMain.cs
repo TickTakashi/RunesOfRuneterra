@@ -104,5 +104,10 @@ EFFECT = {
     public void KnockbackPlayer(IPlayer target_player, int value, EffectCallback callback) {
       throw new NotImplementedException();
     }
+
+
+    public void KnockbackPlayer(IPlayer target_player, int value, Card card, IPlayer user, IGameController controller, EffectCallback callback) {
+      throw new NotImplementedException();
+    }
   }
 }

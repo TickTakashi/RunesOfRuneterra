@@ -14,7 +14,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
     }
 
     public override bool Activate(Card card, IPlayer user, IGameController controller) {
-      controller.KnockbackPlayer(controller.Opponent(user), value, base.Activate);
+      controller.KnockbackPlayer(controller.Opponent(user), value, card, user, controller, base.Activate);
       return true;
     }
 

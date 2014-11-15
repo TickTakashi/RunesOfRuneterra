@@ -35,7 +35,8 @@ namespace CARDScript.Model {
     // The distance between the players
     int PlayerDistance();
 
-    void KnockbackPlayer(IPlayer target_player, int value, EffectCallback callback);
+    void KnockbackPlayer(IPlayer target_player, int value, Card card, 
+      IPlayer user, IGameController controller, EffectCallback callback);
   }
 
   public delegate bool EffectCallback(Card card, IPlayer user, IGameController controller);

@@ -125,8 +125,15 @@ namespace CARDScript.Compiler {
     }
 
     public override Effect VisitActionShield(CARDScriptParser.ActionShieldContext context) {
-      return new StandardBuff(Target.USER, context.SHIELD().Symbol.Type,
-        Int32.Parse(context.NUM().GetText())); ;
+      return new VariableBuff(Target.USER, context.SHIELD().Symbol.Type,
+        null,
+        new LiteralIntValue(Int32.Parse(context.NUM().GetText())));
+    }
+
+    public override Effect VisitActionKnockup(CARDScriptParser.ActionKnockupContext context) {
+      return new VariableBuff(Target.ENEMY, context.KNOCKUP().Symbol.Type,
+        null,
+        new LiteralIntValue(Int32.Parse(context.NUM().GetText()))); ;
     }
 
     public override Effect VisitActionBuff(CARDScriptParser.ActionBuffContext context) {

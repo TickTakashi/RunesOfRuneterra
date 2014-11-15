@@ -24,8 +24,10 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
         !user.HasBuff(BuffType.SILENCE);
     }
 
-    public override bool CanNegate(CardEffect effect) {
-      return effect.Dashable() || base.CanNegate(effect);     
+    public override bool CanNegate(Card card, IPlayer user, 
+      IGameController controller, CardEffect effect) {
+      return effect.Dashable() && CanActivate(card, user, controller) ||
+        base.CanNegate(card, user, controller, effect);     
     }
 
     public override string ToString() {
