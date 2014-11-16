@@ -18,7 +18,7 @@ namespace CARDScript {
     static CardVisitor card_visitor;
     static PassiveVisitor passive_visitor;
 
-    public static Card Compile(string card_description) {
+    public static Card_OLD Compile(string card_description) {
       if (card_visitor == null)
         card_visitor = new CardVisitor();
 
@@ -31,7 +31,7 @@ namespace CARDScript {
       CARDScriptParser parser = new CARDScriptParser(tokens);
       CARDScriptParser.CardDescContext description = parser.cardDesc();
      
-      return description.Accept<Card>(card_visitor);
+      return description.Accept<Card_OLD>(card_visitor);
     }
 
     public static Passive CompilePassive(string card_description) {

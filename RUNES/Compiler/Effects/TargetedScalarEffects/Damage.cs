@@ -4,7 +4,7 @@ using CARDScript.Model.Cards;
 using CARDScript.Model.Players;
 namespace CARDScript.Compiler.Effects.TargetedScalarEffects {
   public class Damage : TargetedScalarEffect {
-    public override bool Activate(Card source, IPlayer user, IGameController game_controller) {
+    public override bool Activate(Card_OLD source, IPlayer user, IGameController game_controller) {
       Log("Damage event. Dealing " + value + " damage to " + target);
       IPlayer my_target = user;
       if (target == Target.ENEMY)

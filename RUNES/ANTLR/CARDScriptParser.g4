@@ -7,56 +7,46 @@ options {
 cardDesc    : cardID SKILL DAMAGE E? NUM RANGE E? NUM cardE # cardSkill
             | cardID SPELL DAMAGE E? NUM RANGE E? NUM cardE # cardSpell
             | cardID MELEE DAMAGE E? NUM cardE              # cardMelee
-            | cardID SELF  TIME   E? NUM cardE              # cardSelf
+            | cardID SELF  TIME   E? NUM cardE cardB        # cardSelf
             ;
 
 // TODO(ticktakashi): Passives must have a totally different set of rules to
 // non passives.
-//passiveDesc : NAME E? NUM cardE ;
+passiveDesc : NAME E? NUM cardB ;
 
 cardType    : SKILL | SPELL | MELEE | SELF ;
 
 cardID      : NAME E? NUM COST E? NUM LIMIT E? NUM ;
 
-cardE       : EFFECT E? effect ; // NEGATE E? effect;
+cardE       : EFFECT E? effect ;
 
-effect		  : LBRACE stat? RBRACE ;
+cardB       : BUFF E? buffEffect ;
+
+effect		  : LBRACE statE? RBRACE ;
+
+buffEffect  : LBRACE statB? RBRACE ;
 
 preCond		  : ACTIVATE option WHEN eventCond;
 
 option		  : OPTION | AUTO ;
 
-stat		    : DAMAGE                            # statDamage // Inflict the damage of this card. If no other effects exist and damage hasnt been created yet, it will be created.
-            | if                                # statIf
-            | when                              # statWhen
-            | action                            # statAction
-			      | action value TIMES				        # actionRepeat
-			      | stat stat								          # statList
+statE		    : NORMAL ACTIVATION (AS cardType) # statEDamage 
+            | if                              # statEIf
+            | when                            # statEWhen
+            | action                          # statEAction
+			      | action value TIMES				      # actionRepeat
+			      | statE statE							        # statEList
 			      ;
 
-// Triggers an effect the next time an event that matches eventCond occurs.
 when        : WHEN eventCond LBRACE stat RBRACE (value CHARGES)? ;
 
-// TODO(ticktakashi): Checks if stateCond is true when this card is activated.
 if          : IF stateCond LBRACE stat RBRACE (ELSE LBRACE stat RBRACE)? ;
 
-// TODO(ticktakashi): Implement if conditions
-// Note that this doesn't prevent you from activating the card. Its different
-// from You may only activate this card if: x.
 stateCond   : player HEALTH ineq value  #stateCondHealth
             | DISTANCE ineq value       #stateCondDistance
-            ; // TODO(ticktakashi): Melee attacked 3 times in the past 3 turns - Will require some kind of action history unless it is constantly counted.
-              // This will be a stateCond which checks for historical eventCond.
-              // Store all fired events in an ordered list and then search back till you find what you're looking for or reach some negtive conditions
-              // Options like last n turns or n turns in a row or n times in a row or last action etc.
-    
-// TODO(ticktakashi): Think about how to increase the stats of a card here.
-// TODO(ticktakashi): Philosophy: Implement the general case, and then
-//                    implement special cases as special cases,
-//                    since those will still be combinatorially useful and
-//                    it will save a bunch of time and complexity in 
-//                    frequently run code.
-action      : COUNTS AS cardType                # actionCountsAs // TODO(ticktakashi): Think about implementing this smartly
+            ;
+
+action      : 
             | KNOCKBACK NUM                     # actionKnockback
             | KNOCKUP NUM                       # actionKnockup
             | DASH NUM                          # actionDash
@@ -95,7 +85,8 @@ location    : HAND | DECK | COOL ;
 
 // TODO(ticktakashi): Think about the IDENT case. Need to keep a symbol table.
 // Keep it simple, we dont need this yet.
-cardTarget	: ALL | MELEE | SKILL | SPELL | PASSIVE | NUM | THIS | IDENT ; 
+cardTarget	: ALL | NUM | THIS | IDENT ;
+cardType    : MELEE | SKILL | SPELL | SELF ;
 
 // TODO(ticktakashi): Add Card Based Values, Like x card's damage value.
 value		    : NUM                     # valueInt

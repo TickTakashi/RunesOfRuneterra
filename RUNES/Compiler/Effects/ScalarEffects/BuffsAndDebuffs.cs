@@ -23,7 +23,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       this.ivalue = duration;
     }
 
-    public override bool Activate(Card card, IPlayer user, IGameController controller) {
+    public override bool Activate(Card_OLD card, IPlayer user, IGameController controller) {
       int turn_offset = 0;
       if (target == Target.ENEMY)
         turn_offset++;
@@ -33,8 +33,8 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
 
     public override string ToString() {
       string extend = "";
-      if (next != null) {
-        extend = next.ToString();
+      if (Next != null) {
+        extend = Next.ToString();
       } 
       return "\n<i>" + buff_type + " " + value + "</i>\n" + extend;
     }
@@ -56,7 +56,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       this.strength = strength;
     }
 
-    public override bool Activate(Card card, IPlayer user, IGameController controller) {
+    public override bool Activate(Card_OLD card, IPlayer user, IGameController controller) {
       if (card is SelfCard) {
         TargetMethods.Resolve(target, user, controller).BuffPlayer(user, buff_type,
           ((SelfCard)card).time, strength.GetValue());
@@ -70,8 +70,8 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
 
     public override string ToString() {
       string extend = "";
-      if (next != null) {
-        extend = next.ToString();
+      if (Next != null) {
+        extend = Next.ToString();
       }
      
       string ret = TargetMethods.Owner(target);
@@ -97,7 +97,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
         ret += " for the next " + ivalue + " turns.";
       }
 
-      if (next != null) {
+      if (Next != null) {
         extend = " and " + extend;
       }
       return ret + extend;

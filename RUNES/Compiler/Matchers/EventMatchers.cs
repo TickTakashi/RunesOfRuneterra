@@ -9,7 +9,7 @@ using System.Text;
 
 namespace CARDScript.Compiler.Matchers {
   public class NullMatcher : Matcher {
-    public override bool Match(GameEvent e, IGameController controller, IPlayer player) {
+    public override bool Match(GameEvent_OLD e, IGameController controller, IPlayer player) {
       return true;
     }
   }
@@ -25,14 +25,14 @@ namespace CARDScript.Compiler.Matchers {
 
   public class OrMatcher : MatcherBinop {
     public OrMatcher(Matcher l, Matcher r) : base(l, r) { }
-    public override bool Match(GameEvent e, IGameController controller, IPlayer player) {
+    public override bool Match(GameEvent_OLD e, IGameController controller, IPlayer player) {
       return l.Match(e, controller, player) || r.Match(e, controller, player);
     }
   }
 
   public class AndMatcher : MatcherBinop {
     public AndMatcher(Matcher l, Matcher r) : base(l, r) { }
-    public override bool Match(GameEvent e, IGameController controller, IPlayer player) {
+    public override bool Match(GameEvent_OLD e, IGameController controller, IPlayer player) {
       return l.Match(e, controller, player) && r.Match(e, controller, player);
     }
   }
@@ -42,7 +42,7 @@ namespace CARDScript.Compiler.Matchers {
     public NotMatcher(Matcher l) {
       this.l = l;
     }
-    public override bool Match(GameEvent e, IGameController controller, IPlayer player) {
+    public override bool Match(GameEvent_OLD e, IGameController controller, IPlayer player) {
       return !l.Match(e, controller, player);
     }
 
@@ -106,7 +106,7 @@ namespace CARDScript.Compiler.Matchers {
     }
 
     // TODO(ticktakashi): Need to make sure this matches the right player
-    public override bool Match(GameEvent e, IGameController controller, IPlayer player) {
+    public override bool Match(GameEvent_OLD e, IGameController controller, IPlayer player) {
       return effect.effect_id == e.event_type && condition.CompareTo(e.scalar_value);
     }
 

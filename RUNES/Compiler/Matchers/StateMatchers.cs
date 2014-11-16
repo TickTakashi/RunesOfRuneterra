@@ -19,7 +19,7 @@ namespace CARDScript.Compiler.Matchers {
       this.target = target;
     }
 
-    public override bool Match(GameEvent UNUSED, IGameController controller, IPlayer scheduler) {
+    public override bool Match(GameEvent_OLD UNUSED, IGameController controller, IPlayer scheduler) {
       IPlayer player = TargetMethods.Resolve(target, scheduler, controller);
       return matcher.CompareTo(player.GetHealth());
     }
@@ -37,7 +37,7 @@ namespace CARDScript.Compiler.Matchers {
       this.matcher = matcher;
     }
 
-    public override bool Match(GameEvent UNUSED, IGameController controller, IPlayer scheduler) {
+    public override bool Match(GameEvent_OLD UNUSED, IGameController controller, IPlayer scheduler) {
       return matcher.CompareTo(controller.PlayerDistance());
     }
 

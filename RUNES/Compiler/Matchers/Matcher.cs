@@ -8,6 +8,6 @@ using System.Text;
 
 namespace CARDScript.Compiler.Matchers {
   public abstract class Matcher {
-    public abstract bool Match(GameEvent e, IGameController controller, IPlayer scheduler);
+    public abstract bool Match(GameEvent_OLD e, IGameController controller, IPlayer scheduler);
   }
 }

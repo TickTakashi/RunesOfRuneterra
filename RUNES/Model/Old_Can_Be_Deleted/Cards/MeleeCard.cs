@@ -12,7 +12,7 @@ namespace CARDScript.Model.Cards {
    * same as SpellCards except that they are prevented by Blinds and also fire
    * a on-hit event when activated.
    */
-  public class MeleeCard : DamageCard {
+  public class MeleeCard_O : DamageCard_Old {
     public MeleeCard(string name, int id, int damage, int cost, int limit,
       Effect effect) : base(name, id, damage, cost, limit, effect) { }
 

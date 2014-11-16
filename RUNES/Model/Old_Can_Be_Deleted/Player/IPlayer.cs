@@ -12,6 +12,7 @@ namespace CARDScript.Model.Players {
    * A interface that describes the behaviour that a Player must provide.
    */
   public interface IPlayer {
+    
     // Decrease your health by value - Fires a Damage Taken Event
     void Damage(int value);
     
@@ -53,33 +54,39 @@ namespace CARDScript.Model.Players {
     int GetMovementCost();
 
     // Prompt this player to chose to move up to distance steps.
-    void PromptMove(Card card, int distance, EffectCallback callback);
+    void PromptMove(Card_OLD card, int distance, EffectCallback callback);
 
     // Prompt this player to negate this card effect.
-    void PromptNegate(Card card, CardEffect effect, EffectCallback callback);
+    void PromptNegate(Card_OLD card, NormalEffect effect, EffectCallback callback);
     
     // Get the current health of this player
     int GetHealth();
 
-    bool IsPrompted();
-
+    // Can this player melee attack?
     bool CanMelee();
 
+    // How much damage does this player do with basic attacks?
     int GetMeleeDamage();
 
     // Basic attacks the opponent
     void MeleeAttack();
+    
+    // Add a card to the deck
+    void AddToDeck(string s);
 
-    void AddToDeck(string card);
+    // Add a card to the hand
+    void AddToHand(string s);
 
-    void AddToHand(string card);
+    // Add a card to cooldown
+    void AddToCooldown(string s);
 
-    void AddToCooldown(string card);
-
+    // How much additional skill damage does this player deal?
     int GetSkillDamage();
 
+    // How much additional spell damage does this player deal?
     int GetSpellDamage();
 
-    bool Dead();
+    // Is this player dead?
+    bool Dead(); 
   }
 }

@@ -24,7 +24,7 @@ public class ScheduleEffect : Effect {
     this.repeat = repeat;
   }
 
-  public override bool Activate(Card source, IPlayer user,
+  public override bool Activate(Card_OLD source, IPlayer user,
       IGameController game_controller) {
     game_controller.Schedule(new GameEventListener(listening_for, callback,
       user, game_controller, source, repeat));

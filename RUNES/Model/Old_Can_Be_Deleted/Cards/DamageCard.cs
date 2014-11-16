@@ -6,19 +6,19 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
-  public abstract class DamageCard : Card {
+  public abstract class DamageCard_Old : Card_OLD {
     private int _damage;
     public int damage { get { return _damage; } }
   
-    public DamageCard(string name, int id, int damage, int cost, int limit,
+    public DamageCard_Old(string name, int id, int damage, int cost, int limit,
       Effect effect) : base(name, id, cost, limit, effect) {
       this._damage = damage;
       SetupCardDamage();
     }
 
     protected virtual void SetupCardDamage() {
-      if (effect == null || !effect.DealsCardDamage()) {
-        Effect cardDamage = new CardEffect(effect, this);
+      if (effect == null || !effect.ContainsNormalEffect()) {
+        Effect cardDamage = new NormalEffect(effect, this);
         this.effect = cardDamage;
       }
     }

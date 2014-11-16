@@ -20,16 +20,16 @@ namespace CARDScript.Compiler.Effects {
       this.else_body = else_body;
     }
 
-    public override bool Activate(Card card, IPlayer user, IGameController controller) {
+    public override bool Activate(Card card, Player user, Game game) {
       // Think about the return value here.
-      if (condition.Match(null, controller, user)) {
-        if_body.Activate(card, user, controller);
+      if (condition.Match(null, game, user)) {
+        if_body.Activate(card, user, game);
       } else {
         if (else_body != null) {
-          else_body.Activate(card, user, controller);
+          else_body.Activate(card, user, game);
         }
       }
-      return base.Activate(card, user, controller);
+      return base.Activate(card, user, game);
     }
 
     public override string ToString() {

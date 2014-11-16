@@ -13,15 +13,15 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       this.ivalue = new LiteralIntValue(distance);
     }
 
-    public override bool Activate(Card card, IPlayer user, IGameController controller) {
+    public override bool Activate(Card_OLD card, IPlayer user, IGameController controller) {
       controller.KnockbackPlayer(controller.Opponent(user), value, card, user, controller, base.Activate);
       return true;
     }
 
     public override string ToString() {
       string extend = "";
-      if (next != null) {
-        extend = next.ToString();
+      if (Next != null) {
+        extend = Next.ToString();
       }
       return "\n<i>KNOCKBACK " + value + "</i>\n" + extend;
     }

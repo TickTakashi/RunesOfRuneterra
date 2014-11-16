@@ -21,7 +21,7 @@ namespace CARDScript.Compiler {
       this.destination = destination;
     }
 
-    public override bool Activate(Card card, IPlayer user, IGameController controller) {
+    public override bool Activate(Card_OLD card, IPlayer user, IGameController controller) {
       IPlayer target = TargetMethods.Resolve(player, user, controller);
       
       for (int i = 0; i < value.GetValue(); i++) {

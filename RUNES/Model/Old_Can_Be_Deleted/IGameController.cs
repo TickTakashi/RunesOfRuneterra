@@ -16,9 +16,19 @@ namespace CARDScript.Model {
    * games state at any one time.
    */
   public interface IGameController {
+    /*
+    // Attach an observer
+    void Attach(IGameObserver go);
 
+    // Detach observer
+    void Detach(IGameObserver go);
+
+    // End the current players turn.
+    void EndTurn();
+    
+    */
     // Fires a game event.
-    void FireEvent(GameEvent game_event);
+    void FireEvent(GameEvent_OLD game_event);
 
     // Schedules a GameEventListener to listen for fired events.
     void Schedule(GameEventListener listener);
@@ -35,9 +45,20 @@ namespace CARDScript.Model {
     // The distance between the players
     int PlayerDistance();
 
-    void KnockbackPlayer(IPlayer target_player, int value, Card card, 
+    void KnockbackPlayer(IPlayer target_player, int value, Card_OLD card, 
       IPlayer user, IGameController controller, EffectCallback callback);
+
+ }
+
+  public delegate bool EffectCallback(Card_OLD card, IPlayer user, IGameController controller);
+  public interface IGameToken {
+
+  } 
+
+
+  public class RoRException : Exception {
+    public RoRException(string message) : base(message) {}
   }
 
-  public delegate bool EffectCallback(Card card, IPlayer user, IGameController controller);
+
 }

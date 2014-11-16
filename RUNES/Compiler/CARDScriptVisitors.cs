@@ -110,7 +110,7 @@ namespace CARDScript.Compiler {
     }
 
     public override Effect VisitStatDamage(CARDScriptParser.StatDamageContext context) {
-      return new CardEffect(); // I am relying on the right card being passed to this on activation.
+      return new NormalEffect(); // I am relying on the right card being passed to this on activation.
     }
 
     public override Effect VisitActionDash(CARDScriptParser.ActionDashContext context) {
@@ -174,7 +174,7 @@ namespace CARDScript.Compiler {
         CARDScriptParser.StatListContext context) {
       Effect first = context.stat(0).Accept<Effect>(this);
       Effect second = context.stat(1).Accept<Effect>(this);
-      first.GetLastEffect().next = second;
+      first.GetLastEffect().Next = second;
       return first;
     }
     

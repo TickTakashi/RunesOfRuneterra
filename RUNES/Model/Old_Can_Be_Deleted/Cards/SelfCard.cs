@@ -12,7 +12,7 @@ namespace CARDScript.Model.Cards {
    * duration.
    */
   // TODO(ticktakashi): Implement SelfCard.
-  public class SelfCard : Card {
+  public class SelfCard_O: Card_OLD {
     protected int _time;
     public int time { get { return _time; } }
 

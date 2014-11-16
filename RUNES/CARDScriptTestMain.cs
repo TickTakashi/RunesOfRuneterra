@@ -25,7 +25,7 @@ EFFECT = {
   STUN 1
 }";      
       DummyGameController g = new DummyGameController();
-      Card compiled = CardCompiler.Compile(script);
+      Card_OLD compiled = CardCompiler.Compile(script);
 
       if (compiled == null) {
         Console.WriteLine("NULL!");
@@ -49,7 +49,7 @@ EFFECT = {
 
   class DummyGameController : IGameController {
 
-    public void FireEvent(GameEvent game_event) {
+    public void FireEvent(GameEvent_OLD game_event) {
       throw new NotImplementedException();
     }
 
@@ -77,11 +77,11 @@ EFFECT = {
       throw new NotImplementedException();
     }
 
-    public void PromptNegate(IPlayer user, Card card, Effect effect, EffectCallback callback) {
+    public void PromptNegate(IPlayer user, Card_OLD card, Effect effect, EffectCallback callback) {
       throw new NotImplementedException();
     }
 
-    public void PromptMove(IPlayer user, Card card, int distance, EffectCallback callback) {
+    public void PromptMove(IPlayer user, Card_OLD card, int distance, EffectCallback callback) {
       throw new NotImplementedException();
     }
 
@@ -96,7 +96,7 @@ EFFECT = {
     }
 
 
-    public Card BuildCard(string card_name) {
+    public Card_OLD BuildCard(string card_name) {
       throw new NotImplementedException();
     }
 
@@ -106,7 +106,7 @@ EFFECT = {
     }
 
 
-    public void KnockbackPlayer(IPlayer target_player, int value, Card card, IPlayer user, IGameController controller, EffectCallback callback) {
+    public void KnockbackPlayer(IPlayer target_player, int value, Card_OLD card, IPlayer user, IGameController controller, EffectCallback callback) {
       throw new NotImplementedException();
     }
   }

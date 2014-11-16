@@ -17,11 +17,11 @@ namespace CARDScript.Compiler.Effects {
       this.count = count;
     }
 
-    public override bool Activate(Card source, IPlayer user, IGameController game_controller) {
+    public override bool Activate(Card_OLD source, IPlayer user, IGameController game_controller) {
       for (int i = 0; count.GetValue() - i > 0; i++)
         repeated_effect.Activate(source, user, game_controller);
 
-      return next.Activate(source, user, game_controller);
+      return Next.Activate(source, user, game_controller);
     }
 
     public override string ToString() {

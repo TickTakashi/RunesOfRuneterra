@@ -4,7 +4,7 @@ using CARDScript.Model.Players;
 namespace CARDScript.Compiler.Effects.TargetedScalarEffects {
   public class Draw : TargetedScalarEffect {
 
-    public override bool Activate(Card source, IPlayer user, IGameController game_controller) {
+    public override bool Activate(Card_OLD source, IPlayer user, IGameController game_controller) {
       Log("Draw event. " + target + " draws " + value);
       IPlayer my_target = user;
       if (target == Target.ENEMY)

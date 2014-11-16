@@ -12,7 +12,7 @@ namespace CARDScript.Compiler.Events {
   public class GameEventListener {
     private IPlayer scheduling_user;
     private IGameController scheduling_game_controller;
-    private Card scheduling_card;
+    private Card_OLD scheduling_card;
     private Effect callback;
     private Matcher listening_for;
     private IValue count;
@@ -20,7 +20,7 @@ namespace CARDScript.Compiler.Events {
     
     public GameEventListener(Matcher cond, Effect effect,
         IPlayer scheduling_user, IGameController scheduling_game_controller,
-        Card scheduling_card, IValue count = null) {
+        Card_OLD scheduling_card, IValue count = null) {
       this.scheduling_card = scheduling_card;
       this.scheduling_user = scheduling_user;
       this.scheduling_game_controller = scheduling_game_controller;
@@ -34,7 +34,7 @@ namespace CARDScript.Compiler.Events {
       }
     }
 
-    public bool Trigger(GameEvent e) {
+    public bool Trigger(GameEvent_OLD e) {
       if (listening_for.Match(e, scheduling_game_controller, scheduling_user)) {
         // TODO(ticktakashi): Do I need to take into account the bool return of
         //                    this activation?

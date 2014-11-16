@@ -61,36 +61,42 @@
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\CardAdder.cs" />
-    <Compile Include="Compiler\Effects\CardEffect.cs" />
+    <Compile Include="Model\BuffEffect.cs" />
+    <Compile Include="Model\NormalEffect.cs" />
     <Compile Include="Compiler\Effects\ConditionalEffect.cs" />
     <Compile Include="Compiler\Effects\NullEffect.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Knockback.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\Dash.cs" />
     <Compile Include="Compiler\Effects\ScalarEffects\BuffsAndDebuffs.cs" />
     <Compile Include="Compiler\Matchers\Matcher.cs" />
-    <Compile Include="Compiler\Events\GameEvent.cs" />
+    <Compile Include="Compiler\Events\GameEvent_OLD.cs" />
     <Compile Include="Compiler\Matchers\EventMatchers.cs" />
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Events\GameEventListener.cs" />
     <Compile Include="Compiler\Matchers\StateMatchers.cs" />
     <Compile Include="Compiler\Effects\ScalarEffect.cs" />
-    <Compile Include="Model\Cards\Card.cs" />
-    <Compile Include="Model\Cards\DamageCard.cs" />
-    <Compile Include="Model\Cards\Passive.cs" />
-    <Compile Include="Model\Cards\SpellCard.cs" />
-    <Compile Include="Model\Cards\MeleeCard.cs" />
-    <Compile Include="Model\Cards\SelfCard.cs" />
+    <Compile Include="Model\Card.cs" />
+    <Compile Include="Model\CardCollection.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\Card.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\DamageCard.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\Passive.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\SpellCard.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\MeleeCard.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\SelfCard.cs" />
     <Compile Include="Compiler\Effects\TargetedScalarEffects\Damage.cs" />
     <Compile Include="Compiler\Effects\TargetedScalarEffects\Draw.cs" />
-    <Compile Include="Compiler\Effects\Effect.cs" />
+    <Compile Include="Model\Effect.cs" />
     <Compile Include="Compiler\Effects\TargetedScalarEffects\Heal.cs" />
     <Compile Include="Compiler\Effects\ScheduleEffect.cs" />
     <Compile Include="Compiler\Effects\TargetedScalarEffect.cs" />
     <Compile Include="Compiler\Effects\RepeatEffect.cs" />
     <Compile Include="Compiler\IValue.cs" />
-    <Compile Include="Model\Cards\SkillCard.cs" />
-    <Compile Include="Model\IGameController.cs" />
-    <Compile Include="Model\Player\IPlayer.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Cards\SkillCard.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\GameObservable.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\IGameController.cs" />
+    <Compile Include="Model\Player.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Player\IPlayer.cs" />
     <Compile Include="CARDScriptTestMain.cs" />
     <Compile Include="ANTLR\RunesLexer.g4.cs">
       <DependentUpon>CARDScriptLexer.g4</DependentUpon>
@@ -98,7 +104,7 @@
     <Compile Include="ANTLR\RunesParser.g4.cs">
       <DependentUpon>CARDScriptParser.g4</DependentUpon>
     </Compile>
-    <Compile Include="Model\Player\Status.cs" />
+    <Compile Include="Model\Old_Can_Be_Deleted\Player\Status.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

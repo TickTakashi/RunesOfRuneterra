@@ -14,7 +14,7 @@ namespace CARDScript.Model.Cards {
    * the card can only be used if you are within range distance of your 
    * opponent.
    */
-  public class SpellCard : DamageCard {
+  public class SpellCard_O : DamageCard_Old {
     private int _range;
     public int range { get { return _range; } }
 

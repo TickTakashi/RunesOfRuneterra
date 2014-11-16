@@ -13,27 +13,27 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       this.ivalue = new LiteralIntValue(distance);
     }
 
-    public override bool Activate(Card card, IPlayer user, IGameController controller) {
+    public override bool Activate(Card_OLD card, IPlayer user, IGameController controller) {
       user.PromptMove(card, value, base.Activate);
       return true;
     }
 
     // We can always dash if we know that we are not CCd.
-    public override bool CanActivate(Card card, IPlayer user, IGameController controller) {
+    public override bool CanActivate(Card_OLD card, IPlayer user, IGameController controller) {
       return !user.HasBuff(BuffType.SNARE) && !user.HasBuff(BuffType.STUN) && 
         !user.HasBuff(BuffType.SILENCE);
     }
 
-    public override bool CanNegate(Card card, IPlayer user, 
-      IGameController controller, CardEffect effect) {
+    public override bool CanNegate(Card_OLD card, IPlayer user, 
+      IGameController controller, NormalEffect effect) {
       return effect.Dashable() && CanActivate(card, user, controller) ||
         base.CanNegate(card, user, controller, effect);     
     }
 
     public override string ToString() {
       string extend = "";
-      if (next != null) {
-        extend = next.ToString();
+      if (Next != null) {
+        extend = Next.ToString();
       }
       return "\n<i>DASH " + value + "</i>\n" + extend;
     }

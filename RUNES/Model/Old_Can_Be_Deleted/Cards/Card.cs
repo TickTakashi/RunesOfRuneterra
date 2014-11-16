@@ -15,7 +15,7 @@ namespace CARDScript.Model.Cards {
    * this card ID number and name, as well as in game limits such as its cost
    * to activate and the max number allowed in a deck.
    */
-  public abstract class Card {
+  public abstract class Card_OLD {
     protected string _name;
     public string name { get { return _name; } }
 
@@ -34,7 +34,7 @@ namespace CARDScript.Model.Cards {
 
     public Effect effect;
 
-    public Card(string name, int id, int cost, int limit, Effect effect) {
+    public Card_OLD(string name, int id, int cost, int limit, Effect effect) {
       this._name = name.Substring(1, name.Length - 2);
       this._id = id;
       this._cost = cost;
@@ -55,7 +55,7 @@ namespace CARDScript.Model.Cards {
     }
 
     public bool CanNegate(IPlayer user, IGameController controller, 
-      CardEffect possibly_negatable) {
+      NormalEffect possibly_negatable) {
       return effect.CanNegate(this, user, controller, possibly_negatable);
     }
 
