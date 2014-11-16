@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CARDScript.Model {
+namespace CARDScript.Model.BuffEffects {
   internal abstract class BuffEffect {
     private BuffEffect _next;
 

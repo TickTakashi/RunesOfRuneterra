@@ -1,5 +1,4 @@
-﻿using CARDScript.Model.Cards;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +94,8 @@ namespace CARDScript.Model {
     }
   }
   
+  internal delegate bool CardCondition(Card card);
+
   public struct CardCollectionEvent {
     public enum Type {
       ADD,

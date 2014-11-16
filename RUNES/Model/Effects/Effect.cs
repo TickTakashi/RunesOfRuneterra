@@ -1,7 +1,5 @@
 ﻿using CARDScript.Compiler;
 using CARDScript.Model;
-using CARDScript.Model.Cards;
-using CARDScript.Model.Players;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {

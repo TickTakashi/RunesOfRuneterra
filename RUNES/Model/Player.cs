@@ -247,6 +247,7 @@ namespace CARDScript.Model {
       AP_GAIN,
       AP_OUT,
       SKILLSHOT_HIT,
+      MELEE_HIT,
     }
 
     public Type type;

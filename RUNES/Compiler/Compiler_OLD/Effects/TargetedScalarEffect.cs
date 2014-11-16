@@ -6,28 +6,7 @@ using System.Collections;
 
 namespace CARDScript.Compiler.Effects {
 
-  public enum Target {
-    ENEMY, USER
-
-  }
-  public static class TargetMethods {
-    public static IPlayer Resolve(Target t, IPlayer activator, IGameController gc) {
-      if (t == Target.USER) {
-        return activator;
-      } else {
-        return gc.Opponent(activator);
-      }
-    }
-
-    public static string Name(Target target) {
-      return target == Target.USER ? "you" : "your opponent";
-    }
-
-    public static string Owner(Target target) {
-      return target == Target.USER ? "your" : "your opponents";
-    }
-  }
-
+  
   public abstract class TargetedScalarEffect : ScalarEffect {
     private Target _target;
 

@@ -1,6 +1,5 @@
 ﻿using CARDScript.Model;
 using CARDScript.Model.Cards;
-using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,28 +13,25 @@ namespace CARDScript.Compiler.Effects {
   }
 
   public class DamageEffect : NormalEffect {
-    protected DamageCard source;
-
-    public DamageEffect(DamageCard source) {
-      this.source = source;
-    }
-
     public override void Activate(Card card, Player user, Game game) {
-      if (InRange(user, game)) 
-        game.Opponent(user).Damage(source.Damage(user, game));
+      if (card is DamageCard) {
+        DamageCard source = (DamageCard)card;
 
-      // TODO(ticktakashi): Implement arbitrary negation for spellshields.
+        if (InRange(card, user, game))
+          game.Opponent(user).Damage(source.Damage(user, game));
 
+        // TODO(ticktakashi): Implement arbitrary negation for spellshields.
+      }
       base.Activate(card, user, game);
     }
 
-    protected bool InRange(Player user, Game game) {
-      return game.Distance(user, game.Opponent(user)) < 
-        source.Range(user, game);
+    protected bool InRange(Card card, Player user, Game game) {
+      return card is DamageCard && game.Distance(user, game.Opponent(user)) < 
+        ((DamageCard) card).Range(user, game);
     }
 
     public override bool CanActivate(Card card, Player user, Game game) {
-      return InRange(user, game) && !user.IsCCd(CCType.STUN) &&
+      return InRange(card, user, game) && !user.IsCCd(CCType.STUN) &&
         !user.IsCCd(CCType.SILENCE) && base.CanActivate(card, user, game);
     }
 
@@ -48,10 +44,8 @@ namespace CARDScript.Compiler.Effects {
   }
 
   public class SkillshotEffect : DamageEffect {
-    public SkillshotEffect(SkillCard card) : base(card) {}
-
     public override void Activate(Card card, Player user, Game game) {
-      if (InRange(user, game)) {
+      if (InRange(card, user, game)) {
         // Allow the opponent to dodge this card
         Player opponent = game.Opponent(user);
         CardCondition isdash = delegate(Card c) {
@@ -77,10 +71,11 @@ namespace CARDScript.Compiler.Effects {
   }
 
   public class MeleeEffect : DamageEffect {
-    public MeleeEffect(MeleeCard source) : base(source) {}
-
-    // For "This Counts as Melee" situations
-    public MeleeEffect(DamageCard source) : base(source) {}
+    public override void Activate(Card card, Player user, Game game) {
+      base.Activate(card, user, game);
+      user.NotifyAll(new PlayerEvent(PlayerEvent.Type.MELEE_HIT,
+        user));
+    }
     
     public override bool CanActivate(Card card, Player user, Game game) {
       return !user.IsCCd(CCType.BLIND) && base.CanActivate(card, user, game);
@@ -88,20 +83,23 @@ namespace CARDScript.Compiler.Effects {
   }
 
   public class BuffActivationEffect : NormalEffect {
-    private BuffCard source;
-
-    public BuffActivationEffect(BuffCard source) {
-      this.source = source;
-    }
-
     public override void Activate(Card card, Player user, Game game) {
-      source.Buff.Activate(source.Time(user, game), card, user, game);
+      if (card is BuffCard) {
+        BuffCard source = (BuffCard)card;
+        source.Buff.Activate(source.Time(user, game), card, user, game);
+      }
+      
       base.Activate(card, user, game);
     }
 
     public override bool CanActivate(Card card, Player user, Game game) {
-      return source.Buff.CanActivate(
-        source.Time(user, game), card, user, game);
+      bool can_activate = true;
+      if (card is BuffCard) {
+        BuffCard src = (BuffCard)card;
+        can_activate = src.Buff.CanActivate(src.Time(user, game), card, user, game);
+      }
+
+      return can_activate && base.CanActivate(card, user, game);
     }
   }
 }

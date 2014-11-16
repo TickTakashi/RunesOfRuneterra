@@ -8,26 +8,18 @@ COMMENT : ('#' ~[\n]*) -> skip;
 WS      : [ \t\n\r]+ -> skip;
 
 // Conditionals
-WHEN		: 'WHEN';
 IF      : 'IF';
 ELSE    : 'ELSE';
-CHARGES : 'CHARGES';
-TIMES   : 'TIMES';
 
 // Targets
 USER		: 'USER';
 ENEMY		: 'ENEMY';
-ANY			: 'ANY';
 
 // Card Types
-ALL			: 'ALL';
 SKILL  	: 'SKILL';
 SPELL 	: 'SPELL';
-DASH    : 'DASH';
 MELEE		: 'MELEE';
 SELF    : 'SELF';
-PASSIVE : 'PASSIVE';
-THIS		: 'THIS';
 
 // Locations
 HAND    : 'HAND';
@@ -38,39 +30,34 @@ COOL    : 'COOLDOWN';
 DAMAGE  : 'DAMAGE';
 RANGE   : 'RANGE';
 COST    : 'COST';
+TIME    : 'TIME';
+DASH    : 'DASH';
 LIMIT   : 'LIMIT';
 EFFECT  : 'EFFECT';
-TIME    : 'TIME';
+BUFF    : 'BUFF';
+ULTIMATE: 'ULTIMATE';
 
 // CC Effects
-CHANNEL : 'CHANNEL';
 SLOW    : 'SLOW';
 SNARE   : 'SNARE';
 STUN    : 'STUN';
-KNOCKBACK   : 'KNOCKBACK';
-KNOCKUP     : 'KNOCKUP';
 SILENCE : 'SILENCE';
 BLIND   : 'BLIND';
 
-// State Properties
-HEALTH  : 'HEALTH';
+// Action Effects
+KNOCKBACK : 'KNOCKBACK';
+KNOCKUP   : 'KNOCKUP';
+SHIELD    : 'SHIELD';
 
 // General Punctuation
 LBRACE		: '{';
 RBRACE		: '}';
 LPAREN		: '(';
 RPAREN		: ')';
-SEMICOLON	: ';';
 TILDE     : '~';
 FROM      : 'FROM';
 TO        : 'TO';
-DOT       : '.';
 IN        : 'IN';
-
-// Activation 
-ACTIVATE	: 'ACTIVATE';
-OPTION		: 'OPTIONALLY' | 'OPTION';
-AUTO		  : 'AUTOMATICALLY' | 'AUTO';
 
 // Scalar actions
 DRAWS		  : 'DRAWS';
@@ -78,16 +65,14 @@ TAKES		  : 'TAKES';
 DISCARDS	: 'DISCARDS';
 HEALS		  : 'HEALS';
 SHIELD		: 'SHIELD';
-MELEE_RANGE   : 'MELEE_RANGE';
-MELEE_DAMAGE  : 'MELEE_DAMAGE';
-SKILL_DAMAGE  : 'SKILL_DAMAGE';
-PIERCES		: 'PIERCES';
-//...
+
+// Flat Buff Types
+MELEE_R   : 'MELEE_R';
+MELEE_D   : 'MELEE_D';
+SKILL_D   : 'SKILL_D';
 
 // Card actions
-PLAYS		: 'PLAYS';
 ADDS    : 'ADDS';
-// ...
 
 // Equality operators
 GT			: '>=';
@@ -100,10 +85,11 @@ AND			: 'AND' | '&&';
 OR			: 'OR'	| '||';
 NOT			: 'NOT' | '!';
 
-// Value modifiers 
+// Value
 HALF    : 'HALF';
 DOUBLE  : 'DOUBLE';
 DISTANCE: 'DISTANCE';
+HEALTH  : 'HEALTH';
 
 // Values and Numbers
 IDENT   : [_a-zA-Z]+ [_a-zA-Z0-9]*;

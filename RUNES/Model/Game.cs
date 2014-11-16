@@ -1,5 +1,4 @@
-﻿using CARDScript.Model.Cards;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -344,20 +343,24 @@ namespace CARDScript.Model {
     }
   }
 
+  internal delegate void CardChoiceCallback(Card card);
   internal class ChooseCardState : IGameState {
     private Player player;
     private CardChoiceCallback callback;
     private List<Card> potential_cards;
     private Game game;
 
-    internal ChooseCardState(Player player, List<Card> potential_cards, 
+    internal ChooseCardState(Player player, List<Card> potential_cards,
       CardChoiceCallback callback, Game game) {
-        this.player = player;
-        this.callback = callback;
-        this.potential_cards = potential_cards;
-        this.game = game;
+      this.player = player;
+      this.callback = callback;
+      this.potential_cards = potential_cards;
+      this.game = game;
+      if (potential_cards.Count > 0)
         game.NotifyAll(new GameEvent(GameEvent.Type.CARD_CHOICE, game,
           player));
+      else
+        callback(null);
     }
 
     public bool Selectable(Card card) {
@@ -460,4 +463,10 @@ namespace CARDScript.Model {
       return; // Do nothing.
     }
   }
+  
+  public class RoRException : Exception {
+    public RoRException(string message) : base(message) { }
+  }
+
+  internal interface IGameToken { }
 }
