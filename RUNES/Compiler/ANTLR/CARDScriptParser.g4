@@ -26,9 +26,10 @@ statB       : player buff value                   # statBFlat       // TODO
             ;
 
 statE		    : NORMAL ACTIVATION AS cardType       # statENormal
+            | action                              # statEAction     // TODO
             | IF stateCond effect (ELSE effect)?  # statEIf         // TODO
-            | action value TIMES                  # statEAction     // TODO
 			      | statE statE							            # statEList       // TODO
+            | statE value TIMES                   # statERepeat     // TODO
 			      ;
 
 stateCond   : value ineq value                    # stateCondHealth // TODO
