@@ -40,7 +40,7 @@ stateCond   : value ineq value                    # stateCondHealth // TODO
 
 action      : SHIELD NUM                          # actionShield
             | KNOCKUP NUM                         # actionKnockup
-            | KNOCKBACK NUM                       # actionKnockback // TODO
+            | KNOCKBACK NUM                       # actionKnockback
             | ccEffect NUM                        # actionCC
             | player scalarE value                # actionScalar    // TODO
             | player ADDS value NAME FROM 
