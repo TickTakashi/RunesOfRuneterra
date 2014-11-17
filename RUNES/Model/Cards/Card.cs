@@ -61,7 +61,7 @@ namespace CARDScript.Model {
 
     public void Activate(Player user, Game game) {
       if (IsDash) {
-        IGameState old = game.GetState();
+        GameState old = game.GetState();
         game.SetState(new ChooseLocationState(user, DashDistance,
            delegate() {
              game.SetState(old);

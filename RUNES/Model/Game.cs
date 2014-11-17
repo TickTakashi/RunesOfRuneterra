@@ -21,7 +21,7 @@ namespace CARDScript.Model {
    *    round_number - the current round number.
    */
   public class Game : RoRObservable<GameEvent>, IRoRObserver<PlayerEvent>,
-    IGameState {
+    GameState {
     internal static readonly Random rng = new Random();
     internal static int FIELD_SIZE = 7;
     internal static int MAX_ROUNDS = 3;
@@ -32,7 +32,7 @@ namespace CARDScript.Model {
     private Player player_1;
     private Player player_2;
 
-    private IGameState state;
+    private GameState state;
 
     private int round_num;
 
@@ -104,11 +104,11 @@ namespace CARDScript.Model {
         Pass(change_event.player);
     }
 
-    internal IGameState GetState() {
+    internal GameState GetState() {
       return state;
     }
 
-    internal void SetState(IGameState new_state) {
+    internal void SetState(GameState new_state) {
       state = new_state;
     }
 
@@ -198,6 +198,8 @@ namespace CARDScript.Model {
       MOVE_CHOSEN,
       CARD_CHOICE,
       CARD_CHOSEN,
+      DIRECTION_CHOICE,
+      DIRECTION_CHOSEN,
     }
 
     public Type type;
@@ -211,19 +213,56 @@ namespace CARDScript.Model {
     }
   }
 
-  internal interface IGameState {
-    void SetPassive(Player p, Passive q); 
-    bool IsTurn(Player p);
-    void Pass(Player p);
-    bool Selectable(Card c);
-    void Select(Card c);
+  internal abstract class GameState {
     bool CanMoveTo(Player p, int location);
     void MoveTo(Player p, int location);
-    bool CanBasicAttack(Player p);
-    void BasicAttack(Player p);
+    
+    public virtual void SetPassive(Player p, Passive q) {
+      return; // Do nothing.
+    }
+
+    public virtual bool IsTurn(Player p) {
+      return false;
+    }
+
+    public virtual void Pass(Player p) {
+      return; // Do nothing.
+    }
+
+    public virtual bool Selectable(Card c) {
+      return false;
+    }
+
+    public virtual void Select(Card c) {
+      return; // Do nothing.
+    }
+
+    public virtual bool CanBasicAttack(Player p) {
+      return false;
+    }
+
+    public virtual void BasicAttack(Player p) {
+      return; // Do nothing.
+    }
+    
+    public virtual bool CanMoveTo(Player p, int location) {
+      return false;
+    }
+
+    public virtual void MoveTo(Player p, int location) {
+      return; // Do nothing.
+    }
+
+    public virtual void SelectLeft(Player p) {
+      return; // Do nothing.
+    }
+
+    public virtual void SelectRight(Player p) {
+      return; // Do nothing.
+    }
   }
 
-  internal class GameTurnState : IGameState {
+  internal class GameTurnState : GameState {
     private Player player;
     private Game game;
 
@@ -235,11 +274,7 @@ namespace CARDScript.Model {
       game.NotifyAll(new GameEvent(GameEvent.Type.TURN_START, game, player));
     }
 
-    public void SetPassive(Player p, Passive q) {
-      return; // Do Nothing.
-    }
-
-    public void Pass(Player p) {
+    public override void Pass(Player p) {
       if (player == p) {
         game.NotifyAll(new GameEvent(GameEvent.Type.TURN_END, game, player));
         p.CheckAllBuffs();
@@ -247,37 +282,37 @@ namespace CARDScript.Model {
       }
     }
 
-    public bool IsTurn(Player p) {
+    public override bool IsTurn(Player p) {
       return player == p;
     }
 
-    public bool CanMoveTo(Player p, int location) {
+    public override bool CanMoveTo(Player p, int location) {
       return IsTurn(p) && p.HasAP(p.MovementCost() *
         game.Distance(p, location));
     }
 
-    public void MoveTo(Player p, int location) {
+    public override void MoveTo(Player p, int location) {
       if (CanMoveTo(p, location)) {
         p.NormalMove(location);
       }
     }
 
-    public bool Selectable(Card card) {
+    public override bool Selectable(Card card) {
       return player.CanActivate(card);
     }
 
-    public void Select(Card card) {
+    public override void Select(Card card) {
       if (Selectable(card)) {
         player.PlayCard(card);
       }
     }
 
-    public bool CanBasicAttack(Player p) {
+    public override bool CanBasicAttack(Player p) {
       return game.Distance(game.Opponent(p), p) <= p.MeleeRange() && 
         p.CanMelee();
     }
 
-    public void BasicAttack(Player p) {
+    public override void BasicAttack(Player p) {
       if (CanBasicAttack(p)) {
         player.BasicAttack(game.Opponent(p));
       }
@@ -285,8 +320,7 @@ namespace CARDScript.Model {
   }
   
   public delegate void DialogueCallback();
-
-  internal class ChooseLocationState : IGameState {
+  internal class ChooseLocationState : GameState {
     private Player player;
     private int range;
     private DialogueCallback callback;
@@ -301,11 +335,11 @@ namespace CARDScript.Model {
       game.NotifyAll(new GameEvent(GameEvent.Type.MOVE_CHOICE, game, player));
     }
 
-    public bool CanMoveTo(Player p, int location) {
+    public override bool CanMoveTo(Player p, int location) {
       return p == player && game.Distance(p, location) < range;
     }
 
-    public void MoveTo(Player p, int location) {
+    public override void MoveTo(Player p, int location) {
       if (CanMoveTo(p, location)) {
         game.NotifyAll(new GameEvent(GameEvent.Type.MOVE_CHOSEN, game,
           player));
@@ -313,38 +347,10 @@ namespace CARDScript.Model {
         callback();
       }
     }
-    
-    public void SetPassive(Player p, Passive q) {
-      return; // Do nothing.
-    }
-
-    public bool IsTurn(Player p) {
-      return false;
-    }
-
-    public void Pass(Player p) {
-      return; // Do nothing.
-    }
-
-    public bool Selectable(Card c) {
-      return false;
-    }
-
-    public void Select(Card c) {
-      return; // Do nothing.
-    }
-
-    public bool CanBasicAttack(Player p) {
-      return false;
-    }
-
-    public void BasicAttack(Player p) {
-      return; // Do nothing.
-    }
   }
 
   internal delegate void CardChoiceCallback(Card card);
-  internal class ChooseCardState : IGameState {
+  internal class ChooseCardState : GameState {
     private Player player;
     private CardChoiceCallback callback;
     private List<Card> potential_cards;
@@ -363,11 +369,11 @@ namespace CARDScript.Model {
         callback(null);
     }
 
-    public bool Selectable(Card card) {
+    public override bool Selectable(Card card) {
       return potential_cards.Contains(card);
     }
 
-    public void Select(Card card) {
+    public override void Select(Card card) {
       if (Selectable(card)) {
         game.NotifyAll(new GameEvent(GameEvent.Type.CARD_CHOSEN, game, 
           player));
@@ -375,37 +381,37 @@ namespace CARDScript.Model {
       } 
     }
 
-    public void Pass(Player p) {
+    public override void Pass(Player p) {
       callback(null);
-    }
-
-    public void SetPassive(Player p, Passive q) {
-      return; // Do nothing.
-    }
-
-    public bool IsTurn(Player p) {
-      return false;
-    }
-
-    public bool CanMoveTo(Player p, int location) {
-      return false;
-    }
-
-    public void MoveTo(Player p, int location) {
-      return; // Do nothing.
-    }
-
-    public bool CanBasicAttack(Player p) {
-      return false;
-    }
-
-    public void BasicAttack(Player p) {
-      return; // Do nothing.
     }
   }
 
+  internal delegate void DirectionCallback(bool direction);
 
-  internal class ChoosePassivesState : IGameState {
+  internal class ChooseDirectionState : GameState {
+    private Player player;
+    private Game game;
+    private DirectionCallback callback;
+
+    internal ChooseDirectionState(Player player, DirectionCallback callback, Game game) {
+      this.player = player;
+      this.game = game;
+      this.callback = callback;
+      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOICE, game));
+    }
+
+    public override void SelectLeft(Player p) {
+      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOSEN, game));
+      callback(false);
+    }
+
+    public override void SelectRight(Player p) {
+      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOSEN, game));
+      callback(true);
+    }
+  }
+
+  internal class ChoosePassivesState : GameState {
     private Player player;
     private bool p_set = false;
     private bool o_set = false;

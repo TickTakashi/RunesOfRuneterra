@@ -38,9 +38,9 @@ stateCond   : value ineq value                    # stateCondHealth // TODO
             | LPAREN stateCond RPAREN             # stateCondParen  // TODO
             ;
 
-action      : KNOCKBACK NUM                       # actionKnockback // TODO
+action      : SHIELD NUM                          # actionShield
             | KNOCKUP NUM                         # actionKnockup
-            | SHIELD NUM                          # actionShield
+            | KNOCKBACK NUM                       # actionKnockback // TODO
             | ccEffect NUM                        # actionCC
             | player scalarE value                # actionScalar    // TODO
             | player ADDS value NAME FROM 
