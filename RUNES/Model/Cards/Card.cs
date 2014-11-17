@@ -24,7 +24,7 @@ namespace CARDScript.Model {
 
     protected int _cost;
     public int Cost(Player user, Game game) {
-      return _cost;
+      return user.CardCost(this, _cost);
     }
 
     protected int _limit;

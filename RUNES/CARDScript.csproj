@@ -62,6 +62,7 @@
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
     <Compile Include="Model\Buffs\Buff.cs" />
+    <Compile Include="Model\Buffs\TimedBuff.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />
     <Compile Include="Model\Cards\SkillCard.cs" />

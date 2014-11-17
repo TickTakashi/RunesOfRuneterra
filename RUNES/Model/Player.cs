@@ -12,11 +12,12 @@ namespace CARDScript.Model {
     internal static readonly int BASIC_ATTACK_DAMAGE;
     internal static readonly int BASIC_ATTACK_COST;
     internal static readonly int BASIC_ATTACK_RANGE;
+    internal static readonly int MOVE_COST = 1;
+    internal static readonly int SLOW_MOVE_COST = 2;
     private int health;
     private int action_points;
-    private List<StatModifier> modifiers;
     private List<CC> cc;
-    private List<ActiveBuff> buffs;
+    private List<Buff> buffs;
     private CardCollection deck;
     private CardCollection hand;
     private CardCollection cooldown;
@@ -31,7 +32,6 @@ namespace CARDScript.Model {
       this.health = MAX_HEALTH;
       this.action_points = MAX_AP;
       this.cc = new List<CC>();
-      this.modifiers = new List<StatModifier>();
     }
 
     internal void SetPassive(Passive passive) {
@@ -88,7 +88,12 @@ namespace CARDScript.Model {
 
     internal void ResetActionPoints() {
       action_points = MAX_AP;
-      NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_GAIN, this));
+
+      foreach (Buff b in buffs) {
+        action_points = b.ModifyActionPoints(action_points, this, game);
+      }
+
+      NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_SET, this));
     }
 
     private void Spend(int amount) {
@@ -121,12 +126,12 @@ namespace CARDScript.Model {
     }
 
     internal int MovementCost() {
-      // TODO(ticktakashi): Implement slows.
-      return 1;
+      return IsCCd(CCType.SLOW) ? SLOW_MOVE_COST : MOVE_COST;
     }
 
     internal void NormalMove(int destination) {
       game.SetPosition(this, destination);
+      Spend(MovementCost() * game.Distance(this, destination));
     }
 
     internal bool CanActivate(Card card) {
@@ -139,6 +144,14 @@ namespace CARDScript.Model {
         Spend(card.Cost(this, game));
         card.Activate(this, game);
       }
+    }
+
+    internal int CardCost(Card card, int base_cost) {
+      int cost = base_cost;
+      foreach (Buff b in buffs) {
+        cost = b.ModifyCardCost(card, cost, this, game);
+      }
+      return cost;
     }
 
     internal bool CanMelee() {
@@ -163,61 +176,75 @@ namespace CARDScript.Model {
       cc.Add(new CC(type, duration));
     }
 
-    internal void ApplyBuff(ActiveBuff buff) {
+    internal void ApplyBuff(Buff buff) {
       this.buffs.Add(buff);
     }
 
-    internal void TickAllBuffs() {
+    internal void CheckAllBuffs() {
       for (int i = buffs.Count; i > 0; --i) {
-        if (buffs[i].Tick())
+        if (buffs[i].IsFinished())
           buffs.RemoveAt(i);
       }
     }
 
-    internal bool IsStatModified(StatType stat) {
-      foreach (StatModifier sm in modifiers) {
-        if (sm.type == stat) {
-          return true;
-        }
-      }
-      return false;
-    }
-
-    internal void ApplyStatModifier(StatType type, int strength, int time) {
-      modifiers.Add(new StatModifier(type, strength, time));
-    }
-
-    private int TotalStrength(StatType stat) {
-      int acc = 0;
-      foreach (StatModifier sm in modifiers) {
-        if (sm.type == stat)
-          acc += sm.strength;
-      }
-      return acc;
-    } 
-
     internal int MeleeDamage() {
-      return BASIC_ATTACK_DAMAGE + TotalStrength(StatType.MELEE_DAMAGE);
+      int damage = BASIC_ATTACK_DAMAGE;
+
+      foreach (Buff b in buffs) {
+        damage = b.ModifyMeleeDamage(damage, this, game);
+      }
+
+      return damage;
     }
 
     internal int MeleeRange() {
-      return BASIC_ATTACK_RANGE + TotalStrength(StatType.MELEE_RANGE);
+      int range = BASIC_ATTACK_RANGE;
+
+      foreach (Buff b in buffs) {
+        range = b.ModifyMeleeRange(range, this, game);
+      }
+
+      return range;
     }
 
     internal int BonusSkillDamage() {
-      return TotalStrength(StatType.SKILL_DAMAGE);
+      int bonus_damage = 0;
+
+      foreach (Buff b in buffs) {
+        bonus_damage = b.ModifySkillDamage(bonus_damage, this, game);
+      }
+
+      return bonus_damage;
     }
 
     internal int BonusSkillRange() {
-      return TotalStrength(StatType.SKILL_RANGE);
+      int bonus_range = 0;
+
+      foreach (Buff b in buffs) {
+        bonus_range = b.ModifySkillRange(bonus_range, this, game);
+      }
+
+      return bonus_range;
     }
 
     internal int BonusSpellDamage() {
-      return TotalStrength(StatType.SPELL_DAMAGE);
+      int bonus_damage = 0;
+
+      foreach (Buff b in buffs) {
+        bonus_damage = b.ModifySpellDamage(bonus_damage, this, game);
+      }
+
+      return bonus_damage;
     }
 
     internal int BonusSpellRange() {
-      return TotalStrength(StatType.SPELL_RANGE);
+      int bonus_range = 0;
+
+      foreach (Buff b in buffs) {
+        bonus_range = b.ModifySpellRange(bonus_range, this, game);
+      }
+
+      return bonus_range;
     }
   }
 
@@ -239,40 +266,6 @@ namespace CARDScript.Model {
     }
   }
 
-  internal class ActiveBuff : Buff {
-    int duration;
-
-    internal ActiveBuff(Buff b, int duration) {
-      this.duration = duration;
-      this.Next = b;
-    }
-
-    internal bool Tick() {
-      return --duration <= 0;
-    }
-  }
-
-  internal enum StatType {
-    MELEE_DAMAGE,
-    MELEE_RANGE,
-    SKILL_DAMAGE,
-    SKILL_RANGE,
-    SPELL_DAMAGE,
-    SPELL_RANGE,
-  }
-
-  internal struct StatModifier {
-    internal StatType type;
-    internal int strength;
-    internal int duration;
-
-    internal StatModifier(StatType type, int strength, int duration) {
-      this.type = type;
-      this.strength = strength;
-      this.duration = duration;
-    }
-  }
-
   public struct PlayerEvent {
     public enum Type {
       DAMAGE,
@@ -281,7 +274,7 @@ namespace CARDScript.Model {
       SPEND,
       DECK_OUT,
       DEAD,
-      AP_GAIN,
+      AP_SET,
       AP_OUT,
       SKILLSHOT_HIT,
       MELEE_HIT,

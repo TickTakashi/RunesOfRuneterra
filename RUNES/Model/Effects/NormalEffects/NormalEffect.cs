@@ -1,4 +1,5 @@
 ﻿using CARDScript.Model;
+using CARDScript.Model.Buffs;
 using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
@@ -78,7 +79,7 @@ namespace CARDScript.Compiler.Effects {
     }
     
     public override bool CanActivate(Card card, Player user, Game game) {
-      return !user.IsCCd(CCType.BLIND) && base.CanActivate(card, user, game);
+      return !user.CanMelee() && base.CanActivate(card, user, game);
     }
   }
 
@@ -86,7 +87,8 @@ namespace CARDScript.Compiler.Effects {
     public override void Activate(Card card, Player user, Game game) {
       if (card is BuffCard) {
         BuffCard source = (BuffCard)card;
-        user.ApplyBuff(new ActiveBuff(source.Buff, source.Time(user, game)));
+        user.ApplyBuff(new TimedBuff(card, user, game, source.Buff, 
+          source.Time(user, game)));
       }
       base.Activate(card, user, game);
     }
