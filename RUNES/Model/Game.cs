@@ -241,8 +241,8 @@ namespace CARDScript.Model {
 
     public void Pass(Player p) {
       if (player == p) {
-        // TODO(ticktakashi): Tick down buff timers.
         game.NotifyAll(new GameEvent(GameEvent.Type.TURN_END, game, player));
+        p.CheckAllBuffs();
         game.SetState(new GameTurnState(game.Opponent(player), game));
       }
     }

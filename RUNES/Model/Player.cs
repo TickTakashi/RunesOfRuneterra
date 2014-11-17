@@ -105,10 +105,6 @@ namespace CARDScript.Model {
         NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_OUT, this));
     }
 
-    internal void ModifyAP(int delta) {
-      action_points += delta;
-    }
-
     internal bool IsDead() {
       return health <= 0;
     }

@@ -25,6 +25,8 @@ namespace CARDScript.Model.Buffs {
       if (change_event.type == GameEvent.Type.TURN_END &&
         change_event.player == target) {
           time_remaining--;
+          if (time_remaining <= 0)
+            change_event.game.Detach(this);
       }
     }
   }

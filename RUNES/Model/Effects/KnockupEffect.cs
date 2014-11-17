@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
+using CARDScript.Model.BuffEffects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,25 +15,23 @@ namespace CARDScript.Model.Effects {
 
     public override void Activate(Card card, Player user, Game game) {
       Player target = game.Opponent(user);
-      Knockup knockup = new Knockup(target, strength);
-      game.Attach(knockup);
+      Knockup knockup = new Knockup(card, strength);
+      user.ApplyBuff(knockup);
       base.Activate(card, user, game);
     }
 
-    private class Knockup : IRoRObserver<GameEvent> {
-      Player target;
+    private class Knockup : Buff {
       int strength;
       
-      public Knockup(Player target, int strength) {
-        this.target = target;
+      public Knockup(Card card, int strength) : base(card) {
+        this.strength = strength;
       }
 
-      public void Update(GameEvent change_event) {
-        if (change_event.type == GameEvent.Type.TURN_START &&
-          change_event.player == target) {
-            target.ModifyAP(-strength);
-            change_event.game.Detach(this);
-        }
+      public override int ModifyActionPoints(int d, Player p, Game g) {
+        int ap = d - strength;
+        if (ap < 0)
+          ap = 0;
+        return base.ModifyActionPoints(ap, p, g);
       }
     }
   }
