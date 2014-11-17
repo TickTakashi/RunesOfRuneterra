@@ -14,45 +14,45 @@ cardDesc    : cardID SKILL DAMAGE E? NUM RANGE E? NUM cardE # cardSkill
 
 cardID      : NAME E? NUM COST E? NUM LIMIT E? NUM (DASH E? NUM)? ULTIMATE? ;
 
-cardE       : EFFECT E? effect ;
+cardE       : EFFECT E? effect ;                                    // TODO
 
-cardB       : BUFF E? buffEffect ;
+cardB       : BUFF E? buffEffect ;                                  // TODO
 
-effect		  : LBRACE statE? RBRACE ;
+effect		  : LBRACE statE? RBRACE ;                                // TODO
 
-buffEffect  : LBRACE statB? RBRACE ;
+buffEffect  : LBRACE statB? RBRACE ;                                // TODO
 
-statB       : player buff value                   # statBFlat
+statB       : player buff value                   # statBFlat       // TODO
             ;
 
 statE		    : NORMAL ACTIVATION AS cardType       # statENormal
-            | IF stateCond effect (ELSE effect)?  # statEIf
-            | action value TIMES                  # statEAction
-			      | statE statE							            # statEList
+            | IF stateCond effect (ELSE effect)?  # statEIf         // TODO
+            | action value TIMES                  # statEAction     // TODO
+			      | statE statE							            # statEList       // TODO
 			      ;
 
-stateCond   : value ineq value                    # stateCondHealth
-            | stateCond binopBool stateCond       # stateCondBinop
-            | NOT stateCond                       # stateCondNot
-            | LPAREN stateCond RPAREN             # stateCondParen
+stateCond   : value ineq value                    # stateCondHealth // TODO
+            | stateCond binopBool stateCond       # stateCondBinop  // TODO
+            | NOT stateCond                       # stateCondNot    // TODO
+            | LPAREN stateCond RPAREN             # stateCondParen  // TODO
             ;
 
-action      : KNOCKBACK NUM                       # actionKnockback
+action      : KNOCKBACK NUM                       # actionKnockback // TODO
             | KNOCKUP NUM                         # actionKnockup
             | SHIELD NUM                          # actionShield
             | ccEffect NUM                        # actionCC
-            | player scalarE value                # actionScalar  
+            | player scalarE value                # actionScalar    // TODO
             | player ADDS value NAME FROM 
-              location TO location                # actionSearch  
+              location TO location                # actionSearch    // TODO
             ;
 
-value		    : NUM                                 # valueInt
-            | value TILDE value                   # valueRandom
-            | HALF value                          # valueHalf  
-            | DOUBLE value                        # valueDouble 
-            | DISTANCE                            # valueDistance 
-            | player HEALTH                       # valueHealth
-            | cardTarget IN player location       # valueCardCount  
+value		    : NUM                                 # valueInt        // TODO
+            | value TILDE value                   # valueRandom     // TODO
+            | HALF value                          # valueHalf       // TODO
+            | DOUBLE value                        # valueDouble     // TODO
+            | DISTANCE                            # valueDistance   // TODO
+            | player HEALTH                       # valueHealth     // TODO
+            | cardTarget IN player location       # valueCardCount  // TODO
             ;
 
 player		  : USER | ENEMY ;

@@ -90,7 +90,7 @@ namespace CARDScript.Compiler {
   }
 
   public class BuffVisitor : CARDScriptParserBaseVisitor<Buff> {
-
+    // TODO(ticktakashi): Buff Visitor
   }
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
@@ -113,7 +113,8 @@ namespace CARDScript.Compiler {
             return new NullEffect();
     }
 
-    public override Effect VisitStatENormal(CARDScriptParser.StatENormalContext context) {
+    public override Effect VisitStatENormal(
+      CARDScriptParser.StatENormalContext context) {
       NormalEffect effect;
       switch (context.cardType().Start.TokenIndex) {
         case(CARDScriptParser.SKILL):
@@ -140,36 +141,19 @@ namespace CARDScript.Compiler {
       return new CCEffect(cc, Int32.Parse(context.NUM().GetText()));
     }
 
-   
     public override Effect VisitActionShield(CARDScriptParser.ActionShieldContext context) {
-      return new ShieldEffect(Target.USER, context.SHIELD().Symbol.Type,
-        null,
-        new LiteralIntValue(Int32.Parse(context.NUM().GetText())));
+      return new ShieldEffect(Int32.Parse(context.NUM().GetText()));
     }
 
     public override Effect VisitActionKnockup(CARDScriptParser.ActionKnockupContext context) {
-      return new VariableBuff(Target.ENEMY, context.KNOCKUP().Symbol.Type,
-        null,
-        new LiteralIntValue(Int32.Parse(context.NUM().GetText()))); ;
-    }
-
-    /*
-    public override Effect VisitActionBuff(CARDScriptParser.ActionBuffContext context) {
-      IValue strength = context.value(0).Accept<IValue>(value_visitor);
-      IValue duration = null;
-      
-      if (context.value(1) != null) {
-        duration = context.value(1).Accept<IValue>(value_visitor);
-      }
-
-      return new VariableBuff(MatcherVisitor.ParseTarget(context.player()),
-        context.buff().Start.Type, duration, strength);
+      return new KnockupEffect(Int32.Parse(context.NUM().GetText()));
     }
 
     public override Effect VisitActionKnockback(CARDScriptParser.ActionKnockbackContext context) {
-      return new Knockback(Int32.Parse(context.NUM().GetText()));
+      return new KnockbackEffect(Int32.Parse(context.NUM().GetText()));
     }
 
+    /*
     public override Effect VisitActionScalar(
         CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);

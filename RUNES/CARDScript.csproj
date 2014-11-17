@@ -62,6 +62,8 @@
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
     <Compile Include="Model\Buffs\Buff.cs" />
+    <Compile Include="Model\Buffs\Knockup.cs" />
+    <Compile Include="Model\Buffs\Shield.cs" />
     <Compile Include="Model\Buffs\TimedBuff.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />
@@ -74,7 +76,7 @@
     <Compile Include="Model\Effects\NormalEffects\NormalEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\ConditionalEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\NullEffect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\ScalarEffects\Knockback.cs" />
+    <Compile Include="Model\Effects\KnockbackEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\ScalarEffects\Dash.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\ScalarEffects\BuffsAndDebuffs.cs" />
     <Compile Include="Compiler\Compiler_OLD\Matchers\Matcher.cs" />
