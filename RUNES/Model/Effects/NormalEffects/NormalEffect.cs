@@ -82,24 +82,13 @@ namespace CARDScript.Compiler.Effects {
     }
   }
 
-  public class BuffActivationEffect : NormalEffect {
+  public class BuffEffect : NormalEffect {
     public override void Activate(Card card, Player user, Game game) {
       if (card is BuffCard) {
         BuffCard source = (BuffCard)card;
-        source.Buff.Activate(source.Time(user, game), card, user, game);
+        user.ApplyBuff(new ActiveBuff(source.Buff, source.Time(user, game)));
       }
-      
       base.Activate(card, user, game);
-    }
-
-    public override bool CanActivate(Card card, Player user, Game game) {
-      bool can_activate = true;
-      if (card is BuffCard) {
-        BuffCard src = (BuffCard)card;
-        can_activate = src.Buff.CanActivate(src.Time(user, game), card, user, game);
-      }
-
-      return can_activate && base.CanActivate(card, user, game);
     }
   }
 }

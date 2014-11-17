@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CARDScript.Model.Cards;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -229,10 +230,9 @@ namespace CARDScript.Model {
     internal GameTurnState(Player player, Game game) {
       this.player = player;
       this.game = game;
-      game.NotifyAll(new GameEvent(GameEvent.Type.TURN_START, game, player));
-      player.Draw();
       player.ResetActionPoints();
-      // TODO(ticktakashi): Apply buffs/debuffs.
+      player.Draw();
+      game.NotifyAll(new GameEvent(GameEvent.Type.TURN_START, game, player));
     }
 
     public void SetPassive(Player p, Passive q) {

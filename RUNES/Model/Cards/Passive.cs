@@ -12,7 +12,7 @@ namespace CARDScript.Model.Cards {
     private string _name;
     public string Name { get { return _name; } }
 
-    private BuffEffect _buff;
-    public BuffEffect Buff { get { return _buff; } }
+    private Buff _buff;
+    public Buff Buff { get { return _buff; } }
   }
 }

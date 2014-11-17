@@ -64,7 +64,6 @@ DRAWS		  : 'DRAWS';
 TAKES		  : 'TAKES';
 DISCARDS	: 'DISCARDS';
 HEALS		  : 'HEALS';
-SHIELD		: 'SHIELD';
 
 // Flat Buff Types
 MELEE_R   : 'MELEE_R';

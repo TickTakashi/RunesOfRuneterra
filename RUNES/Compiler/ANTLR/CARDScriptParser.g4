@@ -59,7 +59,7 @@ player		  : USER | ENEMY ;
 location    : HAND | DECK | COOL ;
 scalarE     : DRAWS | TAKES | HEALS;
 buff        : MELEE_D | MELEE_R | SKILL_D ;
-ccEffect	  : SLOW | SNARE | STUN | KNOCKUP | SILENCE | BLIND ;
+ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
 binopBool	  : OR | AND  ;
 ineq		    : GT | LT | EQ ;
 cardType    : SKILL | SPELL | MELEE | SELF ;

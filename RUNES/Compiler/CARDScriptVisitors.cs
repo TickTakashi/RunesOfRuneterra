@@ -12,6 +12,7 @@ using Antlr4.Runtime;
 using CARDScript.Model.Cards;
 using CARDScript.Compiler.Effects.ScalarEffects;
 using CARDScript.Model.BuffEffects;
+using CARDScript.Model.Effects;
 
 /* A Collection of Visitors for parsing CARDScript 
  *
@@ -81,19 +82,19 @@ namespace CARDScript.Compiler {
       CARDScriptParser.CardSelfContext context) {
       BuffCardBuilder builder = new BuffCardBuilder();
       builder.WithTime(Int32.Parse(context.NUM().GetText()))
-        .WithBuff(context.cardB().Accept<BuffEffect>(buff_visitor));
+        .WithBuff(context.cardB().Accept<Buff>(buff_visitor));
       Effect effect = context.cardE().Accept<Effect>(effect_visitor);
       ParseCardID(builder, context.cardID());
       return builder.Build();
     }
   }
 
-  public class BuffVisitor : CARDScriptParserBaseVisitor<BuffEffect> {
+  public class BuffVisitor : CARDScriptParserBaseVisitor<Buff> {
 
   }
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
-    ScalarEffectVisitor scalar_effect_visitor;
+    /*ScalarEffectVisitor scalar_effect_visitor;
     MatcherVisitor matcher_visitor;
     IValueVisitor value_visitor;
 
@@ -102,7 +103,7 @@ namespace CARDScript.Compiler {
       this.scalar_effect_visitor = new ScalarEffectVisitor();
       this.matcher_visitor = new MatcherVisitor(value_visitor,
                                                    scalar_effect_visitor);
-    }
+    }*/
 
     public override Effect VisitEffect(
         CARDScriptParser.EffectContext context) {
@@ -119,28 +120,29 @@ namespace CARDScript.Compiler {
           effect = new SkillshotEffect();
           break;
         case(CARDScriptParser.SPELL):
+          effect = new DamageEffect();
           break;
         case(CARDScriptParser.MELEE):
+          effect = new MeleeEffect();
           break;
         case(CARDScriptParser.SELF):
+          effect = new BuffEffect();
           break;
+        default:
+          throw new RoRException("COMPILATION: Card Type Expected.");
       }
-      return base.VisitStatENormal(context);
-    }
-
-    public override Effect VisitActionDash(CARDScriptParser.ActionDashContext context) {
-      int distance = Int32.Parse(context.NUM().GetText());
-      return new Dash(distance);
+      return effect;
     }
 
     public override Effect VisitActionCC(CARDScriptParser.ActionCCContext context) {
-
-      return new StandardBuff(Target.ENEMY, context.ccEffect().Start.Type, 
-        Int32.Parse(context.NUM().GetText()));
+      string cc_name = context.ccEffect().GetText();
+      CCType cc = (CCType)Enum.Parse(typeof(CCType), cc_name, true);
+      return new CCEffect(cc, Int32.Parse(context.NUM().GetText()));
     }
 
+   
     public override Effect VisitActionShield(CARDScriptParser.ActionShieldContext context) {
-      return new VariableBuff(Target.USER, context.SHIELD().Symbol.Type,
+      return new ShieldEffect(Target.USER, context.SHIELD().Symbol.Type,
         null,
         new LiteralIntValue(Int32.Parse(context.NUM().GetText())));
     }
@@ -151,6 +153,7 @@ namespace CARDScript.Compiler {
         new LiteralIntValue(Int32.Parse(context.NUM().GetText()))); ;
     }
 
+    /*
     public override Effect VisitActionBuff(CARDScriptParser.ActionBuffContext context) {
       IValue strength = context.value(0).Accept<IValue>(value_visitor);
       IValue duration = null;
@@ -371,5 +374,6 @@ namespace CARDScript.Compiler {
       IValue r = context.value(1).Accept<IValue>(this);
       return new RandomValue(l, r);
     }
+     */
   }
 }

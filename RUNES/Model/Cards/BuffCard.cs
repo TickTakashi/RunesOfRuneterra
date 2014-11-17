@@ -12,25 +12,25 @@ namespace CARDScript.Model.Cards {
       return _time;
     }
 
-    private BuffEffect _buff;
-    public BuffEffect Buff { get { return _buff; } }
+    private Buff _buff;
+    public Buff Buff { get { return _buff; } }
 
 
     public BuffCard(string name, int id, bool is_ult, bool is_dash,
-       int dash_distance, int cost, int limit, int time, BuffEffect buff) : 
+       int dash_distance, int cost, int limit, int time, Buff buff) : 
       base(name, id, is_ult, is_dash, dash_distance, cost, limit) {
         this._time = time;
         this._buff = buff;
     }
 
     public override NormalEffect CreateEffect() {
-      return new BuffActivationEffect();
+      return new BuffEffect();
     }
   }
 
   public class BuffCardBuilder : CardBuilder {
     int time;
-    BuffEffect buff;
+    Buff buff;
 
     internal override Card Build() {
       return new BuffCard(name, id, is_ult, is_dash, dash_distance, cost, 
@@ -42,7 +42,7 @@ namespace CARDScript.Model.Cards {
       return this;
     }
 
-    internal BuffCardBuilder WithBuff(BuffEffect buff) {
+    internal BuffCardBuilder WithBuff(Buff buff) {
       this.buff = buff;
       return this;
     }

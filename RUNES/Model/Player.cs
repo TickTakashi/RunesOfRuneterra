@@ -1,4 +1,5 @@
-﻿using CARDScript.Model.Cards;
+﻿using CARDScript.Model.BuffEffects;
+using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace CARDScript.Model {
     private int action_points;
     private List<StatModifier> modifiers;
     private List<CC> cc;
+    private List<ActiveBuff> buffs;
     private CardCollection deck;
     private CardCollection hand;
     private CardCollection cooldown;
@@ -55,6 +57,10 @@ namespace CARDScript.Model {
     }
 
     internal void Damage(int damage) {
+      foreach (Buff b in buffs) {
+        damage = b.ModifyDamage(damage, this, game);
+      }
+
       health -= damage;
       NotifyAll(new PlayerEvent(PlayerEvent.Type.DAMAGE, this, damage));
       if (health <= 0) {
@@ -63,6 +69,10 @@ namespace CARDScript.Model {
     }
 
     internal void Heal(int strength) {
+      foreach (Buff b in buffs) {
+        strength = b.ModifyHeal(strength, this, game);
+      }
+
       health += strength;
       NotifyAll(new PlayerEvent(PlayerEvent.Type.HEAL, this, strength));
       if (health > MAX_HEALTH) {
@@ -88,6 +98,10 @@ namespace CARDScript.Model {
         throw new RoRException("Action points are below zero!");
       else if (action_points == 0)
         NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_OUT, this));
+    }
+
+    internal void ModifyAP(int delta) {
+      action_points += delta;
     }
 
     internal bool IsDead() {
@@ -147,6 +161,17 @@ namespace CARDScript.Model {
 
     internal void ApplyCC(CCType type, int duration) {
       cc.Add(new CC(type, duration));
+    }
+
+    internal void ApplyBuff(ActiveBuff buff) {
+      this.buffs.Add(buff);
+    }
+
+    internal void TickAllBuffs() {
+      for (int i = buffs.Count; i > 0; --i) {
+        if (buffs[i].Tick())
+          buffs.RemoveAt(i);
+      }
     }
 
     internal bool IsStatModified(StatType stat) {
@@ -214,8 +239,20 @@ namespace CARDScript.Model {
     }
   }
 
+  internal class ActiveBuff : Buff {
+    int duration;
+
+    internal ActiveBuff(Buff b, int duration) {
+      this.duration = duration;
+      this.Next = b;
+    }
+
+    internal bool Tick() {
+      return --duration <= 0;
+    }
+  }
+
   internal enum StatType {
-    SHIELD,
     MELEE_DAMAGE,
     MELEE_RANGE,
     SKILL_DAMAGE,

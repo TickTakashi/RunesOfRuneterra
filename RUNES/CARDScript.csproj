@@ -61,13 +61,15 @@
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
-    <Compile Include="Model\BuffEffects\BuffEffect.cs" />
+    <Compile Include="Model\Buffs\Buff.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />
     <Compile Include="Model\Cards\SkillCard.cs" />
     <Compile Include="Model\Cards\MeleeCard.cs" />
     <Compile Include="Model\Cards\DamageCard.cs" />
     <Compile Include="Model\Cards\BuffCard.cs" />
+    <Compile Include="Model\Effects\CCEffect.cs" />
+    <Compile Include="Model\Effects\KnockupEffect.cs" />
     <Compile Include="Model\Effects\NormalEffects\NormalEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\ConditionalEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\NullEffect.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Compiler\Compiler_OLD\Effects\RepeatEffect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\IValue.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Target.cs" />
+    <Compile Include="Model\Effects\ShieldEffect.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\GameObservable.cs" />
     <Compile Include="Model\Player.cs" />
