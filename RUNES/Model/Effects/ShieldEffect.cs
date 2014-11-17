@@ -27,12 +27,16 @@ namespace CARDScript.Model.Effects {
         this.strength = strength;
       }
 
-      /*public override int ModifyActionPoints(int d, Player p, Game g) {
-        int ap = d - strength;
-        if (ap < 0)
-          ap = 0;
-        return base.ModifyActionPoints(ap, p, g);
-      }*/
+      public override int ModifyDamage(int d, Player p, Game g) {
+        if (d >= strength) {
+          d -= strength;
+          strength = 0;
+        } else {
+          strength -= d;
+          d = 0;
+        }
+        return base.ModifyDamage(d, p, g);
+      }
     }
   }
 }
