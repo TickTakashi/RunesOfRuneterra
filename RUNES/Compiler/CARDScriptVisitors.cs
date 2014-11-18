@@ -106,19 +106,17 @@ namespace CARDScript.Compiler {
         case(CARDScriptParser.SKILL_D):
           return new SkillDamageBuff(value);
         default:
-          throw new RoRException("COMPILER: bonusB not yet implemented!");
+          throw new RoRException("COMPILER: This bonusB is not yet implemented!");
       }
     }
   }
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
-    //ScalarEffectVisitor scalar_effect_visitor;
     //MatcherVisitor matcher_visitor;
     IValueVisitor value_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
-      //this.scalar_effect_visitor = new ScalarEffectVisitor();
       //this.matcher_visitor = new MatcherVisitor(value_visitor,
       //                                             scalar_effect_visitor);
     }
@@ -188,7 +186,7 @@ namespace CARDScript.Compiler {
         case (CARDScriptParser.HEALS):
           return new Heal(target, value);
         default:
-          throw new RoRException("COMPILER: This ScalarEffect is not yet implemented!");
+          throw new RoRException("COMPILER: This scalarE is not yet implemented!");
       }
     }
   }

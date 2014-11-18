@@ -20,9 +20,9 @@ cardB       : BUFF E? buffEffect ;
 
 effect		  : LBRACE statE? RBRACE ;                                
 
-buffEffect  : LBRACE statB? RBRACE ;                                // TODO
+buffEffect  : LBRACE statB? RBRACE ;
 
-statB       : bonusB value                        # statBFlat       // TODO
+statB       : bonusB value                        # statBFlat       
             ;
 
 statE		    : NORMAL ACTIVATION AS cardType       # statENormal
