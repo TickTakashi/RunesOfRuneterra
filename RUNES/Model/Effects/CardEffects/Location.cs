@@ -13,7 +13,16 @@ namespace CARDScript.Model.Effects.CardEffects {
   internal static class LocationMethods {
     internal static CardCollection Resolve(Player player, Game game, 
       Location location) {
-        throw new NotImplementedException();
+        switch (location) {
+          case (Location.HAND):
+            return player.Hand;
+          case (Location.COOL):
+            return player.Cooldown;
+          case (Location.DECK):
+            return player.Deck;
+          default:
+            throw new RoRException("Cannot resolve location.");
+        }
     }
   }
 }

@@ -19,16 +19,20 @@ namespace CARDScript.Model {
     private int action_points;
     private List<CC> cc;
     private List<ActiveBuff> buffs;
-    private CardCollection deck;
-    private CardCollection hand;
-    private CardCollection cooldown;
+    private CardCollection _deck;
+    public CardCollection Deck { get { return _deck; } }
+    private CardCollection _hand;
+    public CardCollection Hand { get { return _hand; } }
+    private CardCollection _cooldown;
+    public CardCollection Cooldown { get { return _cooldown; } }
+
     private Passive current_passive;
     private Game game;
 
     internal Player(CardCollection deck, Game game) {
-      this.deck = deck;
-      this.hand = new CardCollection();
-      this.cooldown = new CardCollection();
+      this._deck = deck;
+      this._hand = new CardCollection();
+      this._cooldown = new CardCollection();
       this.game = game;
       this.health = MAX_HEALTH;
       this.action_points = MAX_AP;
@@ -40,15 +44,15 @@ namespace CARDScript.Model {
     }
 
     internal void ShuffleDeck() {
-      deck.Shuffle();
+      _deck.Shuffle();
     }
 
     internal void Draw() {
-      Card to_hand = deck.RemoveFirst();
+      Card to_hand = _deck.RemoveFirst();
       if (to_hand == null)
         NotifyAll(new PlayerEvent(PlayerEvent.Type.DECK_OUT, this));
       else {
-        hand.Add(to_hand);
+        _hand.Add(to_hand);
         NotifyAll(new PlayerEvent(PlayerEvent.Type.DRAW, this, 1));
       }
     }
@@ -61,8 +65,8 @@ namespace CARDScript.Model {
     }
 
     internal void Discard(Card card) {
-      hand.Remove(card);
-      cooldown.Add(card);
+      _hand.Remove(card);
+      _cooldown.Add(card);
     }
 
     internal void Damage(int damage) {
@@ -118,10 +122,6 @@ namespace CARDScript.Model {
       return health <= 0;
     }
 
-    internal List<Card> HandCardsWhichMeetCriteria(CardCondition criteria) {
-      return hand.CardsWhichSatisfy(criteria);
-    }
-
     internal bool IsTurn() {
       return game.IsTurn(this);
     }
@@ -141,7 +141,7 @@ namespace CARDScript.Model {
 
     internal bool CanActivate(Card card) {
       return IsTurn() && HasAP(card.Cost(this, game)) && 
-        card.CanActivate(this, game) && hand.Contains(card);
+        card.CanActivate(this, game) && _hand.Contains(card);
     }
 
     internal void PlayCard(Card card) {
