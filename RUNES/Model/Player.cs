@@ -1,4 +1,5 @@
 ﻿using CARDScript.Model.BuffEffects;
+using CARDScript.Model.Buffs;
 using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace CARDScript.Model {
     private int health;
     private int action_points;
     private List<CC> cc;
-    private List<Buff> buffs;
+    private List<ActiveBuff> buffs;
     private CardCollection deck;
     private CardCollection hand;
     private CardCollection cooldown;
@@ -180,8 +181,8 @@ namespace CARDScript.Model {
       cc.Add(new CC(type, duration));
     }
 
-    internal void ApplyBuff(Buff buff) {
-      this.buffs.Add(buff);
+    internal void ApplyBuff(Card source, Buff buff) {
+      this.buffs.Add(new ActiveBuff(source, buff));
     }
 
     internal void CheckAllBuffs() {

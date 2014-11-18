@@ -10,6 +10,7 @@ using CARDScript.Compiler.Effects.ScalarEffects;
  */
 using CARDScript.Model;
 using CARDScript.Model.BuffEffects;
+using CARDScript.Model.Buffs.StatBonuses;
 using CARDScript.Model.Cards;
 using CARDScript.Model.Effects;
 using CARDScript.Model.Effects.ScalarEffects;
@@ -82,7 +83,32 @@ namespace CARDScript.Compiler {
   }
 
   public class BuffVisitor : CARDScriptParserBaseVisitor<Buff> {
-    // TODO(ticktakashi): Buff Visitor
+    IValueVisitor value_visitor;
+
+    public BuffVisitor() {
+      this.value_visitor = new IValueVisitor();
+    }
+
+    public override Buff VisitBuffEffect(CARDScriptParser.BuffEffectContext context) {
+      if (context.statB() != null)
+        return context.statB().Accept<Buff>(this);
+      else
+        return null;
+    }
+
+    public override Buff VisitStatBFlat(CARDScriptParser.StatBFlatContext context) {
+      IValue value = context.value().Accept<IValue>(value_visitor);
+      switch (context.bonusB().Start.TokenIndex) {
+        case(CARDScriptParser.MELEE_D):
+          return new MeleeDamageBuff(value);
+        case(CARDScriptParser.MELEE_R):
+          return new MeleeRangeBuff(value);
+        case(CARDScriptParser.SKILL_D):
+          return new SkillDamageBuff(value);
+        default:
+          throw new RoRException("COMPILER: bonusB not yet implemented!");
+      }
+    }
   }
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {

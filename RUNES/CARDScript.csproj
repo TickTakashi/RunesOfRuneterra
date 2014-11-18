@@ -63,9 +63,14 @@
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
+    <Compile Include="Model\Buffs\ActiveBuff.cs" />
     <Compile Include="Model\Buffs\Buff.cs" />
     <Compile Include="Model\Buffs\Knockup.cs" />
     <Compile Include="Model\Buffs\Shield.cs" />
+    <Compile Include="Model\Buffs\StatBonuses\FlatStatBonus.cs" />
+    <Compile Include="Model\Buffs\StatBonuses\SkillDamageBuff.cs" />
+    <Compile Include="Model\Buffs\StatBonuses\MeleeRangeBuff.cs" />
+    <Compile Include="Model\Buffs\StatBonuses\MeleeDamageBuff.cs" />
     <Compile Include="Model\Buffs\TimedBuff.cs" />
     <Compile Include="Model\Cards\Passive.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />

@@ -8,8 +8,7 @@ namespace CARDScript.Model.Buffs {
   internal class Knockup : Buff {
     int strength;
 
-    public Knockup(Card card, int strength)
-      : base(card) {
+    public Knockup(int strength) {
       this.strength = strength;
     }
 

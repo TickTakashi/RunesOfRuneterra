@@ -9,8 +9,8 @@ namespace CARDScript.Model.Buffs {
     Player target;
     int time_remaining;
 
-    internal TimedBuff(Card source, Player target, Game game, Buff b, 
-      int total_duration) : base(source) {
+    internal TimedBuff(Player target, Game game, Buff b, 
+      int total_duration) {
       this.time_remaining = total_duration;
       this.Next = b;
       this.target = target;
