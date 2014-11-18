@@ -8,19 +8,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CARDScript {
+namespace CARDScript.Compiler {
   /* The Card Compiler Class
    * 
    * Contains the static method Compile, which creates a Card from a 
    * CARDScript description.
    */
-  public class CardCompiler {
-    static CardVisitor card_visitor;
-    static PassiveVisitor passive_visitor;
+  public static class CardCompiler {
+    static GameCardVisitor card_visitor;
+    static PassiveCardVisitor passive_visitor;
 
-    public static Card_OLD Compile(string card_description) {
+    public static GameCard CompileGameCard(string card_description) {
       if (card_visitor == null)
-        card_visitor = new CardVisitor();
+        card_visitor = new GameCardVisitor();
 
       if (card_description == null || card_description.Length == 0)
         return null;
@@ -31,12 +31,12 @@ namespace CARDScript {
       CARDScriptParser parser = new CARDScriptParser(tokens);
       CARDScriptParser.CardDescContext description = parser.cardDesc();
      
-      return description.Accept<Card_OLD>(card_visitor);
+      return description.Accept<GameCard>(card_visitor);
     }
 
-    public static Passive CompilePassive(string card_description) {
+    public static PassiveCard CompilePassiveCard(string card_description) {
       if (passive_visitor == null)
-        passive_visitor = new PassiveVisitor();
+        passive_visitor = new PassiveCardVisitor();
 
       if (card_description == null || card_description.Length == 0)
         return null;
@@ -47,7 +47,7 @@ namespace CARDScript {
       CARDScriptParser parser = new CARDScriptParser(tokens);
       CARDScriptParser.CardDescContext description = parser.cardDesc();
 
-      return description.Accept<Passive>(passive_visitor);
+      return description.Accept<PassiveCard>(passive_visitor);
     }
   }
 }

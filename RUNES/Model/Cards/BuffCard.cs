@@ -33,8 +33,8 @@ namespace CARDScript.Model.Cards {
     Buff buff;
 
     internal override GameCard Build() {
-      BuffCard ret = new BuffCard(name, id, is_ult, is_dash, dash_distance, cost, 
-        limit, time, buff);
+      BuffCard ret = new BuffCard(name, id, is_ult, is_dash, dash_distance, 
+        cost, limit, time, buff);
       ret.SetEffect(effect);
       return ret;
     }

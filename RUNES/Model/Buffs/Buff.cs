@@ -14,7 +14,8 @@ namespace CARDScript.Model.BuffEffects {
       set { _next = value; }
     }
 
-    public virtual int ModifyCardCost(GameCard card, int cost, Player p, Game g) {
+    public virtual int ModifyCardCost(GameCard card, int cost, Player p,
+      Game g) {
       return Next != null ? Next.ModifyCardCost(card, cost, p, g) : cost;
     }
 

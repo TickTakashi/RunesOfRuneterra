@@ -17,12 +17,26 @@ using CARDScript.Model.Effects.CardEffects;
 using CARDScript.Model.Effects.ScalarEffects;
 using System;
 namespace CARDScript.Compiler {
+  class PassiveCardVisitor : CARDScriptParserBaseVisitor<PassiveCard> {
+    BuffVisitor buff_visitor;
 
-  class CardVisitor : CARDScriptParserBaseVisitor<GameCard> {
+    public PassiveCardVisitor() {
+      this.buff_visitor = new BuffVisitor();
+    }
+
+    public override PassiveCard VisitPassiveDesc(CARDScriptParser.PassiveDescContext context) {
+      Buff buff = context.cardB().Accept<Buff>(buff_visitor);
+      int id = Int32.Parse(context.NUM().GetText());
+      string name = context.NAME().GetText();
+      return new PassiveCard(name, id, buff);
+    }
+  }
+
+  class GameCardVisitor : CARDScriptParserBaseVisitor<GameCard> {
     EffectVisitor effect_visitor;
     BuffVisitor buff_visitor;
 
-    public CardVisitor() {
+    public GameCardVisitor() {
       this.effect_visitor = new EffectVisitor();
       this.buff_visitor = new BuffVisitor();
     }
@@ -204,7 +218,8 @@ namespace CARDScript.Compiler {
         case (CARDScriptParser.HEALS):
           return new Heal(target, value);
         default:
-          throw new RoRException("COMPILER: This scalarE is not yet implemented!");
+          throw new RoRException(
+            "COMPILER: This scalarE is not yet implemented!");
       }
     }
 

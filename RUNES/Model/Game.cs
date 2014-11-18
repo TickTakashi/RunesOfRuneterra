@@ -158,7 +158,7 @@ namespace CARDScript.Model {
       return state.IsTurn(p);
     }
 
-    public void SetPassive(Player p, Passive q) {
+    public void SetPassive(Player p, PassiveCard q) {
       state.SetPassive(p, q);
     }
 
@@ -217,7 +217,7 @@ namespace CARDScript.Model {
     bool CanMoveTo(Player p, int location);
     void MoveTo(Player p, int location);
     
-    public virtual void SetPassive(Player p, Passive q) {
+    public virtual void SetPassive(Player p, PassiveCard q) {
       return; // Do nothing.
     }
 
@@ -423,7 +423,7 @@ namespace CARDScript.Model {
       game.NotifyAll(new GameEvent(GameEvent.Type.PASSIVE_CHOICE, game));
     }
 
-    public void SetPassive(Player player, Passive passive) {
+    public void SetPassive(Player player, PassiveCard passive) {
       player.SetPassive(passive);
 
       if (this.player == player)

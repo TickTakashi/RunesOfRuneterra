@@ -26,7 +26,7 @@ namespace CARDScript.Model {
     private CardCollection _cooldown;
     public CardCollection Cooldown { get { return _cooldown; } }
 
-    private Passive current_passive;
+    private PassiveCard current_passive;
     private Game game;
 
     internal Player(CardCollection deck, Game game) {
@@ -39,8 +39,9 @@ namespace CARDScript.Model {
       this.cc = new List<CC>();
     }
 
-    internal void SetPassive(Passive passive) {
+    internal void SetPassive(PassiveCard passive) {
       this.current_passive = passive;
+      buffs.Add(new ActiveBuff(passive, passive.Buff));
     }
 
     internal void ShuffleDeck() {

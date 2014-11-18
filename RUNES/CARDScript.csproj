@@ -61,7 +61,7 @@
     <Folder Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffects\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardCompiler.cs" />
+    <Compile Include="Compiler\CardCompiler.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
     <Compile Include="Model\Buffs\ActiveBuff.cs" />
     <Compile Include="Model\Buffs\Buff.cs" />
@@ -72,7 +72,7 @@
     <Compile Include="Model\Buffs\StatBonuses\MeleeRangeBuff.cs" />
     <Compile Include="Model\Buffs\StatBonuses\MeleeDamageBuff.cs" />
     <Compile Include="Model\Buffs\TimedBuff.cs" />
-    <Compile Include="Model\Cards\GameCard.cs" />
+    <Compile Include="Model\Cards\Card.cs" />
     <Compile Include="Model\Cards\PassiveCard.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />
     <Compile Include="Model\Cards\SkillCard.cs" />
@@ -95,7 +95,7 @@
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Compiler_OLD\Events\GameEventListener.cs" />
     <Compile Include="Compiler\Compiler_OLD\Matchers\StateMatchers.cs" />
-    <Compile Include="Model\Cards\Card.cs" />
+    <Compile Include="Model\Cards\GameCard.cs" />
     <Compile Include="Model\CardCollection.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Damage.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Draw.cs" />
