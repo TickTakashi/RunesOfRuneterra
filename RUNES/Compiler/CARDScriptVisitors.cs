@@ -90,14 +90,16 @@ namespace CARDScript.Compiler {
       this.value_visitor = new IValueVisitor();
     }
 
-    public override Buff VisitBuffEffect(CARDScriptParser.BuffEffectContext context) {
+    public override Buff VisitBuffEffect(
+      CARDScriptParser.BuffEffectContext context) {
       if (context.statB() != null)
         return context.statB().Accept<Buff>(this);
       else
         return null;
     }
 
-    public override Buff VisitStatBFlat(CARDScriptParser.StatBFlatContext context) {
+    public override Buff VisitStatBFlat(
+      CARDScriptParser.StatBFlatContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
       switch (context.bonusB().Start.TokenIndex) {
         case(CARDScriptParser.MELEE_D):
@@ -107,7 +109,8 @@ namespace CARDScript.Compiler {
         case(CARDScriptParser.SKILL_D):
           return new SkillDamageBuff(value);
         default:
-          throw new RoRException("COMPILER: This bonusB is not yet implemented!");
+          throw new RoRException(
+            "COMPILER: This bonusB is not yet implemented!");
       }
     }
   }
@@ -119,11 +122,13 @@ namespace CARDScript.Compiler {
       this.value_visitor = new IValueVisitor();
     }
 
-    public static Target ParseTarget(CARDScriptParser.PlayerContext context) {
+    public static Target ParseTarget(
+      CARDScriptParser.PlayerContext context) {
       return context.USER() != null ? Target.USER : Target.ENEMY; 
     }
 
-    public static Location ParseLocation(CARDScriptParser.LocationContext context) {
+    public static Location ParseLocation(
+      CARDScriptParser.LocationContext context) {
       if (context.COOL() != null)
         return Location.COOL;
       if (context.DECK() != null)
@@ -164,21 +169,25 @@ namespace CARDScript.Compiler {
       return effect;
     }
 
-    public override Effect VisitActionCC(CARDScriptParser.ActionCCContext context) {
+    public override Effect VisitActionCC(
+      CARDScriptParser.ActionCCContext context) {
       string cc_name = context.ccEffect().GetText();
       CCType cc = (CCType)Enum.Parse(typeof(CCType), cc_name, true);
       return new CCEffect(cc, Int32.Parse(context.NUM().GetText()));
     }
 
-    public override Effect VisitActionShield(CARDScriptParser.ActionShieldContext context) {
+    public override Effect VisitActionShield(
+      CARDScriptParser.ActionShieldContext context) {
       return new ShieldEffect(Int32.Parse(context.NUM().GetText()));
     }
 
-    public override Effect VisitActionKnockup(CARDScriptParser.ActionKnockupContext context) {
+    public override Effect VisitActionKnockup(
+      CARDScriptParser.ActionKnockupContext context) {
       return new KnockupEffect(Int32.Parse(context.NUM().GetText()));
     }
 
-    public override Effect VisitActionKnockback(CARDScriptParser.ActionKnockbackContext context) {
+    public override Effect VisitActionKnockback(
+      CARDScriptParser.ActionKnockbackContext context) {
       return new KnockbackEffect(Int32.Parse(context.NUM().GetText()));
     }
 
@@ -216,12 +225,14 @@ namespace CARDScript.Compiler {
   }
     
   class IValueVisitor : CARDScriptParserBaseVisitor<IValue> {
-    public override IValue VisitValueInt(CARDScriptParser.ValueIntContext context) {
+    public override IValue VisitValueInt(
+      CARDScriptParser.ValueIntContext context) {
       int value = Int32.Parse(context.NUM().GetText());
       return new LiteralIntValue(value);
     }
 
-    public override IValue VisitValueRandom(CARDScriptParser.ValueRandomContext context) {
+    public override IValue VisitValueRandom(
+      CARDScriptParser.ValueRandomContext context) {
       IValue l = context.value(0).Accept<IValue>(this);
       IValue r = context.value(1).Accept<IValue>(this);
       return new RandomValue(l, r);

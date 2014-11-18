@@ -1,18 +1,13 @@
 ﻿using CARDScript.Compiler.Effects;
 using CARDScript.Model.BuffEffects;
+using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model {
-  public abstract class Card {
-    protected string _name;
-    public string Name { get { return _name; } }
-
-    protected int _id;
-    public int ID { get { return _id; } }
-
+  public abstract class Card : GameCard {
     protected bool _is_ult;
     public bool IsUltimate { get { return _is_ult; } }
 
@@ -33,9 +28,7 @@ namespace CARDScript.Model {
     public Effect effect;
 
     public Card(string name, int id, bool is_ult, bool is_dash,
-      int dash_distance, int cost, int limit) {
-      this._name = name;
-      this._id = id;
+      int dash_distance, int cost, int limit) : base(name, id) {
       this._is_ult = is_ult;
       this._is_dash = is_dash;
       this._dash_distance = dash_distance;
@@ -129,6 +122,7 @@ namespace CARDScript.Model {
 
     internal CardBuilder WithEffect(Effect effect) {
       this.effect = effect;
+      return this;
     }
   }
 }

@@ -72,7 +72,8 @@
     <Compile Include="Model\Buffs\StatBonuses\MeleeRangeBuff.cs" />
     <Compile Include="Model\Buffs\StatBonuses\MeleeDamageBuff.cs" />
     <Compile Include="Model\Buffs\TimedBuff.cs" />
-    <Compile Include="Model\Cards\Passive.cs" />
+    <Compile Include="Model\Cards\GameCard.cs" />
+    <Compile Include="Model\Cards\PassiveCard.cs" />
     <Compile Include="Model\Cards\SpellCard.cs" />
     <Compile Include="Model\Cards\SkillCard.cs" />
     <Compile Include="Model\Cards\MeleeCard.cs" />
