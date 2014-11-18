@@ -1,4 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
+using CARDScript.Model.Cards.CardConditions;
 using CARDScript.Model.Effects.ScalarEffects;
 using System;
 using System.Collections.Generic;
@@ -13,19 +14,19 @@ namespace CARDScript.Model.Effects.CardEffects {
     private Location debit_location;
     private Target credit_player;
     private Location credit_location;
-    private string card_name;
+    private CardCondition condition;
     private bool is_optional;
 
     public CardMoveEffect(Target choice_maker, IValue value, 
       Target debit_player, Location debit_location, Target credit_player,
-      Location credit_location, string card_name, bool is_optional) {
+      Location credit_location, CardCondition condition, bool is_optional) {
       this.choice_maker = choice_maker;
       this.value = value;
       this.debit_player = debit_player;
       this.debit_location = debit_location;
       this.credit_player = credit_player;
       this.credit_location = credit_location;
-      this.card_name = card_name;
+      this.condition = condition;
       this.is_optional = is_optional;
     }
 
