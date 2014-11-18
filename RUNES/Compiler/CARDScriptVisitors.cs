@@ -1,13 +1,5 @@
 ﻿using CARDScript.Compiler.Effects;
 using CARDScript.Compiler.Effects.ScalarEffects;
-/* A Collection of Visitors for parsing CARDScript 
- *
- * A Set of visitors that each handle a subset of all visitor methods necessary
- * to parse effect descriptions, to use these you should first create an effect
- * listener, and then call Accept on a EffectContext parsed via a 
- * CARDScriptParser.
- * TODO(ticktakashi): This class does not implement all of the grammar.
- */
 using CARDScript.Model;
 using CARDScript.Model.BuffEffects;
 using CARDScript.Model.Buffs.StatBonuses;
