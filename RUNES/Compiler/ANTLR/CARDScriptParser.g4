@@ -42,7 +42,7 @@ action      : SHIELD NUM                          # actionShield
             | KNOCKUP NUM                         # actionKnockup
             | KNOCKBACK NUM                       # actionKnockback
             | ccEffect NUM                        # actionCC
-            | player scalarE value                # actionScalar    // TODO
+            | player scalarE value                # actionScalar
             | player ADDS value NAME FROM 
               location TO location                # actionSearch    // TODO
             ;

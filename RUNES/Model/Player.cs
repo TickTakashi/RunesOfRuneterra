@@ -36,7 +36,6 @@ namespace CARDScript.Model {
 
     internal void SetPassive(Passive passive) {
       this.current_passive = passive;
-      // TODO(ticktakashi): Do we need to fire a game event here?
     }
 
     internal void ShuffleDeck() {
@@ -47,8 +46,17 @@ namespace CARDScript.Model {
       Card to_hand = deck.RemoveFirst();
       if (to_hand == null)
         NotifyAll(new PlayerEvent(PlayerEvent.Type.DECK_OUT, this));
-      else
+      else {
         hand.Add(to_hand);
+        NotifyAll(new PlayerEvent(PlayerEvent.Type.DRAW, this, 1));
+      }
+    }
+
+    internal void Draw(int amount) {
+      for (int i = 0; i < amount; i++) {
+        Draw();
+      }
+      NotifyAll(new PlayerEvent(PlayerEvent.Type.DRAW, this, amount));
     }
 
     internal void Discard(Card card) {
@@ -274,6 +282,7 @@ namespace CARDScript.Model {
       AP_OUT,
       SKILLSHOT_HIT,
       MELEE_HIT,
+      DRAW,
     }
 
     public Type type;

@@ -88,6 +88,7 @@ namespace CARDScript.Model {
     protected int dash_distance = 0;
     protected int cost = -1;
     protected int limit = -1;
+    protected Effect effect;
 
     internal abstract Card Build();
 
@@ -124,6 +125,10 @@ namespace CARDScript.Model {
     internal CardBuilder WithCost(int cost) {
       this.cost = cost;
       return this;
+    }
+
+    internal CardBuilder WithEffect(Effect effect) {
+      this.effect = effect;
     }
   }
 }

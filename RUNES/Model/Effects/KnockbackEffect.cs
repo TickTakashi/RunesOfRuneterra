@@ -22,7 +22,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
           game.SetState(old_state);
           base.Activate(card, user, game);
         };
-        game.SetState(new ChooseDirectionState(user, callback, game);
+        game.SetState(new ChooseDirectionState(user, callback, game));
       } else {
         int p_x = game.GetPosition(user);
         int o_x = game.GetPosition(game.Opponent(user));

@@ -57,7 +57,9 @@
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffects\" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="CardCompiler.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
@@ -85,17 +87,17 @@
     <Compile Include="Compiler\CARDScriptVisitors.cs" />
     <Compile Include="Compiler\Compiler_OLD\Events\GameEventListener.cs" />
     <Compile Include="Compiler\Compiler_OLD\Matchers\StateMatchers.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\ScalarEffect.cs" />
     <Compile Include="Model\Cards\Card.cs" />
     <Compile Include="Model\CardCollection.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffects\Damage.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffects\Draw.cs" />
+    <Compile Include="Model\Effects\ScalarEffects\Damage.cs" />
+    <Compile Include="Model\Effects\ScalarEffects\Draw.cs" />
     <Compile Include="Model\Effects\Effect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffects\Heal.cs" />
+    <Compile Include="Model\Effects\ScalarEffects\Heal.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\ScheduleEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\RepeatEffect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\IValue.cs" />
+    <Compile Include="Model\Effects\ScalarEffects\ScalarEffect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Target.cs" />
     <Compile Include="Model\Effects\ShieldEffect.cs" />
     <Compile Include="Model\Game.cs" />

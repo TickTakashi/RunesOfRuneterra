@@ -33,8 +33,10 @@ namespace CARDScript.Model.Cards {
     Buff buff;
 
     internal override Card Build() {
-      return new BuffCard(name, id, is_ult, is_dash, dash_distance, cost, 
+      BuffCard ret = new BuffCard(name, id, is_ult, is_dash, dash_distance, cost, 
         limit, time, buff);
+      ret.SetEffect(effect);
+      return ret;
     }
 
     internal BuffCardBuilder WithTime(int time) {

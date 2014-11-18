@@ -27,8 +27,10 @@ namespace CARDScript.Model.Cards {
     int damage;
 
      internal override Card Build() {
-      return new MeleeCard(name, id, is_ult, is_dash, dash_distance, cost,
+      MeleeCard ret = new MeleeCard(name, id, is_ult, is_dash, dash_distance, cost,
         limit, damage);
+      ret.SetEffect(effect);
+      return ret;
     }
 
     internal MeleeCardBuilder WithDamage(int damage) {

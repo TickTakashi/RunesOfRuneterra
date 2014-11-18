@@ -31,8 +31,10 @@ namespace CARDScript.Model.Cards {
     int damage;
     int range;
     internal override Card Build() {
-      return new SpellCard(name, id, is_ult, is_dash, dash_distance, cost,
+      SpellCard ret = new SpellCard(name, id, is_ult, is_dash, dash_distance, cost,
         limit, damage, range);
+      ret.SetEffect(effect);
+      return ret;
     }
 
     internal SpellCardBuilder WithDamage(int damage) {
