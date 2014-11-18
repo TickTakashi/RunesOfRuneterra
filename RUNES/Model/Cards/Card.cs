@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model {
-  public abstract class Card : GameCard {
+  public abstract class GameCard : Card {
     protected bool _is_ult;
     public bool IsUltimate { get { return _is_ult; } }
 
@@ -27,7 +27,7 @@ namespace CARDScript.Model {
 
     public Effect effect;
 
-    public Card(string name, int id, bool is_ult, bool is_dash,
+    public GameCard(string name, int id, bool is_ult, bool is_dash,
       int dash_distance, int cost, int limit) : base(name, id) {
       this._is_ult = is_ult;
       this._is_dash = is_dash;
@@ -83,7 +83,7 @@ namespace CARDScript.Model {
     protected int limit = -1;
     protected Effect effect;
 
-    internal abstract Card Build();
+    internal abstract GameCard Build();
 
     internal virtual bool CanBuild() {
       return name == "" || id == -1 || cost == -1 || limit == -1;

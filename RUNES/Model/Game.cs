@@ -39,7 +39,7 @@ namespace CARDScript.Model {
     private int player_1_wins;
     private int player_2_wins;
 
-    internal Game(List<Card> player_1_deck, List<Card> player_2_deck) {
+    internal Game(List<GameCard> player_1_deck, List<GameCard> player_2_deck) {
       round_num = 0;
 
       field = new List<IGameToken>[FIELD_SIZE];
@@ -166,11 +166,11 @@ namespace CARDScript.Model {
       state.Pass(p);
     }
 
-    public bool Selectable(Card c) {
+    public bool Selectable(GameCard c) {
       return state.Selectable(c); 
     }
 
-    public void Select(Card c) {
+    public void Select(GameCard c) {
       state.Select(c);
     }
 
@@ -229,11 +229,11 @@ namespace CARDScript.Model {
       return; // Do nothing.
     }
 
-    public virtual bool Selectable(Card c) {
+    public virtual bool Selectable(GameCard c) {
       return false;
     }
 
-    public virtual void Select(Card c) {
+    public virtual void Select(GameCard c) {
       return; // Do nothing.
     }
 
@@ -297,11 +297,11 @@ namespace CARDScript.Model {
       }
     }
 
-    public override bool Selectable(Card card) {
+    public override bool Selectable(GameCard card) {
       return player.CanActivate(card);
     }
 
-    public override void Select(Card card) {
+    public override void Select(GameCard card) {
       if (Selectable(card)) {
         player.PlayCard(card);
       }
@@ -349,14 +349,14 @@ namespace CARDScript.Model {
     }
   }
 
-  internal delegate void CardChoiceCallback(Card card);
+  internal delegate void CardChoiceCallback(GameCard card);
   internal class ChooseCardState : GameState {
     private Player player;
     private CardChoiceCallback callback;
-    private List<Card> potential_cards;
+    private List<GameCard> potential_cards;
     private Game game;
 
-    internal ChooseCardState(Player player, List<Card> potential_cards,
+    internal ChooseCardState(Player player, List<GameCard> potential_cards,
       CardChoiceCallback callback, Game game) {
       this.player = player;
       this.callback = callback;
@@ -369,11 +369,11 @@ namespace CARDScript.Model {
         callback(null);
     }
 
-    public override bool Selectable(Card card) {
+    public override bool Selectable(GameCard card) {
       return potential_cards.Contains(card);
     }
 
-    public override void Select(Card card) {
+    public override void Select(GameCard card) {
       if (Selectable(card)) {
         game.NotifyAll(new GameEvent(GameEvent.Type.CARD_CHOSEN, game, 
           player));
@@ -445,11 +445,11 @@ namespace CARDScript.Model {
       return; // Do nothing.
     }
 
-    public bool Selectable(Card c) {
+    public bool Selectable(GameCard c) {
       return false;
     }
 
-    public void Select(Card c) {
+    public void Select(GameCard c) {
       return; // Do nothing.
     }
 

@@ -8,24 +8,24 @@ namespace CARDScript.Model {
 
   public class CardCollection : RoRObservable<CardCollectionEvent>, 
     IEnumerator {
-    private List<Card> cards;
+    private List<GameCard> cards;
 
-    internal CardCollection(List<Card> cards) : base() {
+    internal CardCollection(List<GameCard> cards) : base() {
       this.cards = cards;
     }
 
-    internal CardCollection() : this(new List<Card>()) {}
+    internal CardCollection() : this(new List<GameCard>()) {}
 
     internal int Size { get { return cards.Count; } }
 
-    internal List<Card> GetCards() {
+    internal List<GameCard> GetCards() {
       return cards;
     }
 
     internal void Shuffle() {
       for (int i = 0; i < cards.Count; i++) {
         int swap_index = Game.rng.Next(cards.Count);
-        Card old = cards[i];
+        GameCard old = cards[i];
         cards[i] = cards[swap_index];
         cards[swap_index] = old;
       }
@@ -33,7 +33,7 @@ namespace CARDScript.Model {
                                         this));
     }
 
-    internal void Add(Card c) {
+    internal void Add(GameCard c) {
       if (!cards.Contains(c)) {
         cards.Add(c);
         NotifyAll(new CardCollectionEvent(CardCollectionEvent.Type.ADD,
@@ -47,7 +47,7 @@ namespace CARDScript.Model {
         this.cards.Add(cards.RemoveFirst());
     }
 
-    internal Card Remove(Card c) {
+    internal GameCard Remove(GameCard c) {
       if (cards.Contains(c)) {
         cards.Remove(c);
         NotifyAll(new CardCollectionEvent(CardCollectionEvent.Type.REMOVE,
@@ -57,12 +57,12 @@ namespace CARDScript.Model {
         throw new RoRException("Tried to remove a card which wasn't present!");
     }
 
-    internal Card RemoveAt(int i) {
+    internal GameCard RemoveAt(int i) {
       // TODO(ticktakashi): Should this be a RoRException instead?
       return Remove(cards[i]);
     }
 
-    internal Card RemoveFirst() {
+    internal GameCard RemoveFirst() {
       if (cards.Count > 0)
         return RemoveAt(0);
       else {
@@ -72,7 +72,7 @@ namespace CARDScript.Model {
       }
     }
 
-    internal Card RemoveRandom() {
+    internal GameCard RemoveRandom() {
       return RemoveAt(Game.rng.Next(cards.Count));
     }
 
@@ -80,13 +80,13 @@ namespace CARDScript.Model {
       return Size == 0;
     }
 
-    internal bool Contains(Card card) {
+    internal bool Contains(GameCard card) {
       return cards.Contains(card);
     }
 
-    internal List<Card> CardsWhichSatisfy(CardCondition cond) {
-      List<Card> meet_criteria = new List<Card>();
-      foreach (Card c in cards) {
+    internal List<GameCard> CardsWhichSatisfy(CardCondition cond) {
+      List<GameCard> meet_criteria = new List<GameCard>();
+      foreach (GameCard c in cards) {
         if (cond(c))
           meet_criteria.Add(c);
       }
@@ -94,7 +94,7 @@ namespace CARDScript.Model {
     }
   }
   
-  internal delegate bool CardCondition(Card card);
+  internal delegate bool CardCondition(GameCard card);
 
   public struct CardCollectionEvent {
     public enum Type {
@@ -106,10 +106,10 @@ namespace CARDScript.Model {
 
     public Type type;
     public CardCollection collection;
-    public Card card;
+    public GameCard card;
 
     public CardCollectionEvent(Type type,
-      CardCollection collection, Card card = null) {
+      CardCollection collection, GameCard card = null) {
       this.type = type;
       this.collection = collection;
       this.card = card;

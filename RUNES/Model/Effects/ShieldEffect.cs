@@ -14,7 +14,7 @@ namespace CARDScript.Model.Effects {
       this.strength = strength;
     }
 
-    public override void Activate(Card card, Player user, Game game) {
+    public override void Activate(GameCard card, Player user, Game game) {
       Shield shield = new Shield(strength);
       user.ApplyBuff(card, shield);
       base.Activate(card, user, game);

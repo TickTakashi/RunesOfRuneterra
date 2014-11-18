@@ -2,7 +2,7 @@
   public class Draw : ScalarEffect {
     public Draw(Target t, IValue v) : base(t, v) { }
 
-    public override void Activate(Card source, Player user, Game game) {
+    public override void Activate(GameCard source, Player user, Game game) {
       Player my_target = TargetMethods.Resolve(Target, user, game);
       my_target.Draw(Value);
       base.Activate(source, user, game);

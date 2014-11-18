@@ -26,7 +26,7 @@ namespace CARDScript.Model.Cards {
   public class MeleeCardBuilder : CardBuilder {
     int damage;
 
-     internal override Card Build() {
+     internal override GameCard Build() {
       MeleeCard ret = new MeleeCard(name, id, is_ult, is_dash, dash_distance, cost,
         limit, damage);
       ret.SetEffect(effect);

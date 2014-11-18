@@ -6,9 +6,9 @@ using System.Text;
 
 namespace CARDScript.Model.Buffs {
   public class ActiveBuff : Buff {
-    public Card source;
+    public GameCard source;
 
-    public ActiveBuff(Card source, Buff buff) {
+    public ActiveBuff(GameCard source, Buff buff) {
       this.source = source;
       this.Next = buff;
     }

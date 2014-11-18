@@ -29,7 +29,7 @@ namespace CARDScript.Model.Effects.CardEffects {
       this.is_optional = is_optional;
     }
 
-    public override void Activate(Card card, Player user, Game game) {
+    public override void Activate(GameCard card, Player user, Game game) {
       throw new NotImplementedException();
       base.Activate(card, user, game);
     }

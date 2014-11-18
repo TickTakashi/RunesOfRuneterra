@@ -13,7 +13,7 @@ namespace CARDScript.Compiler.Effects.ScalarEffects {
       this.distance = distance;
     }
 
-    internal override void Activate(Card card, Player user, Game game) {
+    internal override void Activate(GameCard card, Player user, Game game) {
       bool direction_choice = game.Distance(user, game.Opponent(user)) == 0;
       if (direction_choice) {
         GameState old_state = game.GetState();

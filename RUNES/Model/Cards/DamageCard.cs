@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
-  public abstract class DamageCard : Card {
+  public abstract class DamageCard : GameCard {
     protected int _damage;
     public virtual int Damage(Player user, Game game) {
       return _damage;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
-  public class PassiveCard : GameCard {
+  public class PassiveCard : Card {
     private Buff _buff;
     public Buff Buff { get { return _buff; } }
 

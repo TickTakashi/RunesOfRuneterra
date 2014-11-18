@@ -30,7 +30,7 @@ namespace CARDScript.Model.Cards {
   public class SkillCardBuilder : CardBuilder {
     int damage;
     int range;
-    internal override Card Build() {
+    internal override GameCard Build() {
       SkillCard ret = new SkillCard(name, id, is_ult, is_dash, dash_distance, cost,
         limit, damage, range);
       ret.SetEffect(effect);

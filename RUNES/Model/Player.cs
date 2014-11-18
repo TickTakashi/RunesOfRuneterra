@@ -48,7 +48,7 @@ namespace CARDScript.Model {
     }
 
     internal void Draw() {
-      Card to_hand = _deck.RemoveFirst();
+      GameCard to_hand = _deck.RemoveFirst();
       if (to_hand == null)
         NotifyAll(new PlayerEvent(PlayerEvent.Type.DECK_OUT, this));
       else {
@@ -64,7 +64,7 @@ namespace CARDScript.Model {
       NotifyAll(new PlayerEvent(PlayerEvent.Type.DRAW, this, amount));
     }
 
-    internal void Discard(Card card) {
+    internal void Discard(GameCard card) {
       _hand.Remove(card);
       _cooldown.Add(card);
     }
@@ -139,19 +139,19 @@ namespace CARDScript.Model {
       Spend(MovementCost() * game.Distance(this, destination));
     }
 
-    internal bool CanActivate(Card card) {
+    internal bool CanActivate(GameCard card) {
       return IsTurn() && HasAP(card.Cost(this, game)) && 
         card.CanActivate(this, game) && _hand.Contains(card);
     }
 
-    internal void PlayCard(Card card) {
+    internal void PlayCard(GameCard card) {
       if (CanActivate(card)) {
         Spend(card.Cost(this, game));
         card.Activate(this, game);
       }
     }
 
-    internal int CardCost(Card card, int base_cost) {
+    internal int CardCost(GameCard card, int base_cost) {
       int cost = base_cost;
       foreach (Buff b in buffs) {
         cost = b.ModifyCardCost(card, cost, this, game);
@@ -181,7 +181,7 @@ namespace CARDScript.Model {
       cc.Add(new CC(type, duration));
     }
 
-    internal void ApplyBuff(Card source, Buff buff) {
+    internal void ApplyBuff(GameCard source, Buff buff) {
       this.buffs.Add(new ActiveBuff(source, buff));
     }
 

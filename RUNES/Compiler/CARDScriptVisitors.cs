@@ -18,7 +18,7 @@ using CARDScript.Model.Effects.ScalarEffects;
 using System;
 namespace CARDScript.Compiler {
 
-  class CardVisitor : CARDScriptParserBaseVisitor<Card> {
+  class CardVisitor : CARDScriptParserBaseVisitor<GameCard> {
     EffectVisitor effect_visitor;
     BuffVisitor buff_visitor;
 
@@ -43,7 +43,7 @@ namespace CARDScript.Compiler {
         }
     }
 
-    public override Card VisitCardSpell(
+    public override GameCard VisitCardSpell(
       CARDScriptParser.CardSpellContext context) {
       SpellCardBuilder builder = new SpellCardBuilder();
       builder.WithDamage(Int32.Parse(context.NUM(0).GetText()))
@@ -53,7 +53,7 @@ namespace CARDScript.Compiler {
       return builder.Build();
     }
 
-    public override Card VisitCardSkill(
+    public override GameCard VisitCardSkill(
       CARDScriptParser.CardSkillContext context) {
       SkillCardBuilder builder = new SkillCardBuilder();
       builder.WithDamage(Int32.Parse(context.NUM(0).GetText()))
@@ -63,7 +63,7 @@ namespace CARDScript.Compiler {
       return builder.Build(); ;
     }
 
-    public override Card VisitCardMelee(
+    public override GameCard VisitCardMelee(
       CARDScriptParser.CardMeleeContext context) {
       MeleeCardBuilder builder = new MeleeCardBuilder();
       builder.WithDamage(Int32.Parse(context.NUM().GetText()))
@@ -72,7 +72,7 @@ namespace CARDScript.Compiler {
       return builder.Build();
     }
     
-    public override Card VisitCardSelf(
+    public override GameCard VisitCardSelf(
       CARDScriptParser.CardSelfContext context) {
       BuffCardBuilder builder = new BuffCardBuilder();
       builder.WithTime(Int32.Parse(context.NUM().GetText()))

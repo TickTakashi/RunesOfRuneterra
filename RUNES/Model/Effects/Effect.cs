@@ -12,19 +12,19 @@ namespace CARDScript.Compiler.Effects {
     }
 
     // After this effect has completed, call base to activate the next effect.
-    public virtual void Activate(Card card, Player user, Game game) {
+    public virtual void Activate(GameCard card, Player user, Game game) {
       if (Next != null)
         Next.Activate(card, user, game);
     }
 
     // This effect can only be activated if ALL effects in its effect chain
     // are activatable.
-    public virtual bool CanActivate(Card card, Player user, Game game) {
+    public virtual bool CanActivate(GameCard card, Player user, Game game) {
       return !user.IsCCd(CCType.STUN) && !user.IsCCd(CCType.SILENCE) &&
         (Next == null || Next.CanActivate(card, user, game));
     }
 
-    public virtual bool CanNegate(Card card, Player user, Game game,
+    public virtual bool CanNegate(GameCard card, Player user, Game game,
       NormalEffect effect) {
       return CanActivate(card, user, game) && Next != null && 
         Next.CanNegate(card, user, game, effect);

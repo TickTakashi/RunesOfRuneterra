@@ -6,7 +6,7 @@ using System.Text;
 namespace CARDScript.Model.BuffEffects {
 
   internal abstract class Buff {
-    public Card source;
+    public GameCard source;
 
     private Buff _next;
     public Buff Next {
@@ -14,7 +14,7 @@ namespace CARDScript.Model.BuffEffects {
       set { _next = value; }
     }
 
-    public virtual int ModifyCardCost(Card card, int cost, Player p, Game g) {
+    public virtual int ModifyCardCost(GameCard card, int cost, Player p, Game g) {
       return Next != null ? Next.ModifyCardCost(card, cost, p, g) : cost;
     }
 

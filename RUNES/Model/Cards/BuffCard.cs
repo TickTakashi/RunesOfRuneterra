@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
-  public class BuffCard : Card {
+  public class BuffCard : GameCard {
     private int _time;
     public int Time(Player user, Game game) {
       return _time;
@@ -32,7 +32,7 @@ namespace CARDScript.Model.Cards {
     int time;
     Buff buff;
 
-    internal override Card Build() {
+    internal override GameCard Build() {
       BuffCard ret = new BuffCard(name, id, is_ult, is_dash, dash_distance, cost, 
         limit, time, buff);
       ret.SetEffect(effect);
