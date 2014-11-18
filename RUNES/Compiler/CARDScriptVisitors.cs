@@ -13,6 +13,7 @@ using CARDScript.Model.BuffEffects;
 using CARDScript.Model.Buffs.StatBonuses;
 using CARDScript.Model.Cards;
 using CARDScript.Model.Effects;
+using CARDScript.Model.Effects.CardEffects;
 using CARDScript.Model.Effects.ScalarEffects;
 using System;
 namespace CARDScript.Compiler {
@@ -112,17 +113,25 @@ namespace CARDScript.Compiler {
   }
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
-    //MatcherVisitor matcher_visitor;
     IValueVisitor value_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
-      //this.matcher_visitor = new MatcherVisitor(value_visitor,
-      //                                             scalar_effect_visitor);
     }
 
     public static Target ParseTarget(CARDScriptParser.PlayerContext context) {
       return context.USER() != null ? Target.USER : Target.ENEMY; 
+    }
+
+    public static Location ParseLocation(CARDScriptParser.LocationContext context) {
+      if (context.COOL() != null)
+        return Location.COOL;
+      if (context.DECK() != null)
+        return Location.DECK;
+      if (context.HAND() != null)
+        return Location.HAND;
+      else
+        throw new RoRException("COMPILER: Location doesn't exist.");
     }
 
     public override Effect VisitEffect(
@@ -174,7 +183,7 @@ namespace CARDScript.Compiler {
     }
 
     public override Effect VisitActionScalar(
-    CARDScriptParser.ActionScalarContext context) {
+      CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Target target = ParseTarget(context.player());
       
@@ -188,6 +197,21 @@ namespace CARDScript.Compiler {
         default:
           throw new RoRException("COMPILER: This scalarE is not yet implemented!");
       }
+    }
+
+    public override Effect VisitActionSearch(
+      CARDScriptParser.ActionSearchContext context) {
+      Target choice_maker = ParseTarget(context.player(0));
+      Target debit_player = ParseTarget(context.player(1));
+      Target credit_player = ParseTarget(context.player(2));
+      IValue value = context.value().Accept<IValue>(value_visitor);
+      Location debit_location = ParseLocation(context.location(0));
+      Location credit_location = ParseLocation(context.location(1));
+      string card_name = context.NAME().GetText();
+      bool is_optional = context.MAY() != null;
+      return new CardMoveEffect(choice_maker, value, debit_player, 
+        debit_location, credit_player, credit_location, card_name, 
+        is_optional);
     }
   }
     
@@ -206,12 +230,7 @@ namespace CARDScript.Compiler {
     /*
 
 
-    public override Effect VisitActionSearch(CARDScriptParser.ActionSearchContext context) {
-      Target player = MatcherVisitor.ParseTarget(context.player());
-      IValue value = context.value().Accept<IValue>(value_visitor);
-      int destination = context.location().Start.Type;
-      return new CardAdder(player, value, context.NAME().GetText(), destination);
-    }
+
 
     public override Effect VisitStatList(
         CARDScriptParser.StatListContext context) {

@@ -43,8 +43,8 @@ action      : SHIELD NUM                          # actionShield
             | KNOCKBACK NUM                       # actionKnockback
             | ccEffect NUM                        # actionCC
             | player scalarE value                # actionScalar
-            | player ADDS value NAME FROM 
-              location TO location                # actionSearch    // TODO
+            | player (MAY)? ADDS value NAME FROM 
+              player location TO  player location # actionSearch    // TODO
             ;
 
 value		    : NUM                                 # valueInt

@@ -24,7 +24,7 @@ SELF    : 'SELF';
 // Locations
 HAND    : 'HAND';
 DECK    : 'DECK';
-COOL    : 'COOLDOWN';
+COOL    : 'COOL';
 
 // Card Properties
 DAMAGE  : 'DAMAGE';
@@ -58,6 +58,7 @@ TILDE     : '~';
 FROM      : 'FROM';
 TO        : 'TO';
 IN        : 'IN';
+MAY       : 'MAY';
 
 // Scalar actions
 DRAWS		  : 'DRAWS';

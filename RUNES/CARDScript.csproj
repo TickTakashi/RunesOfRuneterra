@@ -78,8 +78,10 @@
     <Compile Include="Model\Cards\MeleeCard.cs" />
     <Compile Include="Model\Cards\DamageCard.cs" />
     <Compile Include="Model\Cards\BuffCard.cs" />
+    <Compile Include="Model\Effects\CardEffects\CardMoveEffect.cs" />
     <Compile Include="Model\Effects\CCEffect.cs" />
     <Compile Include="Model\Effects\KnockupEffect.cs" />
+    <Compile Include="Model\Effects\CardEffects\Location.cs" />
     <Compile Include="Model\Effects\NormalEffects\NormalEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\ConditionalEffect.cs" />
     <Compile Include="Compiler\Compiler_OLD\Effects\NullEffect.cs" />
