@@ -166,12 +166,12 @@ namespace CARDScript.Model {
       state.Pass(p);
     }
 
-    public bool Selectable(GameCard c) {
-      return state.Selectable(c); 
+    public bool Selectable(Player p, GameCard c) {
+      return state.Selectable(p, c); 
     }
 
-    public void Select(GameCard c) {
-      state.Select(c);
+    public void Select(Player p, GameCard c) {
+      state.Select(p, c);
     }
 
     public bool CanMoveTo(Player p, int location) {

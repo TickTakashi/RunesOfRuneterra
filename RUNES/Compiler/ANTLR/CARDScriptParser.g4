@@ -45,7 +45,7 @@ action      : SHIELD NUM                          # actionShield
             | player scalarE value                # actionScalar
             | player (MAY)? ADDS value cardCond 
               FROM player location TO player 
-              location                            # actionSearch    // TODO
+              location                            # actionSearch    
             ;
 
 value		    : NUM                                 # valueInt
@@ -57,8 +57,10 @@ value		    : NUM                                 # valueInt
             | cardCond IN player location         # valueCardCount  // TODO
             ;
 
-cardCond    : TITLE E NAME                        # cardCondName    // TODO
-            | TYPE E cardType                     # cardCondType    // TODO
+cardCond    : TITLE E NAME                        # cardCondName    
+            | TYPE E cardType                     # cardCondType    
+            | DASH                                # cardCondDash    // TODO
+            | ULTIMATE                            # cardCondUlt     // TODO
             | cardP ineq value                    # cardCondcardP   // TODO
             | cardCond binopBool cardCond         # cardCondBinop   // TODO
             | NOT cardCond                        # cardCondNot     // TODO
@@ -67,12 +69,13 @@ cardCond    : TITLE E NAME                        # cardCondName    // TODO
                                    
 player		  : USER | ENEMY ;
 location    : HAND | DECK | COOL ;
-scalarE     : DRAWS | TAKES | HEALS;
+scalarE     : DRAWS | TAKES | HEALS ;
 bonusB      : MELEE_D | MELEE_R | SKILL_D ;
+cardP       : DAMAGE | RANGE | TIME ;
 ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
 binopBool	  : OR | AND  ;
 ineq		    : GT | LT | EQ ;
-cardType    : SKILL | SPELL | MELEE | SELF ;
+cardType    : SKILL | SPELL | MELEE | SELF | DAMAGE ;
 
 /*
 // TODO(ticktakashi): Add a (WITH card)? extension to these scalar to check if, for example, they did 2 damage with a MELEE attack

@@ -4,7 +4,11 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards.CardConditions {
-  internal interface CardCondition {
-    internal bool Condition(GameCard c);
+  enum CardType {
+    MELEE,
+    SKILL,
+    SPELL,
+    SELF,
+    DAMAGE,
   }
 }

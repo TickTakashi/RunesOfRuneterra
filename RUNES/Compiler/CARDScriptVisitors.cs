@@ -125,9 +125,11 @@ namespace CARDScript.Compiler {
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
     IValueVisitor value_visitor;
+    CardConditionVisitor card_condition_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
+      this.card_condition_visitor = new CardConditionVisitor();
     }
 
     public static Target ParseTarget(
@@ -157,24 +159,20 @@ namespace CARDScript.Compiler {
 
     public override Effect VisitStatENormal(
       CARDScriptParser.StatENormalContext context) {
-      NormalEffect effect;
       switch (context.cardType().Start.TokenIndex) {
         case(CARDScriptParser.SKILL):
-          effect = new SkillshotEffect();
-          break;
+          return new SkillshotEffect();
         case(CARDScriptParser.SPELL):
-          effect = new DamageEffect();
-          break;
+          return new DamageEffect();
+        case(CARDScriptParser.DAMAGE):
+          return new DamageEffect();
         case(CARDScriptParser.MELEE):
-          effect = new MeleeEffect();
-          break;
+          return new MeleeEffect();
         case(CARDScriptParser.SELF):
-          effect = new BuffEffect();
-          break;
+          return new BuffEffect();
         default:
           throw new RoRException("COMPILATION: Card Type Expected.");
       }
-      return effect;
     }
 
     public override Effect VisitActionCC(
@@ -225,7 +223,8 @@ namespace CARDScript.Compiler {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Location debit_location = ParseLocation(context.location(0));
       Location credit_location = ParseLocation(context.location(1));
-      CardCondition condition = null;
+      CardCondition condition = context.cardCond().Accept<CardCondition>(
+        card_condition_visitor);
       bool is_optional = context.MAY() != null;
       return new CardMoveEffect(choice_maker, value, debit_player, 
         debit_location, credit_player, credit_location, condition, 
@@ -247,11 +246,21 @@ namespace CARDScript.Compiler {
       return new RandomValue(l, r);
     }
   }
+
+  class CardConditionVisitor : CARDScriptParserBaseVisitor<CardCondition> {
+    public override CardCondition VisitCardCondName(
+      CARDScriptParser.CardCondNameContext context) {
+        return new NameCondition(context.NAME().GetText());
+    }
+
+    public override CardCondition VisitCardCondType(
+      CARDScriptParser.CardCondTypeContext context) {
+        string type_name = context.cardType().GetText();
+        CardType ct = (CardType)Enum.Parse(typeof(CardType), type_name, true);
+        return new TypeCondition(ct);
+    }
+  }
     /*
-
-
-
-
     public override Effect VisitStatList(
         CARDScriptParser.StatListContext context) {
       Effect first = context.stat(0).Accept<Effect>(this);
