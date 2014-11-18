@@ -24,7 +24,8 @@ namespace CARDScript.Compiler {
       this.buff_visitor = new BuffVisitor();
     }
 
-    public override PassiveCard VisitPassiveDesc(CARDScriptParser.PassiveDescContext context) {
+    public override PassiveCard VisitPassiveDesc(
+      CARDScriptParser.PassiveDescContext context) {
       Buff buff = context.cardB().Accept<Buff>(buff_visitor);
       int id = Int32.Parse(context.NUM().GetText());
       string name = context.NAME().GetText();
