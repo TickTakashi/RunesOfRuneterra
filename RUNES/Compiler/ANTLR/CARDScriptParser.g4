@@ -26,7 +26,7 @@ statB       : bonusB value                        # statBFlat
             ;
 
 statE		    : NORMAL ACTIVATION AS cardType       # statENormal
-            | action                              # statEAction     // TODO
+            | action                              # statEAction
             | IF stateCond effect (ELSE effect)?  # statEIf         // TODO
 			      | statE statE							            # statEList       // TODO
             | statE value TIMES                   # statERepeat     // TODO
