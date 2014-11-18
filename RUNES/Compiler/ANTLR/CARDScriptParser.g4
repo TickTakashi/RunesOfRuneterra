@@ -43,8 +43,9 @@ action      : SHIELD NUM                          # actionShield
             | KNOCKBACK NUM                       # actionKnockback
             | ccEffect NUM                        # actionCC
             | player scalarE value                # actionScalar
-            | player (MAY)? ADDS value NAME FROM 
-              player location TO  player location # actionSearch    // TODO
+            | player (MAY)? ADDS value cardCond 
+              FROM player location TO player 
+              location                            # actionSearch    // TODO
             ;
 
 value		    : NUM                                 # valueInt
@@ -53,9 +54,17 @@ value		    : NUM                                 # valueInt
             | DOUBLE value                        # valueDouble     // TODO
             | DISTANCE                            # valueDistance   // TODO
             | player HEALTH                       # valueHealth     // TODO
-            | cardTarget IN player location       # valueCardCount  // TODO
+            | cardCond IN player location         # valueCardCount  // TODO
             ;
 
+cardCond    : TITLE E NAME                        # cardCondName    // TODO
+            | TYPE E cardType                     # cardCondType    // TODO
+            | cardP ineq value                    # cardCondcardP   // TODO
+            | cardCond binopBool cardCond         # cardCondBinop   // TODO
+            | NOT cardCond                        # cardCondNot     // TODO
+            | LPAREN cardCond RPAREN              # cardCondParen   // TODO
+            ;
+                                   
 player		  : USER | ENEMY ;
 location    : HAND | DECK | COOL ;
 scalarE     : DRAWS | TAKES | HEALS;
@@ -64,7 +73,6 @@ ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
 binopBool	  : OR | AND  ;
 ineq		    : GT | LT | EQ ;
 cardType    : SKILL | SPELL | MELEE | SELF ;
-cardTarget	: NAME | NUM | THIS ;
 
 /*
 // TODO(ticktakashi): Add a (WITH card)? extension to these scalar to check if, for example, they did 2 damage with a MELEE attack

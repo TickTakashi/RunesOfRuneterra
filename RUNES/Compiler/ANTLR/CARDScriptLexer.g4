@@ -36,6 +36,9 @@ LIMIT   : 'LIMIT';
 EFFECT  : 'EFFECT';
 BUFF    : 'BUFF';
 ULTIMATE: 'ULTIMATE';
+ID      : 'ID';
+TYPE    : 'TYPE';
+TITLE   : 'NAME' | 'TITLE';
 
 // CC Effects
 SLOW    : 'SLOW';

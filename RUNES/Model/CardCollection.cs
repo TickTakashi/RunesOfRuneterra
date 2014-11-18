@@ -84,7 +84,7 @@ namespace CARDScript.Model {
       return cards.Contains(card);
     }
 
-    internal List<GameCard> CardsWhichSatisfy(CardCondition cond) {
+    internal List<GameCard> CardsWhichSatisfy(CardConditionCallback cond) {
       List<GameCard> meet_criteria = new List<GameCard>();
       foreach (GameCard c in cards) {
         if (cond(c))
@@ -94,7 +94,7 @@ namespace CARDScript.Model {
     }
   }
   
-  internal delegate bool CardCondition(GameCard card);
+  internal delegate bool CardConditionCallback(GameCard card);
 
   public struct CardCollectionEvent {
     public enum Type {

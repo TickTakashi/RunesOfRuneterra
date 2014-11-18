@@ -49,7 +49,7 @@ namespace CARDScript.Compiler.Effects {
       if (InRange(card, user, game)) {
         // Allow the opponent to dodge this card
         Player opponent = game.Opponent(user);
-        CardCondition isdash = delegate(GameCard c) {
+        CardConditionCallback isdash = delegate(GameCard c) {
           return c.IsDash;
         };
         List<GameCard> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
