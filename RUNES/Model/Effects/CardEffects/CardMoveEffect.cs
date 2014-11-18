@@ -31,8 +31,49 @@ namespace CARDScript.Model.Effects.CardEffects {
     }
 
     public override void Activate(GameCard card, Player user, Game game) {
-      throw new NotImplementedException();
-      base.Activate(card, user, game);
+      Player chooser = TargetMethods.Resolve(choice_maker, user, game);
+      Player debiter = TargetMethods.Resolve(debit_player, user, game);
+      Player crediter = TargetMethods.Resolve(credit_player, user, game);
+      CardCollection debit = LocationMethods.Resolve(debiter, debit_location);
+      CardCollection cred = LocationMethods.Resolve(crediter, credit_location);
+      int num_cards = value.GetValue();
+      List<GameCard> potentials = debit.CardsWhichSatisfy(condition.Condition);
+      GameState prev = game.GetState();
+      List<GameCard> selected = new List<GameCard>();
+      
+      DialogueCallback continue_effect = delegate() {
+        foreach (GameCard crd in selected) {
+          debit.Remove(crd);
+          cred.Add(crd);
+        }
+        game.SetState(prev);
+        base.Activate(card, user, game);
+      };
+
+      CardChoiceCallback callback = delegate(GameCard c) {
+        if (c == null) {
+          if (is_optional) {
+            continue_effect();
+          } else {
+            throw new RoRException(
+              "Pass shouldn't be called for non-optional choices!");
+          }
+        } else if (!selected.Contains(c)) {
+          selected.Add(c);
+          if (selected.Count == num_cards) {
+            continue_effect();
+          }
+        }
+      };
+
+      ChooseCardState next = new ChooseCardState(chooser, potentials, callback,
+        game, is_optional);
+
+      if (potentials.Count >= num_cards) {
+        game.SetState(next);
+      } else {
+        base.Activate(card, user, game);
+      }
     }
   }
 }

@@ -46,14 +46,10 @@ namespace CARDScript.Compiler.Effects {
 
   public class SkillshotEffect : DamageEffect {
     public override void Activate(GameCard card, Player user, Game game) {
-      if (InRange(card, user, game)) {
-        // Allow the opponent to dodge this card
-        Player opponent = game.Opponent(user);
-        CardConditionCallback isdash = delegate(GameCard c) {
-          return c.IsDash;
-        };
-        List<GameCard> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
-
+      Player opponent = game.Opponent(user); 
+      CardConditionCallback isdash = delegate(GameCard c) { return c.IsDash; }; 
+      List<GameCard> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
+      if (InRange(card, user, game) && dodge_cards.Count > 0) {
         CardChoiceCallback callback = delegate(GameCard c) {
           if (c != null) {
             opponent.Discard(c);
@@ -64,7 +60,7 @@ namespace CARDScript.Compiler.Effects {
           }
         };
         game.SetState(new ChooseCardState(opponent, dodge_cards, callback,
-                                          game));
+          game, true));
       } else {
         base.Activate(card, user, game);
       }

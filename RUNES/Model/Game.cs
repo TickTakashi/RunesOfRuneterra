@@ -224,16 +224,16 @@ namespace CARDScript.Model {
     public virtual bool IsTurn(Player p) {
       return false;
     }
-
+    
     public virtual void Pass(Player p) {
       return; // Do nothing.
     }
 
-    public virtual bool Selectable(GameCard c) {
+    public virtual bool Selectable(Player p, GameCard c) {
       return false;
     }
 
-    public virtual void Select(GameCard c) {
+    public virtual void Select(Player p, GameCard c) {
       return; // Do nothing.
     }
 
@@ -297,12 +297,12 @@ namespace CARDScript.Model {
       }
     }
 
-    public override bool Selectable(GameCard card) {
-      return player.CanActivate(card);
+    public override bool Selectable(Player p, GameCard card) {
+      return player == p && player.CanActivate(card);
     }
 
-    public override void Select(GameCard card) {
-      if (Selectable(card)) {
+    public override void Select(Player p, GameCard card) {
+      if (p == player && Selectable(p, card)) {
         player.PlayCard(card);
       }
     }
@@ -355,26 +355,32 @@ namespace CARDScript.Model {
     private CardChoiceCallback callback;
     private List<GameCard> potential_cards;
     private Game game;
+    private bool is_optional;
 
     internal ChooseCardState(Player player, List<GameCard> potential_cards,
-      CardChoiceCallback callback, Game game) {
+      CardChoiceCallback callback, Game game, bool is_optional) {
       this.player = player;
       this.callback = callback;
       this.potential_cards = potential_cards;
       this.game = game;
-      if (potential_cards.Count > 0)
-        game.NotifyAll(new GameEvent(GameEvent.Type.CARD_CHOICE, game,
-          player));
-      else
-        callback(null);
+      this.is_optional = is_optional;
+      
+      if (potential_cards == null || potential_cards.Count == 0)
+        throw new RoRException("Card Dialogue with no cards!");
+
+      // TODO(ticktakashi): Without passing the list of cards, I am forcing
+      // the view to search through all possible cards for eligability.
+      // Fix this.
+      game.NotifyAll(new GameEvent(GameEvent.Type.CARD_CHOICE, game,
+        player));
     }
 
-    public override bool Selectable(GameCard card) {
-      return potential_cards.Contains(card);
+    public override bool Selectable(Player p, GameCard card) {
+      return p == player && potential_cards.Contains(card);
     }
 
-    public override void Select(GameCard card) {
-      if (Selectable(card)) {
+    public override void Select(Player p, GameCard card) {
+      if (p == player && Selectable(p, card)) {
         game.NotifyAll(new GameEvent(GameEvent.Type.CARD_CHOSEN, game, 
           player));
         callback(card);
@@ -382,7 +388,8 @@ namespace CARDScript.Model {
     }
 
     public override void Pass(Player p) {
-      callback(null);
+      if (is_optional)
+        callback(null);
     }
   }
 
@@ -435,38 +442,6 @@ namespace CARDScript.Model {
         game.NotifyAll(new GameEvent(GameEvent.Type.PASSIVE_CHOSEN, game));
         game.SetState(new GameTurnState(game.Opponent(player), game));
       }
-    }
-
-    public bool IsTurn(Player p) {
-      return false;
-    }
-
-    public void Pass(Player p) {
-      return; // Do nothing.
-    }
-
-    public bool Selectable(GameCard c) {
-      return false;
-    }
-
-    public void Select(GameCard c) {
-      return; // Do nothing.
-    }
-
-    public bool CanMoveTo(Player p, int location) {
-      return false;
-    }
-
-    public void MoveTo(Player p, int location) {
-      return; // Do nothing.
-    }
-
-    public bool CanBasicAttack(Player p) {
-      return false;
-    }
-
-    public void BasicAttack(Player p) {
-      return; // Do nothing.
     }
   }
   

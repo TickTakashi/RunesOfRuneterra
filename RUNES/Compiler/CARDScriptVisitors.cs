@@ -4,6 +4,7 @@ using CARDScript.Model;
 using CARDScript.Model.BuffEffects;
 using CARDScript.Model.Buffs.StatBonuses;
 using CARDScript.Model.Cards;
+using CARDScript.Model.Cards.CardConditions;
 using CARDScript.Model.Effects;
 using CARDScript.Model.Effects.CardEffects;
 using CARDScript.Model.Effects.ScalarEffects;
@@ -224,10 +225,10 @@ namespace CARDScript.Compiler {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Location debit_location = ParseLocation(context.location(0));
       Location credit_location = ParseLocation(context.location(1));
-      string card_name = context.NAME().GetText();
+      CardCondition condition = null;
       bool is_optional = context.MAY() != null;
       return new CardMoveEffect(choice_maker, value, debit_player, 
-        debit_location, credit_player, credit_location, card_name, 
+        debit_location, credit_player, credit_location, condition, 
         is_optional);
     }
   }

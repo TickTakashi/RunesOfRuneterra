@@ -11,8 +11,7 @@ namespace CARDScript.Model.Effects.CardEffects {
   }
 
   internal static class LocationMethods {
-    internal static CardCollection Resolve(Player player, Game game, 
-      Location location) {
+    internal static CardCollection Resolve(Player player, Location location) {
         switch (location) {
           case (Location.HAND):
             return player.Hand;
