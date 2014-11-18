@@ -8,8 +8,7 @@ namespace CARDScript.Model.Buffs {
   internal class Shield : Buff {
     int strength;
 
-    public Shield(Card card, int strength)
-      : base(card) {
+    public Shield(int strength) {
       this.strength = strength;
     }
 

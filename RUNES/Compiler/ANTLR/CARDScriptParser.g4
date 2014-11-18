@@ -14,15 +14,15 @@ cardDesc    : cardID SKILL DAMAGE E? NUM RANGE E? NUM cardE # cardSkill
 
 cardID      : NAME E? NUM COST E? NUM LIMIT E? NUM (DASH E? NUM)? ULTIMATE? ;
 
-cardE       : EFFECT E? effect ;                                    // TODO
+cardE       : EFFECT E? effect ;                                    
 
-cardB       : BUFF E? buffEffect ;                                  // TODO
+cardB       : BUFF E? buffEffect ;                                  
 
-effect		  : LBRACE statE? RBRACE ;                                // TODO
+effect		  : LBRACE statE? RBRACE ;                                
 
-buffEffect  : LBRACE statB? RBRACE ;                                // TODO
+buffEffect  : LBRACE statB? RBRACE ;
 
-statB       : player buff value                   # statBFlat       // TODO
+statB       : bonusB value                        # statBFlat       
             ;
 
 statE		    : NORMAL ACTIVATION AS cardType       # statENormal
@@ -43,8 +43,8 @@ action      : SHIELD NUM                          # actionShield
             | KNOCKBACK NUM                       # actionKnockback
             | ccEffect NUM                        # actionCC
             | player scalarE value                # actionScalar
-            | player ADDS value NAME FROM 
-              location TO location                # actionSearch    // TODO
+            | player (MAY)? ADDS value NAME FROM 
+              player location TO  player location # actionSearch    // TODO
             ;
 
 value		    : NUM                                 # valueInt
@@ -59,7 +59,7 @@ value		    : NUM                                 # valueInt
 player		  : USER | ENEMY ;
 location    : HAND | DECK | COOL ;
 scalarE     : DRAWS | TAKES | HEALS;
-buff        : MELEE_D | MELEE_R | SKILL_D ;
+bonusB      : MELEE_D | MELEE_R | SKILL_D ;
 ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
 binopBool	  : OR | AND  ;
 ineq		    : GT | LT | EQ ;

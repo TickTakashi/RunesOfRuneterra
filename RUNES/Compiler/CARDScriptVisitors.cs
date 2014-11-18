@@ -10,8 +10,10 @@ using CARDScript.Compiler.Effects.ScalarEffects;
  */
 using CARDScript.Model;
 using CARDScript.Model.BuffEffects;
+using CARDScript.Model.Buffs.StatBonuses;
 using CARDScript.Model.Cards;
 using CARDScript.Model.Effects;
+using CARDScript.Model.Effects.CardEffects;
 using CARDScript.Model.Effects.ScalarEffects;
 using System;
 namespace CARDScript.Compiler {
@@ -82,23 +84,54 @@ namespace CARDScript.Compiler {
   }
 
   public class BuffVisitor : CARDScriptParserBaseVisitor<Buff> {
-    // TODO(ticktakashi): Buff Visitor
+    IValueVisitor value_visitor;
+
+    public BuffVisitor() {
+      this.value_visitor = new IValueVisitor();
+    }
+
+    public override Buff VisitBuffEffect(CARDScriptParser.BuffEffectContext context) {
+      if (context.statB() != null)
+        return context.statB().Accept<Buff>(this);
+      else
+        return null;
+    }
+
+    public override Buff VisitStatBFlat(CARDScriptParser.StatBFlatContext context) {
+      IValue value = context.value().Accept<IValue>(value_visitor);
+      switch (context.bonusB().Start.TokenIndex) {
+        case(CARDScriptParser.MELEE_D):
+          return new MeleeDamageBuff(value);
+        case(CARDScriptParser.MELEE_R):
+          return new MeleeRangeBuff(value);
+        case(CARDScriptParser.SKILL_D):
+          return new SkillDamageBuff(value);
+        default:
+          throw new RoRException("COMPILER: This bonusB is not yet implemented!");
+      }
+    }
   }
 
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
-    //ScalarEffectVisitor scalar_effect_visitor;
-    //MatcherVisitor matcher_visitor;
     IValueVisitor value_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
-      //this.scalar_effect_visitor = new ScalarEffectVisitor();
-      //this.matcher_visitor = new MatcherVisitor(value_visitor,
-      //                                             scalar_effect_visitor);
     }
 
     public static Target ParseTarget(CARDScriptParser.PlayerContext context) {
       return context.USER() != null ? Target.USER : Target.ENEMY; 
+    }
+
+    public static Location ParseLocation(CARDScriptParser.LocationContext context) {
+      if (context.COOL() != null)
+        return Location.COOL;
+      if (context.DECK() != null)
+        return Location.DECK;
+      if (context.HAND() != null)
+        return Location.HAND;
+      else
+        throw new RoRException("COMPILER: Location doesn't exist.");
     }
 
     public override Effect VisitEffect(
@@ -131,30 +164,26 @@ namespace CARDScript.Compiler {
       return effect;
     }
 
-    public override Effect VisitActionCC(
-      CARDScriptParser.ActionCCContext context) {
+    public override Effect VisitActionCC(CARDScriptParser.ActionCCContext context) {
       string cc_name = context.ccEffect().GetText();
       CCType cc = (CCType)Enum.Parse(typeof(CCType), cc_name, true);
       return new CCEffect(cc, Int32.Parse(context.NUM().GetText()));
     }
 
-    public override Effect VisitActionShield(
-      CARDScriptParser.ActionShieldContext context) {
+    public override Effect VisitActionShield(CARDScriptParser.ActionShieldContext context) {
       return new ShieldEffect(Int32.Parse(context.NUM().GetText()));
     }
 
-    public override Effect VisitActionKnockup(
-      CARDScriptParser.ActionKnockupContext context) {
+    public override Effect VisitActionKnockup(CARDScriptParser.ActionKnockupContext context) {
       return new KnockupEffect(Int32.Parse(context.NUM().GetText()));
     }
 
-    public override Effect VisitActionKnockback(
-      CARDScriptParser.ActionKnockbackContext context) {
+    public override Effect VisitActionKnockback(CARDScriptParser.ActionKnockbackContext context) {
       return new KnockbackEffect(Int32.Parse(context.NUM().GetText()));
     }
 
     public override Effect VisitActionScalar(
-    CARDScriptParser.ActionScalarContext context) {
+      CARDScriptParser.ActionScalarContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Target target = ParseTarget(context.player());
       
@@ -166,20 +195,33 @@ namespace CARDScript.Compiler {
         case (CARDScriptParser.HEALS):
           return new Heal(target, value);
         default:
-          throw new RoRException("COMPILER: scalarE is not yet implemented!");
+          throw new RoRException("COMPILER: This scalarE is not yet implemented!");
       }
+    }
+
+    public override Effect VisitActionSearch(
+      CARDScriptParser.ActionSearchContext context) {
+      Target choice_maker = ParseTarget(context.player(0));
+      Target debit_player = ParseTarget(context.player(1));
+      Target credit_player = ParseTarget(context.player(2));
+      IValue value = context.value().Accept<IValue>(value_visitor);
+      Location debit_location = ParseLocation(context.location(0));
+      Location credit_location = ParseLocation(context.location(1));
+      string card_name = context.NAME().GetText();
+      bool is_optional = context.MAY() != null;
+      return new CardMoveEffect(choice_maker, value, debit_player, 
+        debit_location, credit_player, credit_location, card_name, 
+        is_optional);
     }
   }
     
   class IValueVisitor : CARDScriptParserBaseVisitor<IValue> {
-    public override IValue VisitValueInt(
-      CARDScriptParser.ValueIntContext context) {
+    public override IValue VisitValueInt(CARDScriptParser.ValueIntContext context) {
       int value = Int32.Parse(context.NUM().GetText());
       return new LiteralIntValue(value);
     }
 
-    public override IValue VisitValueRandom(
-      CARDScriptParser.ValueRandomContext context) {
+    public override IValue VisitValueRandom(CARDScriptParser.ValueRandomContext context) {
       IValue l = context.value(0).Accept<IValue>(this);
       IValue r = context.value(1).Accept<IValue>(this);
       return new RandomValue(l, r);
@@ -188,12 +230,7 @@ namespace CARDScript.Compiler {
     /*
 
 
-    public override Effect VisitActionSearch(CARDScriptParser.ActionSearchContext context) {
-      Target player = MatcherVisitor.ParseTarget(context.player());
-      IValue value = context.value().Accept<IValue>(value_visitor);
-      int destination = context.location().Start.Type;
-      return new CardAdder(player, value, context.NAME().GetText(), destination);
-    }
+
 
     public override Effect VisitStatList(
         CARDScriptParser.StatListContext context) {

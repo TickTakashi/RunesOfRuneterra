@@ -52,7 +52,7 @@ namespace CARDScript.Compiler.Effects {
         CardCondition isdash = delegate(Card c) {
           return c.IsDash;
         };
-        List<Card> dodge_cards = opponent.HandCardsWhichMeetCriteria(isdash);
+        List<Card> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
 
         CardChoiceCallback callback = delegate(Card c) {
           if (c != null) {
@@ -87,7 +87,7 @@ namespace CARDScript.Compiler.Effects {
     public override void Activate(Card card, Player user, Game game) {
       if (card is BuffCard) {
         BuffCard source = (BuffCard)card;
-        user.ApplyBuff(new TimedBuff(card, user, game, source.Buff, 
+        user.ApplyBuff(card, new TimedBuff(user, game, source.Buff, 
           source.Time(user, game)));
       }
       base.Activate(card, user, game);
