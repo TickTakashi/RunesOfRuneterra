@@ -47,8 +47,8 @@ action      : SHIELD NUM                          # actionShield
               location TO location                # actionSearch    // TODO
             ;
 
-value		    : NUM                                 # valueInt        // TODO
-            | value TILDE value                   # valueRandom     // TODO
+value		    : NUM                                 # valueInt
+            | value TILDE value                   # valueRandom
             | HALF value                          # valueHalf       // TODO
             | DOUBLE value                        # valueDouble     // TODO
             | DISTANCE                            # valueDistance   // TODO
