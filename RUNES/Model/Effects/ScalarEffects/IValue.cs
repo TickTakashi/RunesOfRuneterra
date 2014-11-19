@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CARDScript.Model.Cards.CardConditions;
+using CARDScript.Model.Effects.CardEffects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -83,6 +85,25 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     public int GetValue(Player user, Game game) {
       Player target = TargetMethods.Resolve(t, user, game);
       return target.Health;
+    }
+  }
+
+  public class CardCountValue : IValue {
+    CardCondition condition;
+    Target t;
+    Location l;
+
+    public CardCountValue(CardCondition condition, Target t, Location l) {
+      this.condition = condition;
+      this.t = t;
+      this.l = l;
+    }
+
+    public int GetValue(Player user, Game game) {
+      Player target = TargetMethods.Resolve(t, user, game);
+      CardCollection collection = LocationMethods.Resolve(target, l);
+      List<GameCard> matching = collection.CardsWhichSatisfy(condition);
+      return matching.Count;
     }
   }
 }

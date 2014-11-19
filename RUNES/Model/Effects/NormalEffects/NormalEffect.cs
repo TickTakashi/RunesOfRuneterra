@@ -1,6 +1,7 @@
 ﻿using CARDScript.Model;
 using CARDScript.Model.Buffs;
 using CARDScript.Model.Cards;
+using CARDScript.Model.Cards.CardConditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,8 +47,8 @@ namespace CARDScript.Compiler.Effects {
 
   public class SkillshotEffect : DamageEffect {
     public override void Activate(GameCard card, Player user, Game game) {
-      Player opponent = game.Opponent(user); 
-      CardConditionCallback isdash = delegate(GameCard c) { return c.IsDash; }; 
+      Player opponent = game.Opponent(user);
+      CardCondition isdash = new DashCondition();
       List<GameCard> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
       if (InRange(card, user, game) && dodge_cards.Count > 0) {
         CardChoiceCallback callback = delegate(GameCard c) {

@@ -37,7 +37,7 @@ namespace CARDScript.Model.Effects.CardEffects {
       CardCollection debit = LocationMethods.Resolve(debiter, debit_location);
       CardCollection cred = LocationMethods.Resolve(crediter, credit_location);
       int num_cards = value.GetValue(user, game);
-      List<GameCard> potentials = debit.CardsWhichSatisfy(condition.Condition);
+      List<GameCard> potentials = debit.CardsWhichSatisfy(condition);
       GameState prev = game.GetState();
       List<GameCard> selected = new List<GameCard>();
       

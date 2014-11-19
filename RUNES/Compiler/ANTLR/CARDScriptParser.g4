@@ -53,8 +53,8 @@ value		    : NUM                                 # valueInt
             | HALF value                          # valueHalf 
             | DOUBLE value                        # valueDouble
             | DISTANCE                            # valueDistance
-            | player HEALTH                       # valueHealth     // TODO
-            | cardCond IN player location         # valueCardCount  // TODO
+            | player HEALTH                       # valueHealth
+            | cardCond IN player location         # valueCardCount
             ;
 
 cardCond    : TITLE E NAME                        # cardCondName    

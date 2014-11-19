@@ -233,6 +233,12 @@ namespace CARDScript.Compiler {
   }
     
   class IValueVisitor : CARDScriptParserBaseVisitor<IValue> {
+    CardConditionVisitor card_condition_visitor;
+
+    public IValueVisitor() {
+      this.card_condition_visitor = new CardConditionVisitor();
+    }
+
     public override IValue VisitValueInt(
       CARDScriptParser.ValueIntContext context) {
       int value = Int32.Parse(context.NUM().GetText());
@@ -271,7 +277,11 @@ namespace CARDScript.Compiler {
 
     public override IValue VisitValueCardCount(
       CARDScriptParser.ValueCardCountContext context) {
-        return base.VisitValueCardCount(context);
+        CardCondition condition = context.cardCond().Accept<CardCondition>(
+          card_condition_visitor);
+        Target t = EffectVisitor.ParseTarget(context.player());
+        Location l = EffectVisitor.ParseLocation(context.location());
+        return new CardCountValue(condition, t, l);
     }
   }
 

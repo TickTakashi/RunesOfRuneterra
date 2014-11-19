@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CARDScript.Model.Cards.CardConditions;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,10 +85,10 @@ namespace CARDScript.Model {
       return cards.Contains(card);
     }
 
-    internal List<GameCard> CardsWhichSatisfy(CardConditionCallback cond) {
+    internal List<GameCard> CardsWhichSatisfy(CardCondition cond) {
       List<GameCard> meet_criteria = new List<GameCard>();
       foreach (GameCard c in cards) {
-        if (cond(c))
+        if (cond.Condition(c))
           meet_criteria.Add(c);
       }
       return meet_criteria;
