@@ -25,7 +25,7 @@ buffEffect  : LBRACE statB? RBRACE ;
 statB       : bonusB value                        # statBFlat       
             ;
 
-statE		    : NORMAL ACTIVATION AS cardType       # statENormal
+statE		    : ACTIVATE AS cardType                # statENormal
             | action                              # statEAction
             | IF stateCond effect (ELSE effect)?  # statEIf
 			      | statE statE							            # statEList

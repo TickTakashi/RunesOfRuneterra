@@ -7,6 +7,9 @@ fragment CHARACTER :  ~['\"'] | WS ;
 COMMENT : ('#' ~[\n]*) -> skip;
 WS      : [ \t\n\r]+ -> skip;
 
+
+
+
 // Conditionals
 IF      : 'IF';
 ELSE    : 'ELSE';
@@ -52,6 +55,11 @@ KNOCKBACK : 'KNOCKBACK';
 KNOCKUP   : 'KNOCKUP';
 SHIELD    : 'SHIELD';
 
+// Normal Activation
+ACTIVATE  : 'ACTIVATE';
+NORMAL    : 'NORMAL';
+AS        : 'AS';
+
 // General Punctuation
 LBRACE		: '{';
 RBRACE		: '}';
@@ -62,6 +70,7 @@ FROM      : 'FROM';
 TO        : 'TO';
 IN        : 'IN';
 MAY       : 'MAY';
+TIMES     : 'TIMES';
 
 // Scalar actions
 DRAWS		  : 'DRAWS';
