@@ -246,9 +246,15 @@ namespace CARDScript.Compiler {
       return new RandomValue(l, r);
     }
 
+    public override IValue VisitValueDouble(
+      CARDScriptParser.ValueDoubleContext context) {
+        IValue r = context.value().Accept<IValue>(this);
+        return new DoubleValue(r);
+    }
+
     public override IValue VisitValueDistance(
       CARDScriptParser.ValueDistanceContext context) {
-      return new DistanceValue(); 
+        return new DistanceValue(); 
     }
   }
 
