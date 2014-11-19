@@ -297,6 +297,11 @@ namespace CARDScript.Compiler {
         CardType ct = (CardType)Enum.Parse(typeof(CardType), type_name, true);
         return new TypeCondition(ct);
     }
+
+    public override CardCondition VisitCardCondDash(
+      CARDScriptParser.CardCondDashContext context) {
+        return new DashCondition();
+    }
   }
     /*
     public override Effect VisitStatList(
