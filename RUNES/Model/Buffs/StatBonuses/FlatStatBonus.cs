@@ -7,11 +7,10 @@ using System.Text;
 
 namespace CARDScript.Model.Buffs.StatBonuses {
   internal class FlatStatBonus : Buff {
-    IValue _value;
-    protected int Value { get { return _value.GetValue();  } }
+    protected IValue value;
 
     internal FlatStatBonus(IValue value) {
-      this._value = value;
+      this.value = value;
     }
   }
 }

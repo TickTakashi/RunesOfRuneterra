@@ -4,7 +4,7 @@
 
     public override void Activate(GameCard source, Player user, Game game) {
       Player my_target = TargetMethods.Resolve(Target, user, game);
-      my_target.Draw(Value);
+      my_target.Draw(value.GetValue(user, game));
       base.Activate(source, user, game);
     }
   }

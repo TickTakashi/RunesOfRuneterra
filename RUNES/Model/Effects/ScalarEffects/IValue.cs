@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CARDScript.Model.Effects.ScalarEffects {
   public interface IValue {
-    int GetValue(); 
+    int GetValue(Player user, Game game); 
   }
 
   public class LiteralIntValue : IValue {
@@ -14,7 +14,7 @@ namespace CARDScript.Model.Effects.ScalarEffects {
       this.value = value;
     }
 
-    public int GetValue() {
+    public int GetValue(Player user, Game game) {
       return value;
     }
 
@@ -32,9 +32,10 @@ namespace CARDScript.Model.Effects.ScalarEffects {
       this.r = r;
     }
 
-    public int GetValue() {
+    public int GetValue(Player user, Game game) {
       Random rand = new Random();
-      return rand.Next(r.GetValue(), l.GetValue());
+      return rand.Next(r.GetValue(user, game), 
+        l.GetValue(user, game));
     }
 
     public override string ToString() {

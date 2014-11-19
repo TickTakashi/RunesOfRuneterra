@@ -245,6 +245,11 @@ namespace CARDScript.Compiler {
       IValue r = context.value(1).Accept<IValue>(this);
       return new RandomValue(l, r);
     }
+
+    public override IValue VisitValueDistance(
+      CARDScriptParser.ValueDistanceContext context) {
+      return null; //new DistanceValue(); 
+    }
   }
 
   class CardConditionVisitor : CARDScriptParserBaseVisitor<CardCondition> {

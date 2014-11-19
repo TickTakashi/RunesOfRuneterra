@@ -9,7 +9,7 @@ namespace CARDScript.Model.Buffs.StatBonuses {
     internal MeleeRangeBuff(IValue value) : base(value) { }
 
     public override int ModifyMeleeRange(int d, Player p, Game g) {
-      return base.ModifyMeleeRange(d + Value, p, g);
+      return base.ModifyMeleeRange(d + value.GetValue(p, g), p, g);
     }
   }
 }
