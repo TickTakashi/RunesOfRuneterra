@@ -4,10 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.BuffEffects {
-
   internal abstract class Buff {
-    public GameCard source;
-
     private Buff _next;
     public Buff Next {
       get { return _next; }

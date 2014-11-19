@@ -130,6 +130,7 @@
     <Compile Include="Compiler\ANTLR\RunesParser.g4.cs">
       <DependentUpon>CARDScriptParser.g4</DependentUpon>
     </Compile>
+    <Compile Include="Model\GameConditions\GameCondition.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
