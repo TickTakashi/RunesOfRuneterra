@@ -78,9 +78,12 @@ SKILL_D   : 'SKILL_D';
 ADDS    : 'ADDS';
 
 // Equality operators
-GT			: '>=';
-LT			: '<=';
+GT			: '>';
+GTE     : 'GTE';
+LT			: '<';
+LTE     : '<=';
 EQ			: '==';
+NEQ     : '!=';
 E       : '=';
 
 // Boolean operators

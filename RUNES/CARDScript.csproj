@@ -66,6 +66,7 @@
     <Compile Include="Compiler\CARDScriptVisitors\EffectVisitor.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\GameCardConditionVisitor.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\GameCardVisitor.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\GameConditionVisitor.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\IValueVisitor.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\PassiveCardVisitor.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Model\Cards\GameCards\BuffCard.cs" />
     <Compile Include="Model\Effects\CardEffects\CardMoveEffect.cs" />
     <Compile Include="Model\Effects\CCEffect.cs" />
+    <Compile Include="Model\Effects\IfEffect.cs" />
     <Compile Include="Model\Effects\KnockupEffect.cs" />
     <Compile Include="Model\Effects\CardEffects\Location.cs" />
     <Compile Include="Model\Effects\NormalEffects\NormalEffect.cs" />

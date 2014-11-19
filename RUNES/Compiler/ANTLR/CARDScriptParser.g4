@@ -27,12 +27,12 @@ statB       : bonusB value                        # statBFlat
 
 statE		    : NORMAL ACTIVATION AS cardType       # statENormal
             | action                              # statEAction
-            | IF stateCond effect (ELSE effect)?  # statEIf         // TODO
+            | IF stateCond effect (ELSE effect)?  # statEIf
 			      | statE statE							            # statEList       // TODO
             | statE value TIMES                   # statERepeat     // TODO
 			      ;
 
-stateCond   : value ineq value                    # stateCondHealth // TODO
+stateCond   : value ineq value                    # stateCondIneq
             | stateCond binopBool stateCond       # stateCondBinop  // TODO
             | NOT stateCond                       # stateCondNot    // TODO
             | LPAREN stateCond RPAREN             # stateCondParen  // TODO
@@ -73,8 +73,8 @@ scalarE     : DRAWS | TAKES | HEALS ;
 bonusB      : MELEE_D | MELEE_R | SKILL_D ;
 cardP       : DAMAGE | RANGE | TIME ;
 ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
-binopBool	  : OR | AND  ;
-ineq		    : GT | LT | EQ ;
+binopBool	  : OR | AND ;
+ineq		    : GT | GTE | LT | LTE | EQ | NEQ ;
 cardType    : SKILL | SPELL | MELEE | SELF | DAMAGE ;
 
 /*

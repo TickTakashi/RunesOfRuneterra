@@ -5,6 +5,7 @@ using CARDScript.Model.Cards.CardConditions;
 using CARDScript.Model.Effects;
 using CARDScript.Model.Effects.CardEffects;
 using CARDScript.Model.Effects.ScalarEffects;
+using CARDScript.Model.GameConditions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,12 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
   public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
     IValueVisitor value_visitor;
     GameCardConditionVisitor card_condition_visitor;
+    GameConditionVisitor game_condition_visitor;
 
     public EffectVisitor() {
       this.value_visitor = new IValueVisitor();
       this.card_condition_visitor = new GameCardConditionVisitor();
+      this.game_condition_visitor = new GameConditionVisitor();
     }
 
     public static Target ParseTarget(
@@ -117,6 +120,16 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
       return new CardMoveEffect(choice_maker, value, debit_player,
         debit_location, credit_player, credit_location, condition,
         is_optional);
+    }
+
+    public override Effect VisitStatEIf(
+      CARDScriptParser.StatEIfContext context) {
+        GameCondition condition = context.stateCond().Accept<GameCondition>(
+          game_condition_visitor);
+        Effect if_body = context.effect(0).Accept<Effect>(this);
+        Effect else_body = context.effect(1) == null ? null :
+          context.effect(1).Accept<Effect>(this);
+        return new IfEffect(condition, if_body, else_body);
     }
   }
 }
