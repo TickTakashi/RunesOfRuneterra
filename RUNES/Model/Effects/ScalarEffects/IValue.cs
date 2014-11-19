@@ -55,6 +55,18 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
   }
 
+  public class HalfValue : IValue {
+    IValue r;
+
+    public HalfValue(IValue r) {
+      this.r = r;
+    }
+
+    public int GetValue(Player user, Game game) {
+      return r.GetValue(user, game) / 2;
+    }
+  }
+
   public class DistanceValue : IValue {
     public int GetValue(Player user, Game game) {
       return game.Distance(user, game.Opponent(user));

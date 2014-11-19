@@ -50,9 +50,9 @@ action      : SHIELD NUM                          # actionShield
 
 value		    : NUM                                 # valueInt
             | value TILDE value                   # valueRandom
-            | HALF value                          # valueHalf       // TODO
-            | DOUBLE value                        # valueDouble     // TODO
-            | DISTANCE                            # valueDistance   
+            | HALF value                          # valueHalf 
+            | DOUBLE value                        # valueDouble
+            | DISTANCE                            # valueDistance
             | player HEALTH                       # valueHealth     // TODO
             | cardCond IN player location         # valueCardCount  // TODO
             ;

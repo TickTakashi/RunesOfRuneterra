@@ -252,6 +252,12 @@ namespace CARDScript.Compiler {
         return new DoubleValue(r);
     }
 
+    public override IValue VisitValueHalf(
+      CARDScriptParser.ValueHalfContext context) {
+        IValue r = context.value().Accept<IValue>(this);
+        return new HalfValue(r);
+    }
+
     public override IValue VisitValueDistance(
       CARDScriptParser.ValueDistanceContext context) {
         return new DistanceValue(); 
