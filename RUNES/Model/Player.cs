@@ -15,8 +15,10 @@ namespace CARDScript.Model {
     internal static readonly int BASIC_ATTACK_RANGE;
     internal static readonly int MOVE_COST = 1;
     internal static readonly int SLOW_MOVE_COST = 2;
-    private int health;
-    private int action_points;
+    private int _health;
+    public int Health { get { return _health; } }
+    private int _action_points;
+    public int ActionPoints { get { return _action_points; } }
     private List<CC> cc;
     private List<ActiveBuff> buffs;
     private CardCollection _deck;
@@ -34,8 +36,8 @@ namespace CARDScript.Model {
       this._hand = new CardCollection();
       this._cooldown = new CardCollection();
       this.game = game;
-      this.health = MAX_HEALTH;
-      this.action_points = MAX_AP;
+      this._health = MAX_HEALTH;
+      this._action_points = MAX_AP;
       this.cc = new List<CC>();
     }
 
@@ -75,9 +77,9 @@ namespace CARDScript.Model {
         damage = b.ModifyDamage(damage, this, game);
       }
 
-      health -= damage;
+      _health -= damage;
       NotifyAll(new PlayerEvent(PlayerEvent.Type.DAMAGE, this, damage));
-      if (health <= 0) {
+      if (_health <= 0) {
         NotifyAll(new PlayerEvent(PlayerEvent.Type.DEAD, this));
       }
     }
@@ -87,40 +89,40 @@ namespace CARDScript.Model {
         strength = b.ModifyHeal(strength, this, game);
       }
 
-      health += strength;
+      _health += strength;
       NotifyAll(new PlayerEvent(PlayerEvent.Type.HEAL, this, strength));
-      if (health > MAX_HEALTH) {
-        health = MAX_HEALTH;
+      if (_health > MAX_HEALTH) {
+        _health = MAX_HEALTH;
         NotifyAll(new PlayerEvent(PlayerEvent.Type.OVERHEAL, this));
       }
     }
 
     internal void ResetHealth() {
-      health = MAX_HEALTH;
+      _health = MAX_HEALTH;
       NotifyAll(new PlayerEvent(PlayerEvent.Type.HEAL, this));
     }
 
     internal void ResetActionPoints() {
-      action_points = MAX_AP;
+      _action_points = MAX_AP;
 
       foreach (Buff b in buffs) {
-        action_points = b.ModifyActionPoints(action_points, this, game);
+        _action_points = b.ModifyActionPoints(_action_points, this, game);
       }
 
       NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_SET, this));
     }
 
     private void Spend(int amount) {
-      action_points -= amount;
+      _action_points -= amount;
       NotifyAll(new PlayerEvent(PlayerEvent.Type.SPEND, this, amount));
-      if (action_points < 0)
+      if (_action_points < 0)
         throw new RoRException("Action points are below zero!");
-      else if (action_points == 0)
+      else if (_action_points == 0)
         NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_OUT, this));
     }
 
     internal bool IsDead() {
-      return health <= 0;
+      return _health <= 0;
     }
 
     internal bool IsTurn() {
@@ -128,7 +130,7 @@ namespace CARDScript.Model {
     }
 
     internal bool HasAP(int amount) {
-      return action_points >= amount;
+      return _action_points >= amount;
     }
 
     internal int MovementCost() {

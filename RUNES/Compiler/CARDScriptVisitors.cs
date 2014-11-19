@@ -262,6 +262,17 @@ namespace CARDScript.Compiler {
       CARDScriptParser.ValueDistanceContext context) {
         return new DistanceValue(); 
     }
+
+    public override IValue VisitValueHealth(
+      CARDScriptParser.ValueHealthContext context) {
+        Target target = EffectVisitor.ParseTarget(context.player());
+        return new HealthValue(target);
+    }
+
+    public override IValue VisitValueCardCount(
+      CARDScriptParser.ValueCardCountContext context) {
+        return base.VisitValueCardCount(context);
+    }
   }
 
   class CardConditionVisitor : CARDScriptParserBaseVisitor<CardCondition> {

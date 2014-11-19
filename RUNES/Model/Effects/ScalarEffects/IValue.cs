@@ -72,4 +72,17 @@ namespace CARDScript.Model.Effects.ScalarEffects {
       return game.Distance(user, game.Opponent(user));
     }
   }
+
+  public class HealthValue : IValue {
+    Target t;
+
+    public HealthValue(Target t) {
+      this.t = t;
+    }
+
+    public int GetValue(Player user, Game game) {
+      Player target = TargetMethods.Resolve(t, user, game);
+      return target.Health;
+    }
+  }
 }
