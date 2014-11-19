@@ -223,8 +223,8 @@ namespace CARDScript.Compiler {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Location debit_location = ParseLocation(context.location(0));
       Location credit_location = ParseLocation(context.location(1));
-      GameCardCondition condition = context.cardCond().Accept<GameCardCondition>(
-        card_condition_visitor);
+      GameCardCondition condition = 
+        context.cardCond().Accept<GameCardCondition>(card_condition_visitor);
       bool is_optional = context.MAY() != null;
       return new CardMoveEffect(choice_maker, value, debit_player, 
         debit_location, credit_player, credit_location, condition, 
@@ -277,8 +277,8 @@ namespace CARDScript.Compiler {
 
     public override IValue VisitValueCardCount(
       CARDScriptParser.ValueCardCountContext context) {
-        GameCardCondition condition = context.cardCond().Accept<GameCardCondition>(
-          card_condition_visitor);
+        GameCardCondition condition = 
+          context.cardCond().Accept<GameCardCondition>(card_condition_visitor);
         Target t = EffectVisitor.ParseTarget(context.player());
         Location l = EffectVisitor.ParseLocation(context.location());
         return new CardCountValue(condition, t, l);

@@ -19,7 +19,8 @@ namespace CARDScript.Model.Effects.CardEffects {
 
     public CardMoveEffect(Target choice_maker, IValue value, 
       Target debit_player, Location debit_location, Target credit_player,
-      Location credit_location, GameCardCondition condition, bool is_optional) {
+      Location credit_location, GameCardCondition condition,
+      bool is_optional) {
       this.choice_maker = choice_maker;
       this.value = value;
       this.debit_player = debit_player;
