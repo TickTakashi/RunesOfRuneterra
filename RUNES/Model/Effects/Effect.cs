@@ -3,7 +3,7 @@ using CARDScript.Model;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {
-  public abstract class Effect {
+  public class Effect {
     private Effect _next;
 
     public Effect Next {

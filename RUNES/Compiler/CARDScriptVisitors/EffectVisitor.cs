@@ -1,5 +1,4 @@
 ﻿using CARDScript.Compiler.Effects;
-using CARDScript.Compiler.Effects.ScalarEffects;
 using CARDScript.Model;
 using CARDScript.Model.Cards.CardConditions;
 using CARDScript.Model.Effects;
@@ -42,10 +41,10 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
 
     public override Effect VisitEffect(
         CARDScriptParser.EffectContext context) {
-      if (context.statE() != null)
-        return context.statE().Accept<Effect>(this);
-      else
-        return new NullEffect();
+          if (context.statE() != null)
+            return context.statE().Accept<Effect>(this);
+          else
+            return new Effect(); 
     }
 
     public override Effect VisitStatENormal(

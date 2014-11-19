@@ -57,9 +57,7 @@
     </Reference>
     <Reference Include="System" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffects\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Compile Include="Compiler\CardCompiler.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\BuffVisitor.cs" />
@@ -69,7 +67,6 @@
     <Compile Include="Compiler\CARDScriptVisitors\GameConditionVisitor.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\IValueVisitor.cs" />
     <Compile Include="Compiler\CARDScriptVisitors\PassiveCardVisitor.cs" />
-    <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
     <Compile Include="Model\Buffs\ActiveBuff.cs" />
     <Compile Include="Model\Buffs\Buff.cs" />
     <Compile Include="Model\Buffs\Knockup.cs" />
@@ -98,26 +95,13 @@
     <Compile Include="Model\Effects\KnockupEffect.cs" />
     <Compile Include="Model\Effects\CardEffects\Location.cs" />
     <Compile Include="Model\Effects\NormalEffects\NormalEffect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\ConditionalEffect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\NullEffect.cs" />
     <Compile Include="Model\Effects\KnockbackEffect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\ScalarEffects\Dash.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\ScalarEffects\BuffsAndDebuffs.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Matchers\Matcher.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Events\GameEvent_OLD.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Matchers\EventMatchers.cs" />
-    <Compile Include="Compiler\OLD_CARDScriptVisitor.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Events\GameEventListener.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Matchers\StateMatchers.cs" />
     <Compile Include="Model\Cards\GameCards\GameCard.cs" />
     <Compile Include="Model\CardCollection.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Damage.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Draw.cs" />
     <Compile Include="Model\Effects\Effect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Heal.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\ScheduleEffect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\TargetedScalarEffect.cs" />
-    <Compile Include="Compiler\Compiler_OLD\Effects\RepeatEffect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\IValue.cs" />
     <Compile Include="Model\Effects\ScalarEffects\ScalarEffect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Target.cs" />
