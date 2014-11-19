@@ -131,5 +131,17 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
           context.effect(1).Accept<Effect>(this);
         return new IfEffect(condition, if_body, else_body);
     }
+
+    public override Effect VisitStatEList(
+      CARDScriptParser.StatEListContext context) {
+        Effect l = context.statE(0).Accept<Effect>(this);
+        Effect r = context.statE(1).Accept<Effect>(this);
+        Effect combined = l;
+        while (l.Next != null) {
+          l = l.Next;
+        }
+        l.Next = r;
+        return combined;
+    }
   }
 }

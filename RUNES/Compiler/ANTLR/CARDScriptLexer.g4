@@ -79,7 +79,7 @@ ADDS    : 'ADDS';
 
 // Equality operators
 GT			: '>';
-GTE     : 'GTE';
+GTE     : '<=';
 LT			: '<';
 LTE     : '<=';
 EQ			: '==';
