@@ -18,12 +18,12 @@ namespace CARDScript.Model.Cards {
       return user.MeleeRange();
     }
 
-    public override NormalEffect CreateEffect() {
+    internal override NormalEffect CreateEffect() {
       return new MeleeEffect();
     }
   }
 
-  public class MeleeCardBuilder : CardBuilder {
+  internal class MeleeCardBuilder : CardBuilder {
     int damage;
 
      internal override GameCard Build() {

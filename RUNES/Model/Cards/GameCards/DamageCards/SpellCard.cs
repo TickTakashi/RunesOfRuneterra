@@ -22,12 +22,12 @@ namespace CARDScript.Model.Cards {
       return range + user.BonusSpellRange();
     }
 
-    public override NormalEffect CreateEffect() {
+    internal override NormalEffect CreateEffect() {
       return new DamageEffect();
     }
   }
 
-  public class SpellCardBuilder : CardBuilder {
+  internal class SpellCardBuilder : CardBuilder {
     int damage;
     int range;
     internal override GameCard Build() {

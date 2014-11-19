@@ -20,8 +20,7 @@ namespace CARDScript.Model {
    *    
    *    round_number - the current round number.
    */
-  public class Game : RoRObservable<GameEvent>, IRoRObserver<PlayerEvent>,
-    GameState {
+  public class Game : RoRObservable<GameEvent>, IRoRObserver<PlayerEvent> {
     internal static readonly Random rng = new Random();
     internal static int FIELD_SIZE = 7;
     internal static int MAX_ROUNDS = 3;
@@ -184,6 +183,22 @@ namespace CARDScript.Model {
     public void MoveTo(Player p, int location) {
       state.MoveTo(p, location);
     }
+
+    public virtual bool CanBasicAttack(Player p) {
+      return state.CanBasicAttack(p);
+    }
+
+    public virtual void BasicAttack(Player p) {
+      state.BasicAttack(p);
+    }
+
+    public virtual void SelectLeft(Player p) {
+      state.SelectLeft(p);
+    }
+
+    public virtual void SelectRight(Player p) {
+      state.SelectRight(p);
+    }
   }
 
   public struct GameEvent {
@@ -217,9 +232,6 @@ namespace CARDScript.Model {
   }
 
   internal abstract class GameState {
-    bool CanMoveTo(Player p, int location);
-    void MoveTo(Player p, int location);
-    
     public virtual void SetPassive(Player p, PassiveCard q) {
       return; // Do nothing.
     }
@@ -433,7 +445,7 @@ namespace CARDScript.Model {
       game.NotifyAll(new GameEvent(GameEvent.Type.PASSIVE_CHOICE, game));
     }
 
-    public void SetPassive(Player player, PassiveCard passive) {
+    public override void SetPassive(Player player, PassiveCard passive) {
       player.SetPassive(passive);
 
       if (this.player == player)

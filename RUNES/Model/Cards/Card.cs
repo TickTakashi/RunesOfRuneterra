@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards {
-  internal abstract class Card {
+  public abstract class Card {
     private int _id;
     public int ID { get { return _id; } }
 

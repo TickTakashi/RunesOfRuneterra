@@ -8,10 +8,10 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.CARDScriptVisitors {
-  public class BuffVisitor : CARDScriptParserBaseVisitor<Buff> {
+  internal class BuffVisitor : CARDScriptParserBaseVisitor<Buff> {
     IValueVisitor value_visitor;
 
-    public BuffVisitor() {
+    internal BuffVisitor() {
       this.value_visitor = new IValueVisitor();
     }
 

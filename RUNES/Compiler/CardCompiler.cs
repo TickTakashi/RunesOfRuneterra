@@ -1,5 +1,6 @@
 ﻿using Antlr4.Runtime;
 using CARDScript.Compiler;
+using CARDScript.Compiler.CARDScriptVisitors;
 using CARDScript.Compiler.Effects;
 using CARDScript.Model;
 using CARDScript.Model.Cards;

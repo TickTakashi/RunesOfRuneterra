@@ -13,8 +13,8 @@ namespace CARDScript.Model.GameConditions {
     NEQ,
   }
 
-  public static class InequalityMethods {
-    public static bool Resolve(Inequality ineq, int l, int r) {
+  internal static class InequalityMethods {
+    internal static bool Resolve(Inequality ineq, int l, int r) {
       switch (ineq) {
         case(Inequality.GT):
           return l > r;

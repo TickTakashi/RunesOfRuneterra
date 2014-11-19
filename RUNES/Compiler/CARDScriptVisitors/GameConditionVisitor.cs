@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.CARDScriptVisitors {
-  public class GameConditionVisitor : CARDScriptParserBaseVisitor<GameCondition> {
+  internal class GameConditionVisitor : CARDScriptParserBaseVisitor<GameCondition> {
     IValueVisitor value_visitor;
 
-    public GameConditionVisitor() {
+    internal GameConditionVisitor() {
       this.value_visitor = new IValueVisitor();
     }
 
-    public static Inequality ParseInequality(
+    internal static Inequality ParseInequality(
       CARDScriptParser.IneqContext context) {
         if (context.EQ() != null)
           return Inequality.EQ;

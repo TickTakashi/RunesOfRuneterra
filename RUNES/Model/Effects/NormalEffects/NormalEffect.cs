@@ -8,14 +8,14 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.Effects {
-  public abstract class NormalEffect : Effect {
-    public override bool ContainsNormalEffect() {
+  internal abstract class NormalEffect : Effect {
+    internal override bool ContainsNormalEffect() {
       return true;
     }
   }
 
-  public class DamageEffect : NormalEffect {
-    public override void Activate(GameCard card, Player user, Game game) {
+  internal class DamageEffect : NormalEffect {
+    internal override void Activate(GameCard card, Player user, Game game) {
       if (card is DamageCard) {
         DamageCard source = (DamageCard)card;
 
@@ -32,7 +32,7 @@ namespace CARDScript.Compiler.Effects {
         ((DamageCard) card).Range(user, game);
     }
 
-    public override bool CanActivate(GameCard card, Player user, Game game) {
+    internal override bool CanActivate(GameCard card, Player user, Game game) {
       return InRange(card, user, game) && !user.IsCCd(CCType.STUN) &&
         !user.IsCCd(CCType.SILENCE) && base.CanActivate(card, user, game);
     }
@@ -45,8 +45,8 @@ namespace CARDScript.Compiler.Effects {
     }
   }
 
-  public class SkillshotEffect : DamageEffect {
-    public override void Activate(GameCard card, Player user, Game game) {
+  internal class SkillshotEffect : DamageEffect {
+    internal override void Activate(GameCard card, Player user, Game game) {
       Player opponent = game.Opponent(user);
       GameCardCondition isdash = new DashCondition();
       List<GameCard> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
@@ -68,20 +68,20 @@ namespace CARDScript.Compiler.Effects {
     }
   }
 
-  public class MeleeEffect : DamageEffect {
-    public override void Activate(GameCard card, Player user, Game game) {
+  internal class MeleeEffect : DamageEffect {
+    internal override void Activate(GameCard card, Player user, Game game) {
       base.Activate(card, user, game);
       user.NotifyAll(new PlayerEvent(PlayerEvent.Type.MELEE_HIT,
         user));
     }
     
-    public override bool CanActivate(GameCard card, Player user, Game game) {
+    internal override bool CanActivate(GameCard card, Player user, Game game) {
       return !user.CanMelee() && base.CanActivate(card, user, game);
     }
   }
 
-  public class BuffEffect : NormalEffect {
-    public override void Activate(GameCard card, Player user, Game game) {
+  internal class BuffEffect : NormalEffect {
+    internal override void Activate(GameCard card, Player user, Game game) {
       if (card is BuffCard) {
         BuffCard source = (BuffCard)card;
         user.ApplyBuff(card, new TimedBuff(user, game, source.Buff, 

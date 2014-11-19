@@ -10,11 +10,11 @@ namespace CARDScript.Model.Effects {
   internal class KnockupEffect : Effect {
     int strength;
 
-    public KnockupEffect(int strength) {
+    internal KnockupEffect(int strength) {
       this.strength = strength;
     }
 
-    public override void Activate(GameCard card, Player user, Game game) {
+    internal override void Activate(GameCard card, Player user, Game game) {
       Knockup knockup = new Knockup(strength);
       game.Opponent(user).ApplyBuff(card, knockup);
       base.Activate(card, user, game);

@@ -22,12 +22,12 @@ namespace CARDScript.Model.Cards {
       return range + user.BonusSkillRange();
     }
 
-    public override NormalEffect CreateEffect() {
+    internal override NormalEffect CreateEffect() {
       return new SkillshotEffect();
     }
   }
 
-  public class SkillCardBuilder : CardBuilder {
+  internal class SkillCardBuilder : CardBuilder {
     int damage;
     int range;
     internal override GameCard Build() {

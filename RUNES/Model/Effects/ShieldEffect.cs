@@ -10,11 +10,11 @@ namespace CARDScript.Model.Effects {
   internal class ShieldEffect : Effect {
     int strength;
 
-    public ShieldEffect(int strength) {
+    internal ShieldEffect(int strength) {
       this.strength = strength;
     }
 
-    public override void Activate(GameCard card, Player user, Game game) {
+    internal override void Activate(GameCard card, Player user, Game game) {
       Shield shield = new Shield(strength);
       user.ApplyBuff(card, shield);
       base.Activate(card, user, game);

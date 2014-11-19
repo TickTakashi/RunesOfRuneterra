@@ -11,23 +11,23 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Compiler.CARDScriptVisitors {
-  public class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
+  internal class EffectVisitor : CARDScriptParserBaseVisitor<Effect> {
     IValueVisitor value_visitor;
     GameCardConditionVisitor card_condition_visitor;
     GameConditionVisitor game_condition_visitor;
 
-    public EffectVisitor() {
+    internal EffectVisitor() {
       this.value_visitor = new IValueVisitor();
       this.card_condition_visitor = new GameCardConditionVisitor();
       this.game_condition_visitor = new GameConditionVisitor();
     }
 
-    public static Target ParseTarget(
+    internal static Target ParseTarget(
       CARDScriptParser.PlayerContext context) {
       return context.USER() != null ? Target.USER : Target.ENEMY;
     }
 
-    public static Location ParseLocation(
+    internal static Location ParseLocation(
       CARDScriptParser.LocationContext context) {
       if (context.COOL() != null)
         return Location.COOL;

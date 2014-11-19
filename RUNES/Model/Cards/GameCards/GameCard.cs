@@ -25,7 +25,7 @@ namespace CARDScript.Model {
     protected int _limit;
     public int Limit { get { return _limit; } }
 
-    public Effect effect;
+    internal Effect effect;
 
     public GameCard(string name, int id, bool is_ult, bool is_dash,
       int dash_distance, int cost, int limit) : base(name, id) {
@@ -36,7 +36,7 @@ namespace CARDScript.Model {
       this._limit = limit;
     }
 
-    public void SetEffect(Effect effect) {
+    internal void SetEffect(Effect effect) {
       if (!effect.ContainsNormalEffect()) {
         NormalEffect my_effect = CreateEffect();
         my_effect.Next = effect;
@@ -66,11 +66,11 @@ namespace CARDScript.Model {
       }
     }
 
-    public bool CanNegate(Player user, Game game, NormalEffect e) {
+    internal bool CanNegate(Player user, Game game, NormalEffect e) {
       return effect.CanNegate(this, user, game, e);
     }
 
-    public abstract NormalEffect CreateEffect();
+    internal abstract NormalEffect CreateEffect();
   }
 
   internal abstract class CardBuilder {

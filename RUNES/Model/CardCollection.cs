@@ -7,8 +7,7 @@ using System.Text;
 
 namespace CARDScript.Model {
 
-  public class CardCollection : RoRObservable<CardCollectionEvent>, 
-    IEnumerator {
+  public class CardCollection : RoRObservable<CardCollectionEvent> {
     private List<GameCard> cards;
 
     internal CardCollection(List<GameCard> cards) : base() {

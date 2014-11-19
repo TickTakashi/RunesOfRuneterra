@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Effects.ScalarEffects {
-  public interface IValue {
+  internal interface IValue {
     int GetValue(Player user, Game game); 
   }
 
-  public class LiteralIntValue : IValue {
+  internal class LiteralIntValue : IValue {
     int value = 0;
-    public LiteralIntValue(int value) {
+    internal LiteralIntValue(int value) {
       this.value = value;
     }
 
@@ -25,11 +25,11 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
   }
 
-  public class RandomValue : IValue {
+  internal class RandomValue : IValue {
     IValue l;
     IValue r;
 
-    public RandomValue(IValue l, IValue r) {
+    internal RandomValue(IValue l, IValue r) {
       this.l = l;
       this.r = r;
     }
@@ -45,10 +45,10 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
   }
 
-  public class DoubleValue : IValue {
+  internal class DoubleValue : IValue {
     IValue r;
 
-    public DoubleValue(IValue r) {
+    internal DoubleValue(IValue r) {
       this.r = r;
     }
 
@@ -57,10 +57,10 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
   }
 
-  public class HalfValue : IValue {
+  internal class HalfValue : IValue {
     IValue r;
 
-    public HalfValue(IValue r) {
+    internal HalfValue(IValue r) {
       this.r = r;
     }
 
@@ -69,16 +69,16 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
   }
 
-  public class DistanceValue : IValue {
+  internal class DistanceValue : IValue {
     public int GetValue(Player user, Game game) {
       return game.Distance(user, game.Opponent(user));
     }
   }
 
-  public class HealthValue : IValue {
+  internal class HealthValue : IValue {
     Target t;
 
-    public HealthValue(Target t) {
+    internal HealthValue(Target t) {
       this.t = t;
     }
 
@@ -88,12 +88,12 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
   }
 
-  public class CardCountValue : IValue {
+  internal class CardCountValue : IValue {
     GameCardCondition condition;
     Target t;
     Location l;
 
-    public CardCountValue(GameCardCondition condition, Target t, Location l) {
+    internal CardCountValue(GameCardCondition condition, Target t, Location l) {
       this.condition = condition;
       this.t = t;
       this.l = l;

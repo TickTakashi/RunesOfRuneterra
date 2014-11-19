@@ -23,12 +23,12 @@ namespace CARDScript.Model.Cards {
         this._buff = buff;
     }
 
-    public override NormalEffect CreateEffect() {
+    internal override NormalEffect CreateEffect() {
       return new BuffEffect();
     }
   }
 
-  public class BuffCardBuilder : CardBuilder {
+  internal class BuffCardBuilder : CardBuilder {
     int time;
     Buff buff;
 

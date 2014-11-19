@@ -14,7 +14,7 @@ namespace CARDScript.Model.Effects {
       this.duration = duration;
     }
 
-    public override void Activate(GameCard card, Player user, Game game) {
+    internal override void Activate(GameCard card, Player user, Game game) {
       Player target = game.Opponent(user);
       target.ApplyCC(cc, duration);
       base.Activate(card, user, game);

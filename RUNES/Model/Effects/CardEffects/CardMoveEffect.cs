@@ -17,7 +17,7 @@ namespace CARDScript.Model.Effects.CardEffects {
     private GameCardCondition condition;
     private bool is_optional;
 
-    public CardMoveEffect(Target choice_maker, IValue value, 
+    internal CardMoveEffect(Target choice_maker, IValue value, 
       Target debit_player, Location debit_location, Target credit_player,
       Location credit_location, GameCardCondition condition,
       bool is_optional) {
@@ -31,7 +31,7 @@ namespace CARDScript.Model.Effects.CardEffects {
       this.is_optional = is_optional;
     }
 
-    public override void Activate(GameCard card, Player user, Game game) {
+    internal override void Activate(GameCard card, Player user, Game game) {
       Player chooser = TargetMethods.Resolve(choice_maker, user, game);
       Player debiter = TargetMethods.Resolve(debit_player, user, game);
       Player crediter = TargetMethods.Resolve(credit_player, user, game);
