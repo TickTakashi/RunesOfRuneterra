@@ -57,9 +57,9 @@ value		    : NUM                                 # valueInt
             | cardCond IN player location         # valueCardCount
             ;
 
-cardCond    : TITLE E NAME                        # cardCondName    
-            | TYPE E cardType                     # cardCondType    
-            | DASH                                # cardCondDash    // TODO
+cardCond    : TITLE E NAME                        # cardCondName
+            | TYPE E cardType                     # cardCondType
+            | DASH                                # cardCondDash
             | ULTIMATE                            # cardCondUlt     // TODO
             | cardP ineq value                    # cardCondcardP   // TODO
             | cardCond binopBool cardCond         # cardCondBinop   // TODO

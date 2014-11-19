@@ -75,6 +75,7 @@
     <Compile Include="Model\Cards\Card.cs" />
     <Compile Include="Model\Cards\CardConditions\CardCondition.cs" />
     <Compile Include="Model\Cards\CardConditions\CardType.cs" />
+    <Compile Include="Model\Cards\CardConditions\UltCondition.cs" />
     <Compile Include="Model\Cards\CardConditions\DashCondition.cs" />
     <Compile Include="Model\Cards\CardConditions\NameCondition.cs" />
     <Compile Include="Model\Cards\CardConditions\TypeCondition.cs" />

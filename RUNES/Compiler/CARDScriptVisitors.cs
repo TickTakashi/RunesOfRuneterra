@@ -302,6 +302,11 @@ namespace CARDScript.Compiler {
       CARDScriptParser.CardCondDashContext context) {
         return new DashCondition();
     }
+
+    public override CardCondition VisitCardCondUlt(
+      CARDScriptParser.CardCondUltContext context) {
+        return new UltCondition();
+    }
   }
     /*
     public override Effect VisitStatList(
