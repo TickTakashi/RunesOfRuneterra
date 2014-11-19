@@ -60,7 +60,7 @@ value		    : NUM                                 # valueInt
 cardCond    : TITLE E NAME                        # cardCondName
             | TYPE E cardType                     # cardCondType
             | DASH                                # cardCondDash
-            | ULTIMATE                            # cardCondUlt     // TODO
+            | ULTIMATE                            # cardCondUlt
             | cardP ineq value                    # cardCondcardP   // TODO
             | cardCond binopBool cardCond         # cardCondBinop   // TODO
             | NOT cardCond                        # cardCondNot     // TODO

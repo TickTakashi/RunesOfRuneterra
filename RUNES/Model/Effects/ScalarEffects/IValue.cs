@@ -89,11 +89,11 @@ namespace CARDScript.Model.Effects.ScalarEffects {
   }
 
   public class CardCountValue : IValue {
-    CardCondition condition;
+    GameCardCondition condition;
     Target t;
     Location l;
 
-    public CardCountValue(CardCondition condition, Target t, Location l) {
+    public CardCountValue(GameCardCondition condition, Target t, Location l) {
       this.condition = condition;
       this.t = t;
       this.l = l;

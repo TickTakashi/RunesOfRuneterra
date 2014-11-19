@@ -48,7 +48,7 @@ namespace CARDScript.Compiler.Effects {
   public class SkillshotEffect : DamageEffect {
     public override void Activate(GameCard card, Player user, Game game) {
       Player opponent = game.Opponent(user);
-      CardCondition isdash = new DashCondition();
+      GameCardCondition isdash = new DashCondition();
       List<GameCard> dodge_cards = opponent.Hand.CardsWhichSatisfy(isdash);
       if (InRange(card, user, game) && dodge_cards.Count > 0) {
         CardChoiceCallback callback = delegate(GameCard c) {

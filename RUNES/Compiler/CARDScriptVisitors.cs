@@ -223,7 +223,7 @@ namespace CARDScript.Compiler {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Location debit_location = ParseLocation(context.location(0));
       Location credit_location = ParseLocation(context.location(1));
-      CardCondition condition = context.cardCond().Accept<CardCondition>(
+      GameCardCondition condition = context.cardCond().Accept<GameCardCondition>(
         card_condition_visitor);
       bool is_optional = context.MAY() != null;
       return new CardMoveEffect(choice_maker, value, debit_player, 
@@ -277,7 +277,7 @@ namespace CARDScript.Compiler {
 
     public override IValue VisitValueCardCount(
       CARDScriptParser.ValueCardCountContext context) {
-        CardCondition condition = context.cardCond().Accept<CardCondition>(
+        GameCardCondition condition = context.cardCond().Accept<GameCardCondition>(
           card_condition_visitor);
         Target t = EffectVisitor.ParseTarget(context.player());
         Location l = EffectVisitor.ParseLocation(context.location());
@@ -285,25 +285,25 @@ namespace CARDScript.Compiler {
     }
   }
 
-  class CardConditionVisitor : CARDScriptParserBaseVisitor<CardCondition> {
-    public override CardCondition VisitCardCondName(
+  class CardConditionVisitor : CARDScriptParserBaseVisitor<GameCardCondition> {
+    public override GameCardCondition VisitCardCondName(
       CARDScriptParser.CardCondNameContext context) {
         return new NameCondition(context.NAME().GetText());
     }
 
-    public override CardCondition VisitCardCondType(
+    public override GameCardCondition VisitCardCondType(
       CARDScriptParser.CardCondTypeContext context) {
         string type_name = context.cardType().GetText();
         CardType ct = (CardType)Enum.Parse(typeof(CardType), type_name, true);
         return new TypeCondition(ct);
     }
 
-    public override CardCondition VisitCardCondDash(
+    public override GameCardCondition VisitCardCondDash(
       CARDScriptParser.CardCondDashContext context) {
         return new DashCondition();
     }
 
-    public override CardCondition VisitCardCondUlt(
+    public override GameCardCondition VisitCardCondUlt(
       CARDScriptParser.CardCondUltContext context) {
         return new UltCondition();
     }

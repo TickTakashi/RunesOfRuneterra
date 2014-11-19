@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards.CardConditions {
-  internal class TypeCondition : CardCondition {
+  internal class TypeCondition : GameCardCondition {
     CardType type;
 
     internal TypeCondition(CardType type) {

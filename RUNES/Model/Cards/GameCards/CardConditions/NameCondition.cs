@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.Cards.CardConditions {
-  internal class NameCondition : CardCondition {
+  internal class NameCondition : GameCardCondition {
     private string card_name;
     internal NameCondition(string card_name) {
       this.card_name = card_name;

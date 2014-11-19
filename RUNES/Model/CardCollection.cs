@@ -85,7 +85,7 @@ namespace CARDScript.Model {
       return cards.Contains(card);
     }
 
-    internal List<GameCard> CardsWhichSatisfy(CardCondition cond) {
+    internal List<GameCard> CardsWhichSatisfy(GameCardCondition cond) {
       List<GameCard> meet_criteria = new List<GameCard>();
       foreach (GameCard c in cards) {
         if (cond.Condition(c))
