@@ -27,22 +27,26 @@ namespace CARDScript.Model {
     public CardCollection Hand { get { return _hand; } }
     private CardCollection _cooldown;
     public CardCollection Cooldown { get { return _cooldown; } }
-
-    private PassiveCard current_passive;
+    private List<PassiveCard> _passive_deck;
+    public List<PassiveCard> PassiveDeck;
+    private PassiveCard _current_passive;
+    public PassiveCard CurrenPassive { get { return _current_passive; } }
     private Game game;
 
-    internal Player(CardCollection deck, Game game) {
-      this._deck = deck;
+    internal Player(List<GameCard> deck, 
+     List<PassiveCard> passive_deck, Game game) {
+      this._deck = new CardCollection(deck);
       this._hand = new CardCollection();
       this._cooldown = new CardCollection();
       this.game = game;
       this._health = MAX_HEALTH;
       this._action_points = MAX_AP;
+      this._passive_deck = passive_deck;
       this.cc = new List<CC>();
     }
 
     internal void SetPassive(PassiveCard passive) {
-      this.current_passive = passive;
+      this._current_passive = passive;
       buffs.Add(new ActiveBuff(passive, passive.Buff));
     }
 

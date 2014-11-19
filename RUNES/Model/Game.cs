@@ -39,7 +39,10 @@ namespace CARDScript.Model {
     private int player_1_wins;
     private int player_2_wins;
 
-    internal Game(List<GameCard> player_1_deck, List<GameCard> player_2_deck) {
+    internal Game(List<GameCard> deck_1, List<PassiveCard> p_deck_1, 
+      List<GameCard> deck_2, List<PassiveCard> p_deck_2) {
+      Player player_1 = new Player(deck_1, p_deck_1, this);
+      Player player_2 = new Player(deck_2, p_deck_2, this);
       round_num = 0;
 
       field = new List<IGameToken>[FIELD_SIZE];
@@ -47,10 +50,10 @@ namespace CARDScript.Model {
         field[i] = new List<IGameToken>();
       }
 
-      player_1 = new Player(new CardCollection(player_1_deck), this);
-      player_1.Attach(this);
-      player_2 = new Player(new CardCollection(player_2_deck), this);
-      player_2.Attach(this);
+      this.player_1 = player_1;
+      this.player_1.Attach(this);
+      this.player_2 = player_2;
+      this.player_2.Attach(this);
 
       field[FIELD_SIZE / 2 - 1].Add(player_1);
       field[FIELD_SIZE / 2 + 1].Add(player_2);
