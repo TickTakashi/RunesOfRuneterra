@@ -62,6 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compiler\CardCompiler.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\BuffVisitor.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\EffectVisitor.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\GameCardConditionVisitor.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\GameCardVisitor.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\IValueVisitor.cs" />
+    <Compile Include="Compiler\CARDScriptVisitors\PassiveCardVisitor.cs" />
     <Compile Include="Compiler\Compiler_OLD\CardAdder.cs" />
     <Compile Include="Model\Buffs\ActiveBuff.cs" />
     <Compile Include="Model\Buffs\Buff.cs" />
@@ -98,7 +104,7 @@
     <Compile Include="Compiler\Compiler_OLD\Matchers\Matcher.cs" />
     <Compile Include="Compiler\Compiler_OLD\Events\GameEvent_OLD.cs" />
     <Compile Include="Compiler\Compiler_OLD\Matchers\EventMatchers.cs" />
-    <Compile Include="Compiler\CARDScriptVisitors.cs" />
+    <Compile Include="Compiler\OLD_CARDScriptVisitor.cs" />
     <Compile Include="Compiler\Compiler_OLD\Events\GameEventListener.cs" />
     <Compile Include="Compiler\Compiler_OLD\Matchers\StateMatchers.cs" />
     <Compile Include="Model\Cards\GameCards\GameCard.cs" />

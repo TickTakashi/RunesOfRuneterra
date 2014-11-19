@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace CARDScript.Compiler.Effects.ScalarEffects {
+namespace CARDScript.Compiler.Effects {
   internal class KnockbackEffect : Effect {
     int distance;
 
