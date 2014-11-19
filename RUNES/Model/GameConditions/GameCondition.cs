@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 
 namespace CARDScript.Model.GameConditions {
-  class GameCondition {
-
+  public interface GameCondition {
+    public bool Condition(Player player, Game game);
   }
 }

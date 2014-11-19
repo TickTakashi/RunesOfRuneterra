@@ -121,6 +121,8 @@
     <Compile Include="Model\Effects\ScalarEffects\Target.cs" />
     <Compile Include="Model\Effects\ShieldEffect.cs" />
     <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\GameConditions\IneqCondition.cs" />
+    <Compile Include="Model\GameConditions\Inequality.cs" />
     <Compile Include="Model\GameObservable.cs" />
     <Compile Include="Model\Player.cs" />
     <Compile Include="CARDScriptTestMain.cs" />
