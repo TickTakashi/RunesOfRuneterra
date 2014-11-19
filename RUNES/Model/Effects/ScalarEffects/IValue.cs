@@ -42,4 +42,10 @@ namespace CARDScript.Model.Effects.ScalarEffects {
       return "between " + l + " and " + r;
     }
   }
+
+  public class DistanceValue : IValue {
+    public int GetValue(Player user, Game game) {
+      return game.Distance(user, game.Opponent(user));
+    }
+  }
 }

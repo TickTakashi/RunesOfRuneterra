@@ -52,7 +52,7 @@ value		    : NUM                                 # valueInt
             | value TILDE value                   # valueRandom
             | HALF value                          # valueHalf       // TODO
             | DOUBLE value                        # valueDouble     // TODO
-            | DISTANCE                            # valueDistance   // TODO
+            | DISTANCE                            # valueDistance   
             | player HEALTH                       # valueHealth     // TODO
             | cardCond IN player location         # valueCardCount  // TODO
             ;

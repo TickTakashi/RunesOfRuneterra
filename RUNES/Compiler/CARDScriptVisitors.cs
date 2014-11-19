@@ -248,7 +248,7 @@ namespace CARDScript.Compiler {
 
     public override IValue VisitValueDistance(
       CARDScriptParser.ValueDistanceContext context) {
-      return null; //new DistanceValue(); 
+      return new DistanceValue(); 
     }
   }
 
