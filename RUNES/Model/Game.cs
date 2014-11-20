@@ -29,8 +29,11 @@ namespace CARDScript.Model {
 
     private List<IGameToken>[] field;
 
-    private Player player_1;
-    private Player player_2;
+    private Player _player_1;
+    public Player Player1 { get { return _player_1; } }
+
+    private Player _player_2;
+    public Player Player2 { get { return _player_2; } }
 
     private GameState state;
 
@@ -50,10 +53,10 @@ namespace CARDScript.Model {
         field[i] = new List<IGameToken>();
       }
 
-      this.player_1 = player_1;
-      this.player_1.Attach(this);
-      this.player_2 = player_2;
-      this.player_2.Attach(this);
+      this._player_1 = player_1;
+      this._player_1.Attach(this);
+      this._player_2 = player_2;
+      this._player_2.Attach(this);
 
       field[FIELD_SIZE / 2 - 1].Add(player_1);
       field[FIELD_SIZE / 2 + 1].Add(player_2);
@@ -67,28 +70,28 @@ namespace CARDScript.Model {
     private void StartRound() {
       round_num++;
       NotifyAll(new GameEvent(GameEvent.Type.ROUND_START, this));
-      player_1.ResetHealth();
-      player_2.ResetHealth();
+      _player_1.ResetHealth();
+      _player_2.ResetHealth();
 
       for (int i = 0; i < STARTING_HAND_SIZE; i++) {
-        player_1.Draw();
-        player_2.Draw();
+        _player_1.Draw();
+        _player_2.Draw();
       }
 
-      Player second_player = round_num % 2 == 0 ? player_1 : player_2;
+      Player second_player = round_num % 2 == 0 ? _player_1 : _player_2;
       SetState(new ChoosePassivesState(second_player, this));
     }
 
     private void EndRound() {
       Player round_winner = null;
 
-      if (!player_1.IsDead()) {
-        round_winner = player_1;
+      if (!_player_1.IsDead()) {
+        round_winner = _player_1;
         player_1_wins++;
       }
 
-      if (!player_2.IsDead()) {
-        round_winner = player_2;
+      if (!_player_2.IsDead()) {
+        round_winner = _player_2;
         player_2_wins++;
       }
 
@@ -118,7 +121,7 @@ namespace CARDScript.Model {
     }
 
     internal Player Opponent(Player a) {
-      return a == player_1 ? player_2 : player_1;
+      return a == _player_1 ? _player_2 : _player_1;
     }
 
     internal int GetPosition(Player p) {
@@ -153,8 +156,8 @@ namespace CARDScript.Model {
 
     private void EndGame() {
       Player winner = null;
-      winner = player_2_wins > player_1_wins ? player_2 : winner;
-      winner = player_1_wins > player_2_wins ? player_1 : winner;
+      winner = player_2_wins > player_1_wins ? _player_2 : winner;
+      winner = player_1_wins > player_2_wins ? _player_1 : winner;
       NotifyAll(new GameEvent(GameEvent.Type.GAME_OVER, this, winner));
     }
 
