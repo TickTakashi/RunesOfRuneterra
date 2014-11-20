@@ -8,13 +8,13 @@ using System.Text;
 
 namespace CARDScript.Model {
   public class Player : RoRObservable<PlayerEvent>, IGameToken {
-    internal static readonly int MAX_HEALTH = 20;
-    internal static readonly int MAX_AP = 3;
-    internal static readonly int BASIC_ATTACK_DAMAGE;
-    internal static readonly int BASIC_ATTACK_COST;
-    internal static readonly int BASIC_ATTACK_RANGE;
-    internal static readonly int MOVE_COST = 1;
-    internal static readonly int SLOW_MOVE_COST = 2;
+    public static readonly int MAX_HEALTH = 20;
+    public static readonly int MAX_AP = 3;
+    public static readonly int BASIC_ATTACK_DAMAGE = 1;
+    public static readonly int BASIC_ATTACK_COST = 1;
+    public static readonly int BASIC_ATTACK_RANGE = 1;
+    public static readonly int MOVE_COST = 1;
+    public static readonly int SLOW_MOVE_COST = 2;
     private int _health;
     public int Health { get { return _health; } }
     private int _action_points;

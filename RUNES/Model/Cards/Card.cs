@@ -15,5 +15,7 @@ namespace CARDScript.Model.Cards {
       this._name = name;
       this._id = id;
     }
+    
+    public abstract string Description();
   }
 }

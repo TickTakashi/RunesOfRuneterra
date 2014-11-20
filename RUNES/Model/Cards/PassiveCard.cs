@@ -13,5 +13,9 @@ namespace CARDScript.Model.Cards {
       : base(name, id) {
         this._buff = buff;
     }
+
+    public override string Description() {
+      return Buff.ToString();
+    } 
   }
 }

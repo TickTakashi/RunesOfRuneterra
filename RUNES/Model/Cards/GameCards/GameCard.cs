@@ -71,6 +71,10 @@ namespace CARDScript.Model {
     }
 
     internal abstract NormalEffect CreateEffect();
+
+    public override string Description() {
+      return effect.ToString();
+    }
   }
 
   internal abstract class CardBuilder {
