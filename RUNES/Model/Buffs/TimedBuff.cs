@@ -21,7 +21,7 @@ namespace CARDScript.Model.Buffs {
       return time_remaining <= 0;
     }
 
-    public void Update(GameEvent change_event) {
+    public void Notify(GameEvent change_event) {
       if (change_event.type == GameEvent.Type.TURN_END &&
         change_event.player == target) {
           time_remaining--;

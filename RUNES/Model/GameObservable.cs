@@ -29,12 +29,12 @@ namespace CARDScript.Model {
 
     public void NotifyAll(E change_event) {
       foreach (IRoRObserver<E> o in observers) {
-        o.Update(change_event);
+        o.Notify(change_event);
       }
     }
   }
 
   public interface IRoRObserver<EventType> {
-    void Update(EventType change_event);
+    void Notify(EventType change_event);
   }
 }

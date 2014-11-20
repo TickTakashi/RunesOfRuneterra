@@ -105,7 +105,7 @@ namespace CARDScript.Model {
       }
     }
 
-    public void Update(PlayerEvent change_event) {
+    public void Notify(PlayerEvent change_event) {
       if (change_event.type == PlayerEvent.Type.DEAD)
         EndRound();
       else if (change_event.type == PlayerEvent.Type.AP_OUT)
