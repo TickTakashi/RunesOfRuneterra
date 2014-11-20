@@ -1,5 +1,6 @@
 ﻿using CARDScript.Compiler;
 using CARDScript.Model;
+using CARDScript.Model.GameCards;
 using System.Collections;
 
 namespace CARDScript.Compiler.Effects {

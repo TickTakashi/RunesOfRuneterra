@@ -1,4 +1,5 @@
 ﻿using CARDScript.Model.Cards.CardConditions;
+using CARDScript.Model.GameCards;
 using System;
 using System.Collections;
 using System.Collections.Generic;

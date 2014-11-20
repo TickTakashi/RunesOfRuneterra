@@ -1,4 +1,5 @@
-﻿namespace CARDScript.Model.Effects.ScalarEffects {
+﻿using CARDScript.Model.GameCards;
+namespace CARDScript.Model.Effects.ScalarEffects {
   internal class Heal : ScalarEffect {
     internal Heal(Target t, IValue v) : base(t, v) { }
 

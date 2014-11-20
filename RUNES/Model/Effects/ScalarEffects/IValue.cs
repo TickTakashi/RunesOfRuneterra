@@ -1,5 +1,6 @@
 ﻿using CARDScript.Model.Cards.CardConditions;
 using CARDScript.Model.Effects.CardEffects;
+using CARDScript.Model.GameCards;
 using System;
 using System.Collections.Generic;
 using System.Linq;

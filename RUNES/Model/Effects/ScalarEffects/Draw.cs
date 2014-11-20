@@ -1,4 +1,5 @@
-﻿namespace CARDScript.Model.Effects.ScalarEffects {
+﻿using CARDScript.Model.GameCards;
+namespace CARDScript.Model.Effects.ScalarEffects {
   internal class Draw : ScalarEffect {
     internal Draw(Target t, IValue v) : base(t, v) { }
 

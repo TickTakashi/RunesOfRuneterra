@@ -1,6 +1,7 @@
 ﻿using CARDScript.Compiler.Effects;
 using CARDScript.Model.BuffEffects;
 using CARDScript.Model.Buffs;
+using CARDScript.Model.GameCards;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,4 +1,5 @@
 ﻿using CARDScript.Model.Cards;
+using CARDScript.Model.GameCards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace CARDScript.Model {
     private int player_1_wins;
     private int player_2_wins;
 
-    internal Game(List<GameCard> deck_1, List<PassiveCard> p_deck_1, 
+    public Game(List<GameCard> deck_1, List<PassiveCard> p_deck_1, 
       List<GameCard> deck_2, List<PassiveCard> p_deck_2) {
       Player player_1 = new Player(deck_1, p_deck_1, this);
       Player player_2 = new Player(deck_2, p_deck_2, this);
