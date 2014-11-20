@@ -1,5 +1,6 @@
 ﻿using CARDScript.Model.Cards;
 using CARDScript.Model.GameCards;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,7 +126,6 @@ namespace CARDScript.Model {
     }
 
     internal int GetPosition(Player p) {
-      // TODO(ticktakashi): Return the players position.
       for (int i = 0; i < field.Length; i++) {
         if (field[i].Contains(p)) {
           return i;
@@ -205,6 +205,14 @@ namespace CARDScript.Model {
     public virtual void SelectRight(Player p) {
       state.SelectRight(p);
     }
+
+    public virtual void TriggerChannel(Player p, Channel c) {
+      state.TriggerChannel(p, c);
+    }
+
+    public virtual void StartChanneling(Player p, GameCard c) {
+      state.StartChanneling(p, c);
+    }
   }
 
   public struct GameEvent {
@@ -281,6 +289,14 @@ namespace CARDScript.Model {
     public virtual void SelectRight(Player p) {
       return; // Do nothing.
     }
+
+    public virtual void TriggerChannel(Player p, Channel c) {
+      return; // Do nothing.
+    }
+
+    public virtual void StartChanneling(Player p, GameCard c) {
+      return; // Do nothing.
+    }
   }
 
   internal class GameTurnState : GameState {
@@ -292,6 +308,7 @@ namespace CARDScript.Model {
       this.game = game;
       player.ResetActionPoints();
       player.Draw();
+      player.TickChannels();
       game.NotifyAll(new GameEvent(GameEvent.Type.TURN_START, game, player));
     }
 
@@ -336,6 +353,19 @@ namespace CARDScript.Model {
     public override void BasicAttack(Player p) {
       if (CanBasicAttack(p)) {
         player.BasicAttack(game.Opponent(p));
+      }
+    }
+
+    public override void TriggerChannel(Player p, Channel c) {
+      if (p == player && player.OwnsChannel(c) && c.CanActivate(p, game)) {
+        player.ActivateChannel(c);
+      }
+    }
+
+    public override void StartChanneling(Player p, GameCard c) {
+      if (p == player && player.EmptyChannelSlots() > 0 &&
+        player.Hand.Contains(c)) {
+          player.BeginChannel(c);
       }
     }
   }

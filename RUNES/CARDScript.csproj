@@ -98,7 +98,6 @@
     <Compile Include="Model\Effects\NormalEffects\NormalEffect.cs" />
     <Compile Include="Model\Effects\KnockbackEffect.cs" />
     <Compile Include="Model\Cards\GameCards\GameCard.cs" />
-    <Compile Include="Model\CardCollection.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Damage.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Draw.cs" />
     <Compile Include="Model\Effects\Effect.cs" />
@@ -111,7 +110,6 @@
     <Compile Include="Model\GameConditions\IneqCondition.cs" />
     <Compile Include="Model\GameConditions\Inequality.cs" />
     <Compile Include="Model\GameObservable.cs" />
-    <Compile Include="Model\Player.cs" />
     <Compile Include="CARDScriptTestMain.cs" />
     <Compile Include="Compiler\ANTLR\RunesLexer.g4.cs">
       <DependentUpon>CARDScriptLexer.g4</DependentUpon>
@@ -120,6 +118,9 @@
       <DependentUpon>CARDScriptParser.g4</DependentUpon>
     </Compile>
     <Compile Include="Model\GameConditions\GameCondition.cs" />
+    <Compile Include="Model\Players\CardCollection.cs" />
+    <Compile Include="Model\Players\Channel.cs" />
+    <Compile Include="Model\Players\Player.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

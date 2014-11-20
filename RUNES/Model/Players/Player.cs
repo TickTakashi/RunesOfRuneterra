@@ -2,6 +2,7 @@
 using CARDScript.Model.Buffs;
 using CARDScript.Model.Cards;
 using CARDScript.Model.GameCards;
+using CARDScript.Model.Players;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace CARDScript.Model {
     public static readonly int BASIC_ATTACK_RANGE = 1;
     public static readonly int MOVE_COST = 1;
     public static readonly int SLOW_MOVE_COST = 2;
+    public static readonly int MAX_CHANNEL_SLOTS = 3;
     private int _health;
     public int Health { get { return _health; } }
     private int _action_points;
@@ -38,6 +40,9 @@ namespace CARDScript.Model {
     private PassiveCard _current_passive;
     public PassiveCard CurrenPassive { get { return _current_passive; } }
 
+    private Channel[] _channel_slots;
+    public Channel[] ChannelSlots { get { return _channel_slots; } }
+
     private Game _game;
     public Game Game { get { return _game; } }
 
@@ -52,6 +57,7 @@ namespace CARDScript.Model {
       this._passive_deck = passive_deck;
       this.cc = new List<CC>();
       this.buffs = new List<ActiveBuff>();
+      this._channel_slots = new Channel[MAX_CHANNEL_SLOTS];
     }
 
     internal void SetPassive(PassiveCard passive) {
@@ -266,6 +272,55 @@ namespace CARDScript.Model {
       }
 
       return bonus_range;
+    }
+
+    internal bool OwnsChannel(Channel c) {
+      for (int i = 0; i < _channel_slots.Length; i++) {
+        if (_channel_slots[i] == c)
+          return true;
+      }
+
+      return false;
+    }
+
+    internal void BeginChannel(GameCard c) {
+      if (EmptyChannelSlots() == 0) {
+        throw new RoRException("No Channel Slots Remaining!");
+      } else {
+        Channel channel = new Channel(c);
+        for (int i = 0; i < _channel_slots.Length; i++) {
+          if (_channel_slots[i] == null) {
+            _channel_slots[i] = channel;
+            return;
+          }
+        }
+      }
+    }
+
+    internal void ActivateChannel(Channel c) {
+      for (int i = 0; i < _channel_slots.Length; i++) {
+        if (_channel_slots[i] == c) {
+          c.Activate(this, _game);
+          _channel_slots[i] = null;
+          return;
+        }
+      }
+    }
+
+    internal int EmptyChannelSlots() {
+      int count = 0;
+      for (int i = 0; i < _channel_slots.Length; i++) {
+        if (_channel_slots[i] == null) {
+          count++;
+        }
+      }
+      return count;
+    }
+
+    internal void TickChannels() {
+      for (int i = 0; i < _channel_slots.Length; i++) {
+        _channel_slots[i].Tick(this, _game);
+      }
     }
   }
 

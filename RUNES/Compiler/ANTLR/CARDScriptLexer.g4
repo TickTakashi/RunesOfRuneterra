@@ -82,6 +82,7 @@ HEALS		  : 'HEALS';
 MELEE_R   : 'MELEE_R';
 MELEE_D   : 'MELEE_D';
 SKILL_D   : 'SKILL_D';
+SPELL_D   : 'SPELL_D';
 
 // Card actions
 ADDS    : 'ADDS';
