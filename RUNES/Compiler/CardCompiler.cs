@@ -37,6 +37,7 @@ namespace CARDScript.Compiler {
      
       return description.Accept<GameCard>(card_visitor);
     }
+
     static PassiveCard CompilePassiveCard(string card_description) {
       if (passive_visitor == null)
         passive_visitor = new PassiveCardVisitor();

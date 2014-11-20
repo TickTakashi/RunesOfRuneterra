@@ -57,7 +57,9 @@ namespace CARDScript.Model {
 
       field[FIELD_SIZE / 2 - 1].Add(player_1);
       field[FIELD_SIZE / 2 + 1].Add(player_2);
+    }
 
+    public void BeginGame() {
       NotifyAll(new GameEvent(GameEvent.Type.GAME_BEGIN, this));
       StartRound();
     }
