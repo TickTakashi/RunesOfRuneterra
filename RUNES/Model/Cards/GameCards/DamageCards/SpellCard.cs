@@ -9,9 +9,9 @@ namespace CARDScript.Model.Cards {
   public class SpellCard : DamageCard {
     int range;
 
-    public SpellCard(string name, int id, bool is_ult, bool is_dash,
-      int dash_distance, int cost, int limit, int damage, int range)
-      : base(name, id, is_ult, is_dash, dash_distance, cost, limit, damage) {
+    public SpellCard(string name, int id, bool is_ult, int dash_distance, 
+      int cost, int limit, int damage, int range)
+      : base(name, id, is_ult, dash_distance, cost, limit, damage) {
       this.range = range;
     }
 
@@ -28,12 +28,12 @@ namespace CARDScript.Model.Cards {
     }
   }
 
-  internal class SpellCardBuilder : CardBuilder {
+  internal class SpellCardBuilder : GameCardBuilder {
     int damage;
     int range;
     internal override GameCard Build() {
-      SpellCard ret = new SpellCard(name, id, is_ult, is_dash, dash_distance,
-        cost, limit, damage, range);
+      SpellCard ret = new SpellCard(name, id, is_ult, dash_distance, cost,
+        limit, damage, range);
       ret.SetEffect(effect);
       return ret;
     }

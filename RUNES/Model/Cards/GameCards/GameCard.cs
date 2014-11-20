@@ -11,8 +11,7 @@ namespace CARDScript.Model.GameCards {
     protected bool _is_ult;
     public bool IsUltimate { get { return _is_ult; } }
 
-    protected bool _is_dash;
-    public bool IsDash { get { return _is_dash; } }
+    public bool IsDash { get { return _dash_distance > 0; } }
 
     protected int _dash_distance;
     public int DashDistance { get { return _dash_distance; } }
@@ -27,10 +26,9 @@ namespace CARDScript.Model.GameCards {
 
     internal Effect effect;
 
-    public GameCard(string name, int id, bool is_ult, bool is_dash,
-      int dash_distance, int cost, int limit) : base(name, id) {
+    public GameCard(string name, int id, bool is_ult, int dash_distance, 
+      int cost, int limit) : base(name, id) {
       this._is_ult = is_ult;
-      this._is_dash = is_dash;
       this._dash_distance = dash_distance;
       this._cost = cost;
       this._limit = limit;
@@ -77,11 +75,10 @@ namespace CARDScript.Model.GameCards {
     }
   }
 
-  internal abstract class CardBuilder {
+  internal abstract class GameCardBuilder {
     protected string name = "";
     protected int id = -1;
     protected bool is_ult = false;
-    protected bool is_dash = false;
     protected int dash_distance = 0;
     protected int cost = -1;
     protected int limit = -1;
@@ -93,38 +90,37 @@ namespace CARDScript.Model.GameCards {
       return name == "" || id == -1 || cost == -1 || limit == -1;
     }
 
-    internal CardBuilder WithName(string name) {
+    internal GameCardBuilder WithName(string name) {
       this.name = name;
       return this;
     }
 
-    internal CardBuilder WithID(int id) {
+    internal GameCardBuilder WithID(int id) {
       this.id = id;
       return this;
     }
 
-    internal CardBuilder WithUlt() {
+    internal GameCardBuilder WithUlt() {
       this.is_ult = true;
       return this;
     }
 
-    internal CardBuilder WithDash(int distance) {
+    internal GameCardBuilder WithDash(int distance) {
       this.dash_distance = distance;
-      this.is_dash = true;
       return this;
     }
 
-    internal CardBuilder WithLimit(int limit) {
+    internal GameCardBuilder WithLimit(int limit) {
       this.limit = limit;
       return this;
     }
 
-    internal CardBuilder WithCost(int cost) {
+    internal GameCardBuilder WithCost(int cost) {
       this.cost = cost;
       return this;
     }
 
-    internal CardBuilder WithEffect(Effect effect) {
+    internal GameCardBuilder WithEffect(Effect effect) {
       this.effect = effect;
       return this;
     }

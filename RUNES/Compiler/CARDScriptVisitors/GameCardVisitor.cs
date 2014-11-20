@@ -18,7 +18,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
       this.buff_visitor = new BuffVisitor();
     }
 
-    private void ParseCardID(CardBuilder builder,
+    private void ParseCardID(GameCardBuilder builder,
       CARDScriptParser.CardIDContext context) {
       builder = builder.WithName(context.NAME().GetText())
         .WithID(Int32.Parse(context.NUM(0).GetText()))

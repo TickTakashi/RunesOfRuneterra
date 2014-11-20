@@ -13,9 +13,9 @@ namespace CARDScript.Model.Cards {
 
     public abstract int Range(Player user, Game game);
     
-    public DamageCard(string name, int id, bool is_ult, bool is_dash, 
-      int dash_distance, int cost, int limit, int damage) : base(name, id, 
-      is_ult, is_dash, dash_distance, cost, limit)  {
+    public DamageCard(string name, int id, bool is_ult, int dash_distance, 
+      int cost, int limit, int damage) : base(name, id,  is_ult, dash_distance,
+      cost, limit)  {
         this._damage = damage;
     }
   }

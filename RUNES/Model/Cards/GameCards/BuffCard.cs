@@ -17,9 +17,9 @@ namespace CARDScript.Model.Cards {
     public Buff Buff { get { return _buff; } }
 
 
-    public BuffCard(string name, int id, bool is_ult, bool is_dash,
-       int dash_distance, int cost, int limit, int time, Buff buff) : 
-      base(name, id, is_ult, is_dash, dash_distance, cost, limit) {
+    public BuffCard(string name, int id, bool is_ult, int dash_distance, 
+      int cost, int limit, int time, Buff buff) : base(name, id, is_ult, 
+      dash_distance, cost, limit) {
         this._time = time;
         this._buff = buff;
     }
@@ -29,12 +29,12 @@ namespace CARDScript.Model.Cards {
     }
   }
 
-  internal class BuffCardBuilder : CardBuilder {
+  internal class BuffCardBuilder : GameCardBuilder {
     int time;
     Buff buff;
 
     internal override GameCard Build() {
-      BuffCard ret = new BuffCard(name, id, is_ult, is_dash, dash_distance, 
+      BuffCard ret = new BuffCard(name, id, is_ult, dash_distance, 
         cost, limit, time, buff);
       ret.SetEffect(effect);
       return ret;
