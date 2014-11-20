@@ -22,28 +22,36 @@ namespace CARDScript.Model {
     public int ActionPoints { get { return _action_points; } }
     private List<CC> cc;
     private List<ActiveBuff> buffs;
+
     private CardCollection _deck;
     public CardCollection Deck { get { return _deck; } }
+
     private CardCollection _hand;
     public CardCollection Hand { get { return _hand; } }
+
     private CardCollection _cooldown;
     public CardCollection Cooldown { get { return _cooldown; } }
+
     private List<PassiveCard> _passive_deck;
     public List<PassiveCard> PassiveDeck;
+
     private PassiveCard _current_passive;
     public PassiveCard CurrenPassive { get { return _current_passive; } }
-    private Game game;
+
+    private Game _game;
+    public Game Game { get { return _game; } }
 
     internal Player(List<GameCard> deck, 
      List<PassiveCard> passive_deck, Game game) {
       this._deck = new CardCollection(deck);
       this._hand = new CardCollection();
       this._cooldown = new CardCollection();
-      this.game = game;
+      this._game = game;
       this._health = MAX_HEALTH;
       this._action_points = MAX_AP;
       this._passive_deck = passive_deck;
       this.cc = new List<CC>();
+      this.buffs = new List<ActiveBuff>();
     }
 
     internal void SetPassive(PassiveCard passive) {
@@ -79,7 +87,7 @@ namespace CARDScript.Model {
 
     internal void Damage(int damage) {
       foreach (Buff b in buffs) {
-        damage = b.ModifyDamage(damage, this, game);
+        damage = b.ModifyDamage(damage, this, _game);
       }
 
       _health -= damage;
@@ -91,7 +99,7 @@ namespace CARDScript.Model {
 
     internal void Heal(int strength) {
       foreach (Buff b in buffs) {
-        strength = b.ModifyHeal(strength, this, game);
+        strength = b.ModifyHeal(strength, this, _game);
       }
 
       _health += strength;
@@ -111,7 +119,7 @@ namespace CARDScript.Model {
       _action_points = MAX_AP;
 
       foreach (Buff b in buffs) {
-        _action_points = b.ModifyActionPoints(_action_points, this, game);
+        _action_points = b.ModifyActionPoints(_action_points, this, _game);
       }
 
       NotifyAll(new PlayerEvent(PlayerEvent.Type.AP_SET, this));
@@ -131,7 +139,7 @@ namespace CARDScript.Model {
     }
 
     internal bool IsTurn() {
-      return game.IsTurn(this);
+      return _game.IsTurn(this);
     }
 
     internal bool HasAP(int amount) {
@@ -143,26 +151,26 @@ namespace CARDScript.Model {
     }
 
     internal void NormalMove(int destination) {
-      game.SetPosition(this, destination);
-      Spend(MovementCost() * game.Distance(this, destination));
+      _game.SetPosition(this, destination);
+      Spend(MovementCost() * _game.Distance(this, destination));
     }
 
     internal bool CanActivate(GameCard card) {
-      return IsTurn() && HasAP(card.Cost(this, game)) && 
-        card.CanActivate(this, game) && _hand.Contains(card);
+      return IsTurn() && HasAP(card.Cost(this, _game)) && 
+        card.CanActivate(this, _game) && _hand.Contains(card);
     }
 
     internal void PlayCard(GameCard card) {
       if (CanActivate(card)) {
-        Spend(card.Cost(this, game));
-        card.Activate(this, game);
+        Spend(card.Cost(this, _game));
+        card.Activate(this, _game);
       }
     }
 
     internal int CardCost(GameCard card, int base_cost) {
       int cost = base_cost;
       foreach (Buff b in buffs) {
-        cost = b.ModifyCardCost(card, cost, this, game);
+        cost = b.ModifyCardCost(card, cost, this, _game);
       }
       return cost;
     }
@@ -204,7 +212,7 @@ namespace CARDScript.Model {
       int damage = BASIC_ATTACK_DAMAGE;
 
       foreach (Buff b in buffs) {
-        damage = b.ModifyMeleeDamage(damage, this, game);
+        damage = b.ModifyMeleeDamage(damage, this, _game);
       }
 
       return damage;
@@ -214,7 +222,7 @@ namespace CARDScript.Model {
       int range = BASIC_ATTACK_RANGE;
 
       foreach (Buff b in buffs) {
-        range = b.ModifyMeleeRange(range, this, game);
+        range = b.ModifyMeleeRange(range, this, _game);
       }
 
       return range;
@@ -224,7 +232,7 @@ namespace CARDScript.Model {
       int bonus_damage = 0;
 
       foreach (Buff b in buffs) {
-        bonus_damage = b.ModifySkillDamage(bonus_damage, this, game);
+        bonus_damage = b.ModifySkillDamage(bonus_damage, this, _game);
       }
 
       return bonus_damage;
@@ -234,7 +242,7 @@ namespace CARDScript.Model {
       int bonus_range = 0;
 
       foreach (Buff b in buffs) {
-        bonus_range = b.ModifySkillRange(bonus_range, this, game);
+        bonus_range = b.ModifySkillRange(bonus_range, this, _game);
       }
 
       return bonus_range;
@@ -244,7 +252,7 @@ namespace CARDScript.Model {
       int bonus_damage = 0;
 
       foreach (Buff b in buffs) {
-        bonus_damage = b.ModifySpellDamage(bonus_damage, this, game);
+        bonus_damage = b.ModifySpellDamage(bonus_damage, this, _game);
       }
 
       return bonus_damage;
@@ -254,7 +262,7 @@ namespace CARDScript.Model {
       int bonus_range = 0;
 
       foreach (Buff b in buffs) {
-        bonus_range = b.ModifySpellRange(bonus_range, this, game);
+        bonus_range = b.ModifySpellRange(bonus_range, this, _game);
       }
 
       return bonus_range;
