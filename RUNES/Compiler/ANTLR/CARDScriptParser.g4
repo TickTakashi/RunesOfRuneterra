@@ -70,23 +70,9 @@ cardCond    : TITLE E NAME                        # cardCondName
 player		  : USER | ENEMY ;
 location    : HAND | DECK | COOL ;
 scalarE     : DRAWS | TAKES | HEALS ;
-bonusB      : MELEE_D | MELEE_R | SKILL_D ;
+bonusB      : MELEE_D | MELEE_R | SKILL_D | SPELL_D ;
 cardP       : DAMAGE | RANGE | TIME ;
 ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
 binopBool	  : OR | AND ;
 ineq		    : GT | GTE | LT | LTE | EQ | NEQ ;
 cardType    : SKILL | SPELL | MELEE | SELF | DAMAGE ;
-
-/*
-// TODO(ticktakashi): Add a (WITH card)? extension to these scalar to check if, for example, they did 2 damage with a MELEE attack
-// TODO(ticktakashi): Add variables here. like binding card to a identifier x in cond Play
-// TODO(ticktakashi): Think about adding whenConds for card drawing and cooldown etc. (Seems obscure, add as necessary).
-eventCond	  : player PLAYS cardTarget (IDENT)?  # eventCondPlay    // TODO(ticktakashi): Implement IDENT component of this.
-            | player scalarEffect ineq value		# eventCondScalar
-			      | eventCond binopBool eventCond     # eventCondExpr
-			      | NOT eventCond							        # eventCondNot
-			      | LPAREN eventCond RPAREN				    # eventCondParen
-			      ;
-
-cardProperty: DAMAGE | RANGE | COST;
-*/

@@ -72,6 +72,7 @@
     <Compile Include="Model\Buffs\Knockup.cs" />
     <Compile Include="Model\Buffs\Shield.cs" />
     <Compile Include="Model\Buffs\StatBonuses\FlatStatBonus.cs" />
+    <Compile Include="Model\Buffs\StatBonuses\SpellDamageBuff.cs" />
     <Compile Include="Model\Buffs\StatBonuses\SkillDamageBuff.cs" />
     <Compile Include="Model\Buffs\StatBonuses\MeleeRangeBuff.cs" />
     <Compile Include="Model\Buffs\StatBonuses\MeleeDamageBuff.cs" />

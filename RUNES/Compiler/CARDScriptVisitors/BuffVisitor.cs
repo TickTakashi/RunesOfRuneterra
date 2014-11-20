@@ -33,6 +33,8 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
           return new MeleeRangeBuff(value);
         case (CARDScriptParser.SKILL_D):
           return new SkillDamageBuff(value);
+        case(CARDScriptParser.SPELL_D):
+          return new SpellDamageBuff(value);
         default:
           throw new RoRException(
             "COMPILER: This bonusB is not yet implemented!");
