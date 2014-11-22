@@ -26,7 +26,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
     public override Buff VisitStatBFlat(
       CARDScriptParser.StatBFlatContext context) {
       IValue value = context.value().Accept<IValue>(value_visitor);
-      switch (context.bonusB().Start.TokenIndex) {
+      switch (context.bonusB().Start.Type) {
         case (CARDScriptParser.MELEE_D):
           return new MeleeDamageBuff(value);
         case (CARDScriptParser.MELEE_R):

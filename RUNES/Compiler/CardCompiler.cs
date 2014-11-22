@@ -49,7 +49,7 @@ namespace CARDScript.Compiler {
       CARDScriptLexer lexer = new CARDScriptLexer(input_stream);
       CommonTokenStream tokens = new CommonTokenStream(lexer);
       CARDScriptParser parser = new CARDScriptParser(tokens);
-      CARDScriptParser.CardDescContext description = parser.cardDesc();
+      CARDScriptParser.PassiveDescContext description = parser.passiveDesc();
 
       return description.Accept<PassiveCard>(passive_visitor);
     }
@@ -58,12 +58,20 @@ namespace CARDScript.Compiler {
       Passives = new Dictionary<int, string>();
       GameCards = new Dictionary<int, string>();
 
+      Console.WriteLine("Compiling passives: ");
       foreach(string s in passives) {
+        Console.WriteLine("\nCompiling this: ");
+        Console.WriteLine(s);
+        
         PassiveCard p = CompilePassiveCard(s);
         Passives[p.ID] = s;
       }
 
+      Console.WriteLine("Compiling game cards: ");
       foreach (string s in cards) {
+        Console.WriteLine("\nCompiling this: ");
+        Console.WriteLine(s);
+        
         GameCard gc = CompileGameCard(s);
         GameCards[gc.ID] = s;
       }

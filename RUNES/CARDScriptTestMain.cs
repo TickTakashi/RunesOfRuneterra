@@ -22,6 +22,30 @@ namespace CARDScript {
       Console.WriteLine("Creating New Game With Empty Decks.");
       Game game = new Game(player_1_deck, player_1_passive, player_2_deck,
         player_2_passive);
+
+      string test_card = 
+@"""Blood Price"" = 2 
+COST = 1
+LIMIT = 3
+MELEE
+DAMAGE = 2
+EFFECT = {
+  USER TAKES 2
+  USER MAY ADDS 1 TITLE = ""Blood Thirst"" FROM USER DECK TO USER HAND
+}";
+
+      string test_passive =
+@"""Dread"" = 0 
+BUFF = {
+  SPELL_D 1
+}";
+
+      List<string> cards = new List<string>();
+      cards.Add(test_card);
+      List<string> passives = new List<string>();
+      passives.Add(test_passive);
+
+      CardCompiler.BuildLibrary(passives, cards);
     }
   }
 }

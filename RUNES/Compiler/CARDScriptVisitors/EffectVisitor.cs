@@ -49,7 +49,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
 
     public override Effect VisitStatENormal(
       CARDScriptParser.StatENormalContext context) {
-      switch (context.cardType().Start.TokenIndex) {
+      switch (context.cardType().Start.Type) {
         case (CARDScriptParser.SKILL):
           return new SkillshotEffect();
         case (CARDScriptParser.SPELL):
@@ -97,7 +97,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
       IValue value = context.value().Accept<IValue>(value_visitor);
       Target target = ParseTarget(context.player());
 
-      switch (context.scalarE().Start.TokenIndex) {
+      switch (context.scalarE().Start.Type) {
         case (CARDScriptParser.DRAWS):
           return new Draw(target, value);
         case (CARDScriptParser.TAKES):
