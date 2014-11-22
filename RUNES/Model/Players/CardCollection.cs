@@ -8,7 +8,7 @@ using System.Text;
 
 namespace CARDScript.Model {
 
-  public class CardCollection : RoRObservable<CardCollectionEvent> {
+  public class CardCollection : RoRObservable<CardCollectionEvent>, IEnumerable<GameCard> {
     private List<GameCard> cards;
 
     internal CardCollection(List<GameCard> cards) : base() {
@@ -81,7 +81,7 @@ namespace CARDScript.Model {
       return Size == 0;
     }
 
-    internal bool Contains(GameCard card) {
+    public bool Contains(GameCard card) {
       return cards.Contains(card);
     }
 
@@ -92,6 +92,22 @@ namespace CARDScript.Model {
           meet_criteria.Add(c);
       }
       return meet_criteria;
+    }
+
+    public GameCard Current {
+      get { throw new NotImplementedException(); }
+    }
+
+    public void Dispose() {
+      throw new NotImplementedException();
+    }
+
+    public IEnumerator<GameCard> GetEnumerator() {
+      return cards.GetEnumerator(); 
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() {
+      return cards.GetEnumerator();
     }
   }
   
