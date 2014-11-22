@@ -3,6 +3,7 @@ using CARDScript.Model.BuffEffects;
 using CARDScript.Model.Cards;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -70,7 +71,8 @@ namespace CARDScript.Model.GameCards {
     internal abstract NormalEffect CreateEffect();
 
     public override string Description() {
-      return effect.ToString().ToUpper();
+      return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(
+        effect.ToString());
     }
   }
 
