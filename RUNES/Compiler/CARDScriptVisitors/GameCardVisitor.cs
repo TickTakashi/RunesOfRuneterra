@@ -20,7 +20,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
 
     private void ParseCardID(GameCardBuilder builder,
       CARDScriptParser.CardIDContext context) {
-      builder = builder.WithName(context.NAME().GetText())
+      builder = builder.WithName(context.NAME().GetText().Trim('"'))
         .WithID(Int32.Parse(context.NUM(0).GetText()))
         .WithCost(Int32.Parse(context.NUM(1).GetText()))
         .WithLimit(Int32.Parse(context.NUM(2).GetText()));

@@ -70,7 +70,7 @@ namespace CARDScript.Model.GameCards {
     internal abstract NormalEffect CreateEffect();
 
     public override string Description() {
-      return effect.ToString();
+      return effect.ToString().ToUpper();
     }
   }
 

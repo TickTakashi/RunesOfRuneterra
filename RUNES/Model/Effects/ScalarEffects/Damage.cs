@@ -1,4 +1,5 @@
 ﻿using CARDScript.Model.GameCards;
+using System;
 namespace CARDScript.Model.Effects.ScalarEffects {
   internal class Damage : ScalarEffect {
     internal Damage(Target t, IValue v) : base(t, v) { }
@@ -10,8 +11,9 @@ namespace CARDScript.Model.Effects.ScalarEffects {
     }
 
     public override string ToString() {
-      return TargetMethods.Name(Target) + " takes " + value.ToString() +
-        " damage" + base.ToString();
+      return String.Format("{0} take{1} {2} damage", 
+        TargetMethods.Name(Target), Target == Target.ENEMY ? "s" : "", 
+        value.ToString()) + base.ToString();
     }
   }
 }

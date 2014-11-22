@@ -67,7 +67,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
 
     public override Effect VisitActionCC(
       CARDScriptParser.ActionCCContext context) {
-      string cc_name = context.ccEffect().GetText();
+      string cc_name = context.ccEffect().GetText().Trim('"');
       CCType cc = (CCType)Enum.Parse(typeof(CCType), cc_name, true);
       return new CCEffect(cc, Int32.Parse(context.NUM().GetText()));
     }

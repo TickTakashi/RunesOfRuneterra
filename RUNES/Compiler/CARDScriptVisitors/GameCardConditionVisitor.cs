@@ -9,7 +9,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
     CARDScriptParserBaseVisitor<GameCardCondition> {
     public override GameCardCondition VisitCardCondName(
       CARDScriptParser.CardCondNameContext context) {
-      return new NameCondition(context.NAME().GetText());
+      return new NameCondition(context.NAME().GetText().Trim('"'));
     }
 
     public override GameCardCondition VisitCardCondType(
