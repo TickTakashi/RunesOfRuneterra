@@ -23,5 +23,18 @@ namespace CARDScript.Model.Effects.CardEffects {
             throw new RoRException("Cannot resolve location.");
         }
     }
+
+    internal static string Name(Location location) {
+      switch (location) {
+        case (Location.HAND):
+          return "hand";
+        case (Location.COOL):
+          return "cooldown";
+        case (Location.DECK):
+          return "deck";
+        default:
+          throw new RoRException("Cannot resolve location.");
+      }
+    }
   }
 }

@@ -78,7 +78,7 @@
     <Compile Include="Model\Buffs\StatBonuses\MeleeDamageBuff.cs" />
     <Compile Include="Model\Buffs\TimedBuff.cs" />
     <Compile Include="Model\Cards\Card.cs" />
-    <Compile Include="Model\Cards\GameCards\CardConditions\CardCondition.cs" />
+    <Compile Include="Model\Cards\GameCards\CardConditions\GameCardCondition.cs" />
     <Compile Include="Model\Cards\GameCards\CardConditions\CardType.cs" />
     <Compile Include="Model\Cards\GameCards\CardConditions\UltCondition.cs" />
     <Compile Include="Model\Cards\GameCards\CardConditions\DashCondition.cs" />

@@ -8,5 +8,10 @@ namespace CARDScript.Model.Effects.ScalarEffects {
       my_target.Damage(value.GetValue(user, game));
       base.Activate(source, user, game);
     }
+
+    public override string ToString() {
+      return TargetMethods.Name(Target) + " takes " + value.ToString() +
+        " damage" + base.ToString();
+    }
   }
 }

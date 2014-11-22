@@ -14,5 +14,9 @@ namespace CARDScript.Model.Cards.CardConditions {
     public bool Condition(GameCard card) {
       return card.Name == card_name;
     }
+
+    public override string ToString() {
+      return '"' + card_name + '"';
+    }
   }
 }

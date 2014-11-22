@@ -77,5 +77,15 @@ namespace CARDScript.Model.Effects.CardEffects {
         base.Activate(card, user, game);
       }
     }
+
+    public override string ToString() {
+      return String.Format("{0} {1} {2} {3} from {4} {5} to {6} {7}", 
+        TargetMethods.Name(choice_maker), 
+        (is_optional ? "may add" : "must add"), value.ToString(), condition, 
+        TargetMethods.Owner(debit_player), 
+        LocationMethods.Name(debit_location),
+        TargetMethods.Owner(credit_player), 
+        LocationMethods.Name(credit_location)) + base.ToString();
+    }
   }
 }
