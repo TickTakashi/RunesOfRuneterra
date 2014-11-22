@@ -72,6 +72,11 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
       return new CCEffect(cc, Int32.Parse(context.NUM().GetText()));
     }
 
+    public override Effect VisitActionStun(
+      CARDScriptParser.ActionStunContext context) {
+        return new StunEffect(Int32.Parse(context.NUM().GetText()));
+    }
+
     public override Effect VisitActionShield(
       CARDScriptParser.ActionShieldContext context) {
       return new ShieldEffect(Int32.Parse(context.NUM().GetText()));

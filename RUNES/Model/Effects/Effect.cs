@@ -21,8 +21,8 @@ namespace CARDScript.Compiler.Effects {
     // This effect can only be activated if ALL effects in its effect chain
     // are activatable.
     internal virtual bool CanActivate(GameCard card, Player user, Game game) {
-      return !user.IsCCd(CCType.STUN) && !user.IsCCd(CCType.SILENCE) &&
-        (Next == null || Next.CanActivate(card, user, game));
+      return !user.IsCCd(CCType.SILENCE) && (Next == null ||
+        Next.CanActivate(card, user, game));
     }
 
     internal virtual bool CanNegate(GameCard card, Player user, Game game,

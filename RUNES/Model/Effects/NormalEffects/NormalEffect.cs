@@ -34,8 +34,8 @@ namespace CARDScript.Compiler.Effects {
     }
 
     internal override bool CanActivate(GameCard card, Player user, Game game) {
-      return InRange(card, user, game) && !user.IsCCd(CCType.STUN) &&
-        !user.IsCCd(CCType.SILENCE) && base.CanActivate(card, user, game);
+      return InRange(card, user, game) && !user.IsCCd(CCType.SILENCE) &&
+        base.CanActivate(card, user, game);
     }
 
     public override string ToString() {

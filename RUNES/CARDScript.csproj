@@ -106,6 +106,7 @@
     <Compile Include="Model\Effects\ScalarEffects\ScalarEffect.cs" />
     <Compile Include="Model\Effects\ScalarEffects\Target.cs" />
     <Compile Include="Model\Effects\ShieldEffect.cs" />
+    <Compile Include="Model\Effects\StunEffect.cs" />
     <Compile Include="Model\Game.cs" />
     <Compile Include="Model\GameConditions\IneqCondition.cs" />
     <Compile Include="Model\GameConditions\Inequality.cs" />

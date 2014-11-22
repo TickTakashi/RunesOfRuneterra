@@ -46,8 +46,7 @@ namespace CARDScript.Model.GameCards {
 
     public bool CanActivate(Player user, Game game) {
       return (!user.IsCCd(CCType.SNARE) && !user.IsCCd(CCType.SILENCE) &&
-        !user.IsCCd(CCType.STUN) && IsDash) || 
-        effect.CanActivate(this, user, game);
+        IsDash) || effect.CanActivate(this, user, game);
     }
 
     public void Activate(Player user, Game game) {

@@ -206,8 +206,8 @@ namespace CARDScript.Model {
       state.SelectRight(p);
     }
 
-    public virtual void TriggerChannel(Player p, Channel c) {
-      state.TriggerChannel(p, c);
+    public virtual void SelectChannel(Player p, Channel c) {
+      state.SelectChannel(p, c);
     }
 
     public virtual void StartChanneling(Player p, GameCard c) {
@@ -232,6 +232,8 @@ namespace CARDScript.Model {
       CARD_CHOSEN,
       DIRECTION_CHOICE,
       DIRECTION_CHOSEN,
+      CHANNEL_CHOICE,
+      CHANNEL_CHOSEN,
     }
 
     public Type type;
@@ -290,7 +292,7 @@ namespace CARDScript.Model {
       return; // Do nothing.
     }
 
-    public virtual void TriggerChannel(Player p, Channel c) {
+    public virtual void SelectChannel(Player p, Channel c) {
       return; // Do nothing.
     }
 
@@ -356,7 +358,7 @@ namespace CARDScript.Model {
       }
     }
 
-    public override void TriggerChannel(Player p, Channel c) {
+    public override void SelectChannel(Player p, Channel c) {
       if (p == player && player.OwnsChannel(c) && c.CanActivate(p, game)) {
         player.ActivateChannel(c);
       }
@@ -455,17 +457,43 @@ namespace CARDScript.Model {
       this.player = player;
       this.game = game;
       this.callback = callback;
-      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOICE, game));
+      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOICE, game, 
+        player));
     }
 
     public override void SelectLeft(Player p) {
-      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOSEN, game));
+      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOSEN, game, 
+        player));
       callback(false);
     }
 
     public override void SelectRight(Player p) {
-      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOSEN, game));
+      game.NotifyAll(new GameEvent(GameEvent.Type.DIRECTION_CHOSEN, game, 
+        player));
       callback(true);
+    }
+  }
+
+  internal delegate bool ChannelCallback(Channel channel);
+  internal class ChooseChannelState : GameState {
+    private Player player;
+    private Game game;
+    private ChannelCallback callback;
+    
+    internal ChooseChannelState(Player player, Game game,
+      ChannelCallback callback) {
+        this.player = player;
+        this.game = game;
+        this.callback = callback;
+        game.NotifyAll(new GameEvent(GameEvent.Type.CHANNEL_CHOICE, game,
+          player));
+    }
+
+    public override void SelectChannel(Player p, Channel c) {
+      if (p == player && callback(c)) {
+        game.NotifyAll(new GameEvent(GameEvent.Type.CHANNEL_CHOSEN, game,
+          player));
+      }
     }
   }
 

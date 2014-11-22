@@ -32,6 +32,18 @@ namespace CARDScript.Model.Players {
       }
     }
 
+    internal void RemoveFrom(Player owner, Game game) {
+      for (int i = 0; i < owner.ChannelSlots.Length; i++) {
+        if (owner.ChannelSlots[i] == this) {
+          owner.ChannelSlots[i] = null;
+          NotifyAll(new ChannelEvent(ChannelEvent.Type.INTERRUPTED, this, 
+            _card));
+          return;
+        }
+      }
+      throw new RoRException("Player does not own this channel!");
+    }
+
     internal bool CanActivate(Player player, Game game) {
       return Time >= _card.Cost(player, game);
     }
@@ -43,6 +55,7 @@ namespace CARDScript.Model.Players {
       TICK,
       READY,
       ACTIVATED,
+      INTERRUPTED,
     }
 
     public Type type;

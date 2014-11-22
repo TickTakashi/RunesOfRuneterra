@@ -182,7 +182,7 @@ namespace CARDScript.Model {
     }
 
     internal bool CanMelee() {
-      return !IsCCd(CCType.BLIND) && !IsCCd(CCType.STUN);
+      return !IsCCd(CCType.BLIND);
     }
 
     internal void BasicAttack(Player target) {
@@ -325,7 +325,6 @@ namespace CARDScript.Model {
   }
 
   internal enum CCType {
-    STUN,
     SNARE,
     SILENCE,
     SLOW,

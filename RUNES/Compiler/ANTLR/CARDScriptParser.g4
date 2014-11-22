@@ -38,7 +38,8 @@ stateCond   : value ineq value                    # stateCondIneq
             | LPAREN stateCond RPAREN             # stateCondParen  // TODO
             ;
 
-action      : SHIELD NUM                          # actionShield
+action      : STUN NUM                            # actionStun
+            | SHIELD NUM                          # actionShield
             | KNOCKUP NUM                         # actionKnockup
             | KNOCKBACK NUM                       # actionKnockback
             | ccEffect NUM                        # actionCC
@@ -72,7 +73,7 @@ location    : HAND | DECK | COOL ;
 scalarE     : DRAWS | TAKES | HEALS ;
 bonusB      : MELEE_D | MELEE_R | SKILL_D | SPELL_D ;
 cardP       : DAMAGE | RANGE | TIME ;
-ccEffect	  : SLOW | SNARE | STUN | SILENCE | BLIND ;
+ccEffect	  : SLOW | SNARE | SILENCE | BLIND ;
 binopBool	  : OR | AND ;
 ineq		    : GT | GTE | LT | LTE | EQ | NEQ ;
 cardType    : SKILL | SPELL | MELEE | SELF | DAMAGE ;
