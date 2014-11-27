@@ -21,5 +21,8 @@ namespace CARDScript.Model.Effects {
       base.Activate(card, user, game);
     }
 
+    public override string ToString() {
+      return cc.ToString() + " " + duration + base.ToString();
+    }
   }
 }
