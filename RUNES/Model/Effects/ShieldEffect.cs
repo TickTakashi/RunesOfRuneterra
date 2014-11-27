@@ -17,7 +17,7 @@ namespace CARDScript.Model.Effects {
 
     internal override void Activate(GameCard card, Player user, Game game) {
       Shield shield = new Shield(strength);
-      user.ApplyBuff(card, shield);
+      shield.Apply(card, user, game);
       base.Activate(card, user, game);
     }
   }

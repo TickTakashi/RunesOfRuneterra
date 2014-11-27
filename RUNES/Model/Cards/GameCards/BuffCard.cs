@@ -27,6 +27,15 @@ namespace CARDScript.Model.Cards {
     internal override NormalEffect CreateEffect() {
       return new BuffEffect();
     }
+
+    public override string Description() {
+      string desc = "";
+      if (base.Description() != "") {
+        desc = "Upon Activation: " + base.Description() + ".\n";
+      }
+      desc += Buff.ToString();
+      return desc;
+    }
   }
 
   internal class BuffCardBuilder : GameCardBuilder {

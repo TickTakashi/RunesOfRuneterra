@@ -9,7 +9,11 @@ namespace CARDScript.Model.Buffs.StatBonuses {
     internal MeleeDamageBuff(IValue value) : base(value) { }
 
     public override int ModifyMeleeDamage(int d, Player p, Game g) {
-      return base.ModifyMeleeDamage(d + value.GetValue(p, g), p, g);
+      return base.ModifyMeleeDamage(d + FinalValue, p, g);
+    }
+
+    public override string Print(string val) {
+      return "Your melee attacks deal " + val + " additional damage.";
     }
   }
 }

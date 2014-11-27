@@ -9,7 +9,11 @@ namespace CARDScript.Model.Buffs.StatBonuses {
     internal SpellDamageBuff(IValue value) : base(value) { }
 
     public override int ModifySpellDamage(int d, Player p, Game g) {
-      return base.ModifySpellDamage(d + value.GetValue(p, g), p, g);
+      return base.ModifySpellDamage(d + FinalValue, p, g);
+    }
+
+    public override string Print(string val) {
+      return "Your spells deal " + val + " additional damage.";
     }
   }
 }

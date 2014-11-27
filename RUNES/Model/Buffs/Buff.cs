@@ -1,4 +1,5 @@
-﻿using CARDScript.Model.GameCards;
+﻿using CARDScript.Model.Cards;
+using CARDScript.Model.GameCards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,17 @@ namespace CARDScript.Model.BuffEffects {
     public Buff Next {
       get { return _next; }
       set { _next = value; }
+    }
+
+    public void Apply(Card source, Player player, Game game) {
+      player.ApplyBuff(source, this);
+      InitBuff(source, player, game);
+    }
+
+    public virtual void InitBuff(Card source, Player player, Game game) {
+      if (Next != null) {
+        Next.InitBuff(source, player, game);
+      }
     }
 
     public virtual int ModifyCardCost(GameCard card, int cost, Player p,
@@ -55,6 +67,14 @@ namespace CARDScript.Model.BuffEffects {
 
     public virtual bool IsFinished() {
       return true;
+    }
+
+    public override string ToString() {
+      return (Next != null) ? " " + Next.ToString() : "";
+    }
+
+    public virtual string Description() {
+      return (Next != null) ? " " + Next.Description() : "";
     }
   }
 }

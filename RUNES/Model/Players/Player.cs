@@ -203,7 +203,7 @@ namespace CARDScript.Model {
       cc.Add(new CC(type, duration));
     }
 
-    internal void ApplyBuff(GameCard source, Buff buff) {
+    internal void ApplyBuff(Card source, Buff buff) {
       this.buffs.Add(new ActiveBuff(source, buff));
     }
 

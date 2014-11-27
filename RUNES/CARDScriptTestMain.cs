@@ -46,6 +46,13 @@ BUFF = {
       passives.Add(test_passive);
 
       CardCompiler.BuildLibrary(passives, cards);
+      PassiveCard pc = CardCompiler.CompilePassiveCard(test_passive);
+      Console.WriteLine("Compiled Passive: ");
+      Console.WriteLine(pc);
+
+      GameCard gc = CardCompiler.CompileGameCard(test_card);
+      Console.WriteLine("Compiled Game Card: ");
+      Console.WriteLine(gc);
     }
   }
 }

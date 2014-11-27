@@ -17,7 +17,7 @@ namespace CARDScript.Model.Effects {
 
     internal override void Activate(GameCard card, Player user, Game game) {
       Knockup knockup = new Knockup(strength);
-      game.Opponent(user).ApplyBuff(card, knockup);
+      knockup.Apply(card, game.Opponent(user), game);
       base.Activate(card, user, game);
     }
   }

@@ -9,7 +9,11 @@ namespace CARDScript.Model.Buffs.StatBonuses {
     internal SkillDamageBuff(IValue value) : base(value) { }
 
     public override int ModifySkillDamage(int d, Player p, Game g) {
-      return base.ModifySkillDamage(d + value.GetValue(p, g), p, g);
+      return base.ModifySkillDamage(d + FinalValue, p, g);
+    }
+
+    public override string Print(string val) {
+      return "Your skillshots deal " + val + " additional damage.";
     }
   }
 }

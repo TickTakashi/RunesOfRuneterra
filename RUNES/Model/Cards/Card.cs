@@ -17,5 +17,9 @@ namespace CARDScript.Model.Cards {
     }
     
     public abstract string Description();
+
+    public override string ToString() {
+      return Name + " with ID: " + ID + " and description: " + Description();
+    }
   }
 }

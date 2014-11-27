@@ -19,10 +19,10 @@ namespace CARDScript.Compiler {
   public static class CardCompiler {
     static GameCardVisitor card_visitor;
     static PassiveCardVisitor passive_visitor;
-    static Dictionary<int, string> Passives;
-    static Dictionary<int, string> GameCards;
+    public static Dictionary<int, string> Passives;
+    public static Dictionary<int, string> GameCards;
 
-    static GameCard CompileGameCard(string card_description) {
+    internal static GameCard CompileGameCard(string card_description) {
       if (card_visitor == null)
         card_visitor = new GameCardVisitor();
 
@@ -38,7 +38,7 @@ namespace CARDScript.Compiler {
       return description.Accept<GameCard>(card_visitor);
     }
 
-    static PassiveCard CompilePassiveCard(string card_description) {
+    internal static PassiveCard CompilePassiveCard(string card_description) {
       if (passive_visitor == null)
         passive_visitor = new PassiveCardVisitor();
 

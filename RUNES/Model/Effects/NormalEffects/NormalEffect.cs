@@ -85,8 +85,9 @@ namespace CARDScript.Compiler.Effects {
     internal override void Activate(GameCard card, Player user, Game game) {
       if (card is BuffCard) {
         BuffCard source = (BuffCard)card;
-        user.ApplyBuff(card, new TimedBuff(user, game, source.Buff, 
-          source.Time(user, game)));
+        TimedBuff timed = new TimedBuff(user, game, source.Buff, 
+          source.Time(user, game));
+        timed.Apply(card, user, game); 
       }
       base.Activate(card, user, game);
     }
