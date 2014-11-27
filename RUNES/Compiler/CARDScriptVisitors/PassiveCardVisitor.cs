@@ -17,7 +17,7 @@ namespace CARDScript.Compiler.CARDScriptVisitors {
       CARDScriptParser.PassiveDescContext context) {
       Buff buff = context.cardB().Accept<Buff>(buff_visitor);
       int id = Int32.Parse(context.NUM().GetText());
-      string name = context.NAME().GetText();
+      string name = context.NAME().GetText().Trim('"');
       return new PassiveCard(name, id, buff);
     }
   }
