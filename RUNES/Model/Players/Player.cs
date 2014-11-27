@@ -35,7 +35,7 @@ namespace CARDScript.Model {
     public CardCollection Cooldown { get { return _cooldown; } }
 
     private List<PassiveCard> _passive_deck;
-    public List<PassiveCard> PassiveDeck;
+    public List<PassiveCard> PassiveDeck { get { return _passive_deck; } }
 
     private PassiveCard _current_passive;
     public PassiveCard CurrenPassive { get { return _current_passive; } }
